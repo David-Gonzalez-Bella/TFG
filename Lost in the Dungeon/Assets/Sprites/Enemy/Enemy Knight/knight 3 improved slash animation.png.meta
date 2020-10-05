@@ -1,0 +1,386 @@
+fileFormatVersion: 2
+guid: 3be0968cb31703543b52db838c21cb31
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 6753150405836580188
+    second: knight 3 improved slash animation_0
+  - first:
+      213: -1594612788177024429
+    second: knight 3 improved slash animation_1
+  - first:
+      213: 9061901768762419215
+    second: knight 3 improved slash animation_2
+  - first:
+      213: -4918881344514823227
+    second: knight 3 improved slash animation_3
+  - first:
+      213: 1001713267385304285
+    second: knight 3 improved slash animation_4
+  - first:
+      213: 6893681169671965710
+    second: knight 3 improved slash animation_5
+  - first:
+      213: -6740138894483130010
+    second: knight 3 improved slash animation_6
+  - first:
+      213: 8539640493142656625
+    second: knight 3 improved slash animation_7
+  - first:
+      213: -4279366784508311291
+    second: knight 3 improved slash animation_8
+  - first:
+      213: -567708246441641462
+    second: knight 3 improved slash animation_9
+  - first:
+      213: -6197725017121954148
+    second: knight 3 improved slash animation_0
+  - first:
+      213: 1402612889206792695
+    second: knight 3 improved slash animation_1
+  - first:
+      213: 5645340679472536842
+    second: knight 3 improved slash animation_2
+  - first:
+      213: -1655693224671523726
+    second: knight 3 improved slash animation_3
+  - first:
+      213: 2701111730538160420
+    second: knight 3 improved slash animation_4
+  - first:
+      213: -6205803432867181436
+    second: knight 3 improved slash animation_5
+  - first:
+      213: -1661782650321938489
+    second: knight 3 improved slash animation_6
+  - first:
+      213: -7931436527575455263
+    second: knight 3 improved slash animation_7
+  - first:
+      213: 7193191467125681105
+    second: knight 3 improved slash animation_8
+  - first:
+      213: 3296297279994372090
+    second: knight 3 improved slash animation_9
+  externalObjects: {}
+  serializedVersion: 11
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: -1
+    mipBias: -100
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 32
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  applyGammaDecoding: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: knight 3 improved slash animation_0
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 2
+        width: 42
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c96e4e21fe14df9a0800000000000000
+      internalID: -6197725017121954148
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: knight 3 improved slash animation_1
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 1
+        width: 42
+        height: 40
+      alignment: 9
+      pivot: {x: 0.51, y: 0.55}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7f12e8acdf4177310800000000000000
+      internalID: 1402612889206792695
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: knight 3 improved slash animation_2
+      rect:
+        serializedVersion: 2
+        x: 161
+        y: 2
+        width: 42
+        height: 40
+      alignment: 9
+      pivot: {x: 0.51, y: 0.525}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a0dd50c0077485e40800000000000000
+      internalID: 5645340679472536842
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: knight 3 improved slash animation_3
+      rect:
+        serializedVersion: 2
+        x: 241
+        y: 2
+        width: 42
+        height: 40
+      alignment: 9
+      pivot: {x: 0.51, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 27cce6ec8cbc509e0800000000000000
+      internalID: -1655693224671523726
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: knight 3 improved slash animation_4
+      rect:
+        serializedVersion: 2
+        x: 322
+        y: 2
+        width: 42
+        height: 40
+      alignment: 9
+      pivot: {x: 0.5, y: 0.471}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4212e5dcec64c7520800000000000000
+      internalID: 2701111730538160420
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: knight 3 improved slash animation_5
+      rect:
+        serializedVersion: 2
+        x: 409
+        y: 2
+        width: 42
+        height: 40
+      alignment: 9
+      pivot: {x: 0.36, y: 0.47}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 48c4d0658ae80e9a0800000000000000
+      internalID: -6205803432867181436
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: knight 3 improved slash animation_6
+      rect:
+        serializedVersion: 2
+        x: 489
+        y: 2
+        width: 42
+        height: 40
+      alignment: 9
+      pivot: {x: 0.36, y: 0.47}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7c757a9eb7920f8e0800000000000000
+      internalID: -1661782650321938489
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: knight 3 improved slash animation_7
+      rect:
+        serializedVersion: 2
+        x: 567
+        y: 2
+        width: 42
+        height: 40
+      alignment: 9
+      pivot: {x: 0.4, y: 0.47}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1e9ae4f2080ede190800000000000000
+      internalID: -7931436527575455263
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: knight 3 improved slash animation_8
+      rect:
+        serializedVersion: 2
+        x: 653
+        y: 2
+        width: 42
+        height: 40
+      alignment: 9
+      pivot: {x: 0.24, y: 0.47}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1dba567378953d360800000000000000
+      internalID: 7193191467125681105
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: knight 3 improved slash animation_9
+      rect:
+        serializedVersion: 2
+        x: 731
+        y: 2
+        width: 42
+        height: 40
+      alignment: 9
+      pivot: {x: 0.3, y: 0.47}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: aff962069eccebd20800000000000000
+      internalID: 3296297279994372090
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

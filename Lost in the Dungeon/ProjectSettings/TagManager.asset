@@ -1,0 +1,58 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - Rock
+  - Enemy
+  - Spawner
+  - NPC
+  - Weed
+  - Cat
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - 
+  - Water
+  - UI
+  - 
+  - 
+  - Attackable
+  - Player
+  - Minimap
+  - Interactive
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: Bottom
+    uniqueID: 3669936639
+    locked: 0
+  - name: Mid
+    uniqueID: 3486723215
+    locked: 0
+  - name: Front
+    uniqueID: 2929952779
+    locked: 0
