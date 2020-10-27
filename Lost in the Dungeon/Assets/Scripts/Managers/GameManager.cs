@@ -32,10 +32,10 @@ public class GameManager : MonoBehaviour
         ScaleCamera();
     }
 
-    private void Update()
-    {
-        Debug.Log(currentGameState);
-    }
+    //private void Update()
+    //{
+    //    Debug.Log(currentGameState);
+    //}
 
     private void ScaleCamera()
     {

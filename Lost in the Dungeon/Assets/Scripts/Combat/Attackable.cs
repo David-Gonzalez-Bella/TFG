@@ -21,11 +21,22 @@ public class Attackable : MonoBehaviour
     }
 
     public void Attacked(Vector2 attackDirection, int damage)
-    { 
+    {
         StartCoroutine(TakeDamage(damage));
         rb.AddForce(attackDirection * 100, ForceMode2D.Impulse); //When attacked, the object will be pushed back as well
-        if(this.tag == "Player") { PlayPlayerDamageSound(); }
-        else { AudioManager.sharedInstance.OnEnemyDamageSound += PlayEnemyDamageSound; }
+        if (this.tag == "Player") { PlayPlayerDamageSound(); } //If the player is attacked
+        else //If an enemy is attacked
+        {
+            switch (this.GetComponent<Enemy>().type)
+            {
+                case enemyType.standard:
+                    AudioManager.sharedInstance.OnEnemyDamageSound += PlayEnemyDamageSound;
+                    break;
+                case enemyType.creature:
+                    AudioManager.sharedInstance.OnEnemyDamageSound += PlayEnemyCreatureDamageSound;
+                    break;
+            }
+        }
     }
 
     //Coroutinesç
@@ -47,5 +58,11 @@ public class Attackable : MonoBehaviour
     {
         AudioManager.sharedInstance.enemyDamage.Play();
         AudioManager.sharedInstance.OnEnemyDamageSound -= PlayEnemyDamageSound;
+    }
+
+    public void PlayEnemyCreatureDamageSound()
+    {
+        AudioManager.sharedInstance.enemyCreatureDamage.Play();
+        AudioManager.sharedInstance.OnEnemyDamageSound -= PlayEnemyCreatureDamageSound;
     }
 }

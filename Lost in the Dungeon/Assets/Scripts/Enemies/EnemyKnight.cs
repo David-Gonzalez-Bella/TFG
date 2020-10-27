@@ -54,6 +54,6 @@ public class EnemyKnight : Enemy //Enemy inherits from Monobehaviour. Therefore,
 
     public void PlayStepsSound()
     {
-        AudioManager.sharedInstance.stepsSound.Play();
+        AudioManager.sharedInstance.stepsSound.Play(); //This sound play is more simple because its called in the exact frame of the animation where the enemy steps
     }
 }

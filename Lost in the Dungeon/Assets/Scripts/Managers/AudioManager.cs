@@ -9,9 +9,13 @@ public class AudioManager : MonoBehaviour
 
     public AudioSource swordAttack;
     public AudioSource fireballAttack;
+    public AudioSource rushAttack;
     public AudioSource stepsSound;
+    public AudioSource flySound;
     public AudioSource backgroundMusic;
     public AudioSource enemyDamage;
+    public AudioSource wallCrush;
+    public AudioSource enemyCreatureDamage;
     public AudioSource enemySpawn;
     public AudioSource collectWeed;
     public AudioSource selectSound;
@@ -21,7 +25,6 @@ public class AudioManager : MonoBehaviour
 
     public event Action OnPlaySwordSound;
     public event Action OnPlayFireballSound;
-    public event Action OnStepsSound;
     public event Action OnEnemyDamageSound;
     public event Action OnEnemySpawnSound;
     public event Action OnWeedCollectedSound;
@@ -39,7 +42,6 @@ public class AudioManager : MonoBehaviour
     {
         OnPlaySwordSound?.Invoke();
         OnPlayFireballSound?.Invoke();
-        OnStepsSound?.Invoke();
         OnEnemyDamageSound?.Invoke();
         OnEnemySpawnSound?.Invoke();
         OnWeedCollectedSound?.Invoke();
@@ -62,6 +64,12 @@ public class AudioManager : MonoBehaviour
     {
         gameOverSound.Play();
     }
+
+    public void PlayWallCrush()
+    {
+        wallCrush.Play();
+    }
+
 
     public void PlayTalkSoundNPC()
     {
