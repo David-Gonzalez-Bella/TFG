@@ -3,24 +3,30 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+public enum enemyType {standard, creature};
+
 public class Enemy : MonoBehaviour //This contains the IA and the atributes every enemy will have
 {
+    public enemyType type;
     public Atributes atrib; //Evey enemy has his basic atributes (for a more specific one they'll have them in their own script)
     public int exp;
 
     private TriggerSpawner parent;
 
     protected InputEnemy input;
-    protected Attack atk; //The EnemyKnight can attack our player
+    protected Attack atk; //The enemy can attack our player
+    protected Attackable atkb; //The enemy can be attacked by our player
     protected Animator anim;
     protected SpriteRenderer spr;
+    protected Health health;
     protected CapsuleCollider2D col;
 
-    protected int attackHash;
-    protected int deadHash;
-    protected int walkHash;
+    protected int attackHash = 0;
+    protected int deadHash = 0;
+    protected int walkHash = 0;
 
     protected bool attacking = false;
+    protected bool canAttack = false;
     protected bool dead = false;
     protected Vector2 attackDirection;
 
@@ -31,23 +37,25 @@ public class Enemy : MonoBehaviour //This contains the IA and the atributes ever
     {
         input = this.GetComponent<InputEnemy>(); //Now the EnemyKnight knows the direction of the players, in other words, the player´s position regarding its own
         atk = this.GetComponent<Attack>();
+        atkb = this.GetComponent<Attackable>();
         anim = this.GetComponent<Animator>();
         col = this.GetComponent<CapsuleCollider2D>();
         spr = this.GetComponentInChildren<SpriteRenderer>();
+        health = this.GetComponent<Health>();
         parent = this.gameObject.GetComponentInParent<TriggerSpawner>();
     }
 
     private void Start()
     {
-        attackHash = Animator.StringToHash("Attack");
-        deadHash = Animator.StringToHash("Dead");
-        walkHash = Animator.StringToHash("Walk");
+        if (ContainsParameter("Attack")) { attackHash = Animator.StringToHash("Attack"); }
+        if (ContainsParameter("Dead")) { deadHash = Animator.StringToHash("Dead"); }
+        if (ContainsParameter("Walk")) { walkHash = Animator.StringToHash("Walk"); }
     }
 
     private void Update() //Every enemy shall check its behaviour every frame
     {
         if (GameManager.sharedInstance.currentGameState == gameState.inGame)
-            Behaviour(); //The knight´s behaviour will be checked every frame
+            Behaviour(); //The knight´s behaviour will be checked every frame. This function will tell the enemy which of his actions are the the most favorable
     }
 
     public void OnMouseOver() => CursorManager.sharedInstance.SetCursor(CursorManager.sharedInstance.swordCursor);
@@ -58,10 +66,10 @@ public class Enemy : MonoBehaviour //This contains the IA and the atributes ever
     protected void AttackPlayer()
     {
         int attackChance = Random.Range(0, 100);
-        anim.SetBool(walkHash, false); //When the enemy is in attacking state he will stop walking
+        if (walkHash != 0) { anim.SetBool(walkHash, false); } //When the enemy is in attacking state he will stop walking (in case that this type of enemy walks)
         if (attackChance > 95) //The chance has to be very low, because this method is executing a lot of times per frame, so we must discriminate a lot of numbers
         {
-            attackDirection = input.playerDirection; //Just when the knight decides to attack the direction he is facing will be decided
+            attackDirection = input.playerDirection; //Just when the enemy decides to attack the direction he is facing will be decided
             attacking = true;
             FlipSprite();
             anim.SetTrigger(attackHash);
@@ -83,6 +91,10 @@ public class Enemy : MonoBehaviour //This contains the IA and the atributes ever
     public void EndAttack()
     {
         attacking = false;
+    }
+    public void CanAttack()
+    {
+        canAttack = true;
     }
 
     public void DissappearEffect()
@@ -108,6 +120,18 @@ public class Enemy : MonoBehaviour //This contains the IA and the atributes ever
     {
         parent.deadEnemies++;
         parent.OnEnemyDied -= this.GetComponent<Enemy>().DeadInZone;
+    }
+
+    private bool ContainsParameter(string parameter)
+    {
+        foreach (AnimatorControllerParameter param in anim.parameters)
+        {
+            if (param.name.CompareTo(parameter) == 0)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }
 

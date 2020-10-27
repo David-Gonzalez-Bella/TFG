@@ -35,7 +35,7 @@ public class Attack : MonoBehaviour
 
     private void CheckAttacked(Vector2 attackDirection, int damage, GameObject swordFlash)
     {
-        int numAttackable = Physics2D.OverlapArea(A, B, attackableFilter, attackableElements); //attackableElements has the Collider2Ds found inside de hitmbox, meaning that that array is now filled with the elements that collided with our hitbox (therefore, we dont have to store the return values inside another array)
+        int numAttackable = Physics2D.OverlapArea(A, B, attackableFilter, attackableElements); //attackableElements has the Collider2Ds found inside de hitbox, meaning that that array is now filled with the elements that collided with our hitbox (therefore, we dont have to store the return values inside another array)
         for (int i = 0; i < numAttackable; i++)
         {
             attackableElements[i].GetComponent<Attackable>().Attacked(attackDirection, damage);

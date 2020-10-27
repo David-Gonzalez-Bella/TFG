@@ -48,6 +48,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -72,6 +73,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!102 &5605507656997539662
 TextMesh:
   serializedVersion: 3
@@ -80,7 +82,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6567520151543071174}
-  m_Text: -3
+  m_Text: -1
   m_OffsetZ: -1
   m_CharacterSize: 1
   m_LineSpacing: 1

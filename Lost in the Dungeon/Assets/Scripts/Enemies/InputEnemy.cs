@@ -36,7 +36,6 @@ public class InputEnemy : MonoBehaviour
 
     private void Start()
     {
-        //playerPos = GameManager.sharedInstance.player.transform; //ERROR due to the scripts execution order (we'll solve it later on)
         SetPlayerDirection();
     }
 
