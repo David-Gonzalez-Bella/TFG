@@ -32,11 +32,6 @@ public class GameManager : MonoBehaviour
         ScaleCamera();
     }
 
-    //private void Update()
-    //{
-    //    Debug.Log(currentGameState);
-    //}
-
     private void ScaleCamera()
     {
         Vector2 screenResolution = new Vector2(Screen.width, Screen.height);
@@ -50,8 +45,8 @@ public class GameManager : MonoBehaviour
     private void ResetStats()
     {
         //Set the base stats to its original values
-        player.GetComponent<PlayerController>().atrib.baseDamage = 1;
-        player.GetComponent<PlayerController>().atrib.baseSpeed = 4;
+        player.GetComponent<PlayerController>().atrib.damageIncrease = 0;
+        player.GetComponent<PlayerController>().atrib.speedIncrease = 0;
         player.GetComponent<PlayerController>().health.baseHealth = 10;
         player.GetComponent<PlayerController>().mana.baseMana = 20;
         player.GetComponent<PlayerController>().exp.level = 1;
@@ -147,6 +142,7 @@ public class GameManager : MonoBehaviour
         LeaveDeadScreen();
         LeaveWannaLeaveScreen();
         mainMenu.SetActive(true);
+        currentGameState = gameState.mainMenu;
     }
 
     public void PlayerDie()

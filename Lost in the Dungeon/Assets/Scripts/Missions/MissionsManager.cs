@@ -36,7 +36,7 @@ public class MissionsManager : MonoBehaviour
     { 
         if (!System.IO.File.Exists(Application.streamingAssetsPath + "/XML/Missions/missions.xml"))
         {
-            //Inicialize mission texts
+            //Inicialize mission texts (with irrelevant content, as they will all be specifyied in the xml file once it is generated and, therefore, shown in the inspector)
             for (int i = 0; i < nMissions; i++)
             {
                 missionText.Add(new Mission { description = "Description", id = "Mission", type = "Type", quantity = 0, progress = 0, completed = false, exp = 0});

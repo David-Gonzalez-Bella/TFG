@@ -23,7 +23,7 @@ public class Attackable : MonoBehaviour
     public void Attacked(Vector2 attackDirection, int damage)
     {
         StartCoroutine(TakeDamage(damage));
-        rb.AddForce(attackDirection * 100, ForceMode2D.Impulse); //When attacked, the object will be pushed back as well
+        rb.AddForce(attackDirection * 200, ForceMode2D.Impulse); //When attacked, the object will be pushed back as well
         if (this.tag == "Player") { PlayPlayerDamageSound(); } //If the player is attacked
         else //If an enemy is attacked
         {
@@ -39,7 +39,7 @@ public class Attackable : MonoBehaviour
         }
     }
 
-    //Coroutinesç
+    //Coroutines
     IEnumerator TakeDamage(int damage)
     {
         myHealth.ModifyHealth(-damage); //When attacked, the object will lose 1HP

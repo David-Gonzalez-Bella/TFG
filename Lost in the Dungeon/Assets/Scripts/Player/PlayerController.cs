@@ -24,8 +24,6 @@ public class PlayerController : MonoBehaviour
     private int runningHashCode;
     private int attackHashCode;
 
-    //private Vector2 newPosition;
-
     private Rigidbody2D rb;
     private Animator anim;
     private CapsuleCollider2D col;
@@ -67,45 +65,41 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if (!DialogueBox.sharedInstance.talking)
+        if (DialogueBox.sharedInstance.talking) return;
+        if (GameManager.sharedInstance.currentGameState == gameState.inGame)
         {
-            if (GameManager.sharedInstance.currentGameState == gameState.inGame)
+            if (!PanelsMenu.sharedInstance.panelsOpen) //You can onlu move or attack if your inventary is not open
             {
-                if (!PanelsMenu.sharedInstance.panelsOpen) //You can onlu move or attack if your inventary is not open
-                {
-                    moveX = InputPlayer.sharedInstance.horizontal;
-                    moveY = InputPlayer.sharedInstance.vertical;
-                    attack = InputPlayer.sharedInstance.basicAtk;
-                }
-                inventary = InputPlayer.sharedInstance.inventary; //You can always open and close your inventary once you are playing
+                moveX = InputPlayer.sharedInstance.horizontal;
+                moveY = InputPlayer.sharedInstance.vertical;
+                attack = InputPlayer.sharedInstance.basicAtk;
+            }
+            inventary = InputPlayer.sharedInstance.inventary; //You can always open and close your inventary once you are playing
 
-                if (moveX != 0 || moveY != 0) //It will update the state only if the character moves. Otherwise, it will stay in the last state it entered (the knight will look at the direction he was lastly told to move to)
-                {
-                    anim.SetFloat(xHashCode, moveX);
-                    anim.SetFloat(yHashCode, moveY);
-                    anim.SetFloat(runningHashCode, Mathf.Abs(moveX) + Mathf.Abs(moveY));
-                    if (!stepsAudioSource.isPlaying)
-                        StartCoroutine(PlayStepsSound());
-                }
-                if (attack) //If we pressed the attack button/s
-                {
-                    //atck.ActionAttack(InputPlayer.sharedInstance.faceDirection, atrib.damage); //This will send the direction we are facing ((1, 0), (0, 1), (-1, 0) or (0, -1))
-                    anim.SetTrigger(attackHashCode);
-                }
-                if (inventary)
-                {
-                    PlayInventaryAudio();
-                    PanelsMenu.sharedInstance.OpenClosePanels();
-                }
-            }
-            if (GameManager.sharedInstance.currentGameState == gameState.inGame || GameManager.sharedInstance.currentGameState == gameState.pauseScreen)
+            if (moveX != 0 || moveY != 0) //It will update the state only if the character moves. Otherwise, it will stay in the last state it entered (the knight will look at the direction he was lastly told to move to)
             {
-                pause = InputPlayer.sharedInstance.pause;
-                if (pause)
-                {
-                    MenusManager.sharedInstance.PauseGame();
-                }
+                anim.SetFloat(xHashCode, moveX);
+                anim.SetFloat(yHashCode, moveY);
+                anim.SetFloat(runningHashCode, Mathf.Abs(moveX) + Mathf.Abs(moveY));
+                if (!stepsAudioSource.isPlaying)
+                    StartCoroutine(PlayStepsSound());
             }
+            if (attack) //If we pressed the attack button/s
+            {
+                //atck.ActionAttack(InputPlayer.sharedInstance.faceDirection, atrib.damage); //This will send the direction we are facing ((1, 0), (0, 1), (-1, 0) or (0, -1))
+                anim.SetTrigger(attackHashCode);
+            }
+            if (inventary)
+            {
+                PlayInventaryAudio();
+                PanelsMenu.sharedInstance.OpenClosePanels();
+            }
+        }
+        if (GameManager.sharedInstance.currentGameState == gameState.inGame || GameManager.sharedInstance.currentGameState == gameState.pauseScreen)
+        {
+            pause = InputPlayer.sharedInstance.pause;
+            if (pause)
+                MenusManager.sharedInstance.PauseGame();
         }
     }
 
@@ -117,18 +111,19 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (!abilities.dashing)
+        if (!abilities.dashing && GameManager.sharedInstance.currentGameState == gameState.inGame)
         {
-            //newPosition = transform.position + new Vector3(moveX * speed * Time.deltaTime, moveY * speed * Time.deltaTime, 0);
-            if (!InputPlayer.sharedInstance.ability1) // If the player isnt dashing
             {
-                movement = new Vector2(moveX, moveY) * atrib.speed; //* Time.deltaTime; -> Here i dont multiply by Time.deltaTime, as i am change the rigidbody´s velocity directly. It is not a manual update of the position, as i was doing before
-                rb.velocity = movement; /*transform.position = newPosition;*/
-            }
-            else if ((moveX != 0 || moveY != 0) && InputPlayer.sharedInstance.ability1 && !abilities.dashing && mana.CurrentMana >= abilities.dashManaCost)
-            {
-                dashAudioSource.Play();
-                abilities.Dash(InputPlayer.sharedInstance.faceDirection.normalized, rb);
+                if (!InputPlayer.sharedInstance.ability1) // If the player isnt dashing
+                {
+                    movement = new Vector2(moveX, moveY) * atrib.speed; //* Time.deltaTime; -> Here i dont multiply by Time.deltaTime, as i am change the rigidbody´s velocity directly. It is not a manual update of the position, as i was doing before
+                    rb.velocity = movement; /*transform.position = newPosition;*/
+                }
+                else if ((moveX != 0 || moveY != 0) && InputPlayer.sharedInstance.ability1 && !abilities.dashing && mana.CurrentMana >= abilities.dashManaCost)
+                {
+                    dashAudioSource.Play();
+                    abilities.Dash(InputPlayer.sharedInstance.faceDirection.normalized, rb);
+                }
             }
         }
     }
