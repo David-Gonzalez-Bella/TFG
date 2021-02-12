@@ -29,7 +29,7 @@ public class InputPlayer : MonoBehaviour
         vertical = Input.GetAxis("Vertical");
 
         //Actions
-        basicAtk = Input.GetButtonDown("Basic Attack");
+        basicAtk = Input.GetButtonDown("Basic Attack") ;
         ability1 = Input.GetButtonDown("Ability 1");
         ability2 = Input.GetButtonDown("Ability 2");
         interact = Input.GetButtonDown("Interact");

@@ -41,7 +41,7 @@ public class DialogueManager : MonoBehaviour
     {   
         if (!System.IO.File.Exists(Application.streamingAssetsPath + "/XML/Dialogues/dialogues.xml"))
         {
-            //Inicialize dialogues
+            //Inicialize dialogues (with ordinary content, dialogues can be overwritten in the "dialogues.xml" file once it is created and, therefore, shown in the inspector)
             dungeonInfo = new Dialogue { lines = new string[] { "dungeonInfo1", "dungeonInfo2", "dungeonInfo3", "dungeonInfo4" , "dungeonInfo5" , "dungeonInfo6" , "dungeonInfo7" , "dungeonInfo8" }, id = "EntranceGuard_S" };
             firstMissionStart = new Dialogue { lines = new string[] { "hi!", "how are you?", "bye!" }, id = "LostWarrior_S" };
             firstMissionEnd = new Dialogue { lines = new string[] { "thankyou1", "thankyou3", "thankyou3" }, id = "LostWarrior_E" };

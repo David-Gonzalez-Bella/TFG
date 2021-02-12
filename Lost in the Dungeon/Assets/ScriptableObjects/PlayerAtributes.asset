@@ -13,4 +13,6 @@ MonoBehaviour:
   m_Name: PlayerAtributes
   m_EditorClassIdentifier: 
   baseSpeed: 4
-  baseDamage: 2
+  baseDamage: 1
+  speedIncrease: 0
+  damageIncrease: 0

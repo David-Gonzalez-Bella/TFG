@@ -50,7 +50,7 @@ public class Missions_Texts : MonoBehaviour
         missions[index].text = mission.description;
         if (mission.type.CompareTo("Recollection") == 0)
         {
-            missions[index].text += ": " + +mission.progress + "/" + mission.quantity.ToString();
+            missions[index].text += ": " + mission.progress + "/" + mission.quantity.ToString();
         }
     }
 
@@ -79,10 +79,11 @@ public class Missions_Texts : MonoBehaviour
         for (int i = 0; i < missions.Length; i++)
         {
             missions[i].color = new Color(1.0f, 0.9f, 0.8f, 1.0f);
-        }
-        for (int i = 0; i < missions.Length; i++)
-        {
             missions[i].text = "";
         }
+        //for (int i = 0; i < missions.Length; i++)
+        //{
+            //missions[i].text = "";
+        //}
     }
 }

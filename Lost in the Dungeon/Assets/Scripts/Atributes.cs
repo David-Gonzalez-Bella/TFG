@@ -11,20 +11,25 @@ public class Atributes : ScriptableObject //Attributes is only a bunch of data, 
     [Tooltip("Character´s damage")]
     public  int baseDamage;
 
-    private int speedIncrease = 0;
-    private int damageIncrease = 0;
+    //[HideInInspector]
+    public int speedIncrease;
+    //[HideInInspector]
+    public int damageIncrease;
 
     public float speed { get { return baseSpeed + speedIncrease; } }
     public int damage { get { return baseDamage + damageIncrease; } }
 
-    public void ModifyBaseSpeed()
+    public void ModifySpeed()
     {
-        baseSpeed++;
-        Atributes_Texts.sharedInstance.UpdateAtribsTexts(baseDamage, baseSpeed);
+        speedIncrease++;
+        Atributes_Texts.sharedInstance.UpdateAtribsTexts(damage, speed);
     }
-    public void ModifyBaseDamage()
+    public void ModifyDamage()
     {
-        baseDamage++;
-        Atributes_Texts.sharedInstance.UpdateAtribsTexts(baseDamage, baseSpeed);
+        damageIncrease++;
+        Debug.Log("damageIncrease: " + damageIncrease);
+        Debug.Log("baseDamage + damageIncrease: " + baseDamage + damageIncrease);
+        Debug.Log("damage: " + damage);
+        Atributes_Texts.sharedInstance.UpdateAtribsTexts(damage, speed);
     }
 }
