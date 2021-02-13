@@ -18,7 +18,7 @@ public class EnemyKnight : Enemy //Enemy inherits from Monobehaviour. Therefore,
             {
                 AttackPlayer();
             }
-            else if (!attacking && (input.distanceMagnitude < detectionDistance))
+            else if (!attacking && (input.distanceMagnitude < detectionDistance) && parent.playerInside)
             {
                 ChasePlayer();
             }

@@ -10,6 +10,8 @@ public class PlayerController : MonoBehaviour
     private float moveY;
     private Vector2 movement;
     private bool attack;
+    private bool dashing;
+    private bool doDash;
     private bool inventary;
     private bool pause;
     public AudioSource attackAudioSource;
@@ -24,6 +26,7 @@ public class PlayerController : MonoBehaviour
     private int runningHashCode;
     private int attackHashCode;
 
+    private InputPlayer input;
     private Rigidbody2D rb;
     private Animator anim;
     private CapsuleCollider2D col;
@@ -49,6 +52,7 @@ public class PlayerController : MonoBehaviour
         mana = GetComponent<Mana>();
         health = GetComponent<Health>();
         exp = GetComponent<Experience>();
+        input = GetComponent<InputPlayer>();
     }
 
     void Start()
@@ -70,11 +74,12 @@ public class PlayerController : MonoBehaviour
         {
             if (!PanelsMenu.sharedInstance.panelsOpen) //You can onlu move or attack if your inventary is not open
             {
-                moveX = InputPlayer.sharedInstance.horizontal;
-                moveY = InputPlayer.sharedInstance.vertical;
-                attack = InputPlayer.sharedInstance.basicAtk;
+                moveX = input.horizontal;
+                moveY = input.vertical;
+                attack = input.basicAtk;
+                dashing = input.ability1;
             }
-            inventary = InputPlayer.sharedInstance.inventary; //You can always open and close your inventary once you are playing
+            inventary = input.inventary; //You can always open and close your inventary once you are playing
 
             if (moveX != 0 || moveY != 0) //It will update the state only if the character moves. Otherwise, it will stay in the last state it entered (the knight will look at the direction he was lastly told to move to)
             {
@@ -85,10 +90,11 @@ public class PlayerController : MonoBehaviour
                     StartCoroutine(PlayStepsSound());
             }
             if (attack) //If we pressed the attack button/s
-            {
-                //atck.ActionAttack(InputPlayer.sharedInstance.faceDirection, atrib.damage); //This will send the direction we are facing ((1, 0), (0, 1), (-1, 0) or (0, -1))
                 anim.SetTrigger(attackHashCode);
-            }
+
+            if (dashing && !abilities.dashing && mana.CurrentMana >= abilities.dashManaCost)
+                doDash = true;
+
             if (inventary)
             {
                 PlayInventaryAudio();
@@ -97,7 +103,7 @@ public class PlayerController : MonoBehaviour
         }
         if (GameManager.sharedInstance.currentGameState == gameState.inGame || GameManager.sharedInstance.currentGameState == gameState.pauseScreen)
         {
-            pause = InputPlayer.sharedInstance.pause;
+            pause = input.pause;
             if (pause)
                 MenusManager.sharedInstance.PauseGame();
         }
@@ -105,28 +111,46 @@ public class PlayerController : MonoBehaviour
 
     public void AttackAnimEvent() //Called during the attack animation
     {
-        atck.PhysicalAttack(InputPlayer.sharedInstance.faceDirection, atrib.damage, swordFlash); //This will send the direction we are facing ((1, 0), (0, 1), (-1, 0) or (0, -1))
+        atck.PhysicalAttack(input.faceDirection, atrib.damage, swordFlash); //This will send the direction we are facing ((1, 0), (0, 1), (-1, 0) or (0, -1))
         attackAudioSource.Play();
     }
 
     private void FixedUpdate()
     {
-        if (!abilities.dashing && GameManager.sharedInstance.currentGameState == gameState.inGame)
+        if (GameManager.sharedInstance.currentGameState == gameState.inGame)
         {
+            if (abilities.dashing) return; //If a dash is taking place we dont want to start a new dash nor to move with the WASD keys
+
+            if (doDash)
             {
-                if (!InputPlayer.sharedInstance.ability1) // If the player isnt dashing
-                {
-                    movement = new Vector2(moveX, moveY) * atrib.speed; //* Time.deltaTime; -> Here i dont multiply by Time.deltaTime, as i am change the rigidbody´s velocity directly. It is not a manual update of the position, as i was doing before
-                    rb.velocity = movement; /*transform.position = newPosition;*/
-                }
-                else if ((moveX != 0 || moveY != 0) && InputPlayer.sharedInstance.ability1 && !abilities.dashing && mana.CurrentMana >= abilities.dashManaCost)
-                {
-                    dashAudioSource.Play();
-                    abilities.Dash(InputPlayer.sharedInstance.faceDirection.normalized, rb);
-                }
+                dashAudioSource.Play();
+                abilities.Dash(input.faceDirection.normalized);
+                doDash = false;
+            }
+            else
+            {
+                movement = new Vector2(moveX, moveY) * atrib.speed; //* Time.deltaTime; -> Here i dont multiply by Time.deltaTime, as i am change the rigidbody´s velocity directly. It is not a manual update of the position, as i was doing before
+                rb.velocity = movement;
             }
         }
     }
+
+    //private void FixedUpdate()
+    //{
+    //    if (!abilities.dashing && GameManager.sharedInstance.currentGameState == gameState.inGame)
+    //    {
+    //        if (!input.ability1) // If the player isnt dashing
+    //        {
+    //            movement = new Vector2(moveX, moveY) * atrib.speed; //* Time.deltaTime; -> Here i dont multiply by Time.deltaTime, as i am change the rigidbody´s velocity directly. It is not a manual update of the position, as i was doing before
+    //            rb.velocity = movement; /*transform.position = newPosition;*/
+    //        }
+    //        else if ((moveX != 0 || moveY != 0) && input.ability1 && !abilities.dashing && mana.CurrentMana >= abilities.dashManaCost)
+    //        {
+    //            dashAudioSource.Play();
+    //            abilities.Dash(input.faceDirection.normalized);
+    //        }
+    //    }
+    //}
 
     public void PlayDieAudio()
     {
