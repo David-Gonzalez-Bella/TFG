@@ -66,7 +66,7 @@ public class EnemyKamikaze : Enemy //Enemy inherits from Monobehaviour. Therefor
         if (collision.gameObject.tag.CompareTo("Walls") == 0)
         {
             health.dieEvent?.Invoke();
-            AudioManager.sharedInstance.OnEnemyDamageSound += atkb.PlayEnemyCreatureDamageSound;
+            AudioManager.sharedInstance.PlayEnemyCreatureDamageSound();
             AudioManager.sharedInstance.PlayWallCrush();
         }
     }

@@ -131,7 +131,6 @@ public class PlayerController : MonoBehaviour
     public void PlayDieAudio()
     {
         dieAudioSource.Play();
-        AudioManager.sharedInstance.OnPlayerDieSound -= PlayDieAudio;
     }
 
     public void PlayInventaryAudio()
