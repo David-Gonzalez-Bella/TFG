@@ -11,7 +11,7 @@ public class Enemy : MonoBehaviour //This contains the IA and the atributes ever
     public Atributes atrib; //Evey enemy has his basic atributes (for a more specific one they'll have them in their own script)
     public int exp;
 
-    private TriggerSpawner parent;
+    protected TriggerSpawner parent;
 
     protected InputEnemy input;
     protected Attack atk; //The enemy can attack our player
@@ -118,8 +118,7 @@ public class Enemy : MonoBehaviour //This contains the IA and the atributes ever
 
     public void DeadInZone()
     {
-        parent.deadEnemies++;
-        parent.OnEnemyDied -= this.GetComponent<Enemy>().DeadInZone;
+        parent.enemiesAlive--;
     }
 
     private bool ContainsParameter(string parameter)

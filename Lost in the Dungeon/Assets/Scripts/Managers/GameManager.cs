@@ -95,8 +95,8 @@ public class GameManager : MonoBehaviour
         foreach (GameObject spawner in GameObject.FindGameObjectsWithTag("Spawner"))
         {
             spawner.GetComponent<TriggerSpawner>().playerInside = false;
-            spawner.GetComponent<TriggerSpawner>().deadEnemies = 0;
-            spawner.GetComponent<BoxCollider2D>().enabled = true;
+            spawner.GetComponent<TriggerSpawner>().enemiesAlive = 0;
+            //spawner.GetComponent<BoxCollider2D>().enabled = true;
         }
     }
 

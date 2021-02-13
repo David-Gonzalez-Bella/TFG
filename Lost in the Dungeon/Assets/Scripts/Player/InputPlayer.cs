@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class InputPlayer : MonoBehaviour
 {
-    public static InputPlayer sharedInstance; //Singleton
-
     public float horizontal { get; private set; }
     public float vertical { get; private set; }
     public bool basicAtk { get; private set; }
@@ -17,10 +15,6 @@ public class InputPlayer : MonoBehaviour
 
     [HideInInspector] public Vector2 faceDirection = new Vector2(0.0f, -1.0f); //Initial direction we are facing
 
-    private void Awake()
-    {
-        sharedInstance = this;
-    }
 
     void Update()
     {

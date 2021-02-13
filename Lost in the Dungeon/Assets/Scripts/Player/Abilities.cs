@@ -21,6 +21,7 @@ public class Abilities : MonoBehaviour
     {
         trail = GetComponent<TrailRenderer>();
         mana = GetComponent<Mana>();
+        rb = GetComponent<Rigidbody2D>();
     }
 
     private void Start()
@@ -34,7 +35,12 @@ public class Abilities : MonoBehaviour
     {
         if (dashing)
         {
-            if (dashTime <= 0) //If we have ended dashing
+            if (dashTime > 0) //If we have not ended dashing
+            {
+                dashTime -= Time.fixedDeltaTime;
+                rb.velocity = dashDirection * dashSpeed;
+            }
+            else
             {
                 if (trailColorAlpha > 0.0f)
                 {
@@ -52,17 +58,11 @@ public class Abilities : MonoBehaviour
                     dashing = false;
                 }
             }
-            else
-            {
-                dashTime -= Time.fixedDeltaTime;
-                rb.velocity = dashDirection * dashSpeed;
-            }
         }
     }
 
-    public void Dash(Vector2 playerDashDirection, Rigidbody2D playerRb)
+    public void Dash(Vector2 playerDashDirection)
     {
-        if (rb == null) { rb = playerRb; }
         dashDirection = playerDashDirection;
         dashing = true;
         trail.enabled = true;
