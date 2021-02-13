@@ -32,7 +32,7 @@ public class EnemyKnight : Enemy //Enemy inherits from Monobehaviour. Therefore,
     public override void EnemyAttack() //The knight overrides the method to attack, as he attacks in his own way
     {
         atk.PhysicalAttack(attackDirection, atrib.damage, swordFlash);
-        AudioManager.sharedInstance.OnPlaySwordSound += PlaySwordSound;
+        AudioManager.sharedInstance.PlaySwordSound();
     }
     public override void FlipSprite() //Each enemy will flip his sprite in his own way, depending on the direction his sprite sheets look at
     {
@@ -44,12 +44,6 @@ public class EnemyKnight : Enemy //Enemy inherits from Monobehaviour. Therefore,
         {
             spr.flipX = false;
         }
-    }
-
-    void PlaySwordSound()
-    {
-        AudioManager.sharedInstance.swordAttack.Play();
-        AudioManager.sharedInstance.OnPlaySwordSound -= PlaySwordSound;
     }
 
     public void PlayStepsSound()

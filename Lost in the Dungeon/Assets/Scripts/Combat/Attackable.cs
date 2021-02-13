@@ -30,10 +30,10 @@ public class Attackable : MonoBehaviour
             switch (this.GetComponent<Enemy>().type)
             {
                 case enemyType.standard:
-                    AudioManager.sharedInstance.OnEnemyDamageSound += PlayEnemyDamageSound;
+                    AudioManager.sharedInstance.PlayEnemyDamageSound();
                     break;
                 case enemyType.creature:
-                    AudioManager.sharedInstance.OnEnemyDamageSound += PlayEnemyCreatureDamageSound;
+                    AudioManager.sharedInstance.PlayEnemyCreatureDamageSound();
                     break;
             }
         }
@@ -51,18 +51,6 @@ public class Attackable : MonoBehaviour
 
     public void PlayPlayerDamageSound()
     {
-        GameManager.sharedInstance.player.GetComponent<PlayerController>().damgeAudioSource.Play();
-    }
-
-    public void PlayEnemyDamageSound()
-    {
-        AudioManager.sharedInstance.enemyDamage.Play();
-        AudioManager.sharedInstance.OnEnemyDamageSound -= PlayEnemyDamageSound;
-    }
-
-    public void PlayEnemyCreatureDamageSound()
-    {
-        AudioManager.sharedInstance.enemyCreatureDamage.Play();
-        AudioManager.sharedInstance.OnEnemyDamageSound -= PlayEnemyCreatureDamageSound;
+       GetComponent<PlayerController>().damgeAudioSource.Play();
     }
 }

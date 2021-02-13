@@ -203,7 +203,7 @@ public class GameManager : MonoBehaviour
         MenusManager.sharedInstance.dieScreen.GetComponent<Animator>().SetBool(MenusManager.sharedInstance.dieHashCode, true);
         player.GetComponent<CapsuleCollider2D>().enabled = false;
         Instantiate(playerDieEffect, player.transform.position + new Vector3(0f, -0.5f, 0f), Quaternion.identity);
-        AudioManager.sharedInstance.OnPlayerDieSound += player.GetComponent<PlayerController>().PlayDieAudio;
+        player.GetComponent<PlayerController>().PlayDieAudio();
         currentGameState = gameState.deadScreen;
         yield return new WaitForSeconds(0.5f);
         foreach (SpriteRenderer spr in player.GetComponentsInChildren<SpriteRenderer>()) { spr.enabled = false; } //We disable the minimap sprite and the main screen sprite of the player

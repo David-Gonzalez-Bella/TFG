@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class Transitions : MonoBehaviour
 {
     public static Transitions sharedInstance { get; private set; }
@@ -13,9 +14,15 @@ public class Transitions : MonoBehaviour
 
     private void Awake()
     {
-        if (sharedInstance != null)
+        if (sharedInstance == null)
             sharedInstance = this;
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
 
+        DontDestroyOnLoad(gameObject);
         anim = GetComponentInChildren<Animator>();
         canvas = GetComponent<Canvas>();
     }
@@ -30,6 +37,7 @@ public class Transitions : MonoBehaviour
 
     public void TransitionToGame()
     {
+        Debug.Log("LETS PLAAAY!");
         PrepareTransition();
         anim.SetTrigger(toGameTriggerHash);
     }

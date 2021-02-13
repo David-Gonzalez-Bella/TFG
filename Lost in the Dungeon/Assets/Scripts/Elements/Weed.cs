@@ -18,7 +18,7 @@ public class Weed : Interactive
         {
             if (GameManager.sharedInstance.player.GetComponent<PlayerController>().activeMissions.Contains(MissionsManager.sharedInstance.missions["GetWeeds"]))
             {
-                AudioManager.sharedInstance.OnWeedCollectedSound += AudioManager.sharedInstance.PlayWeedCollectedSound;
+                AudioManager.sharedInstance.PlayWeedCollectedSound();
                 Missions_Texts.sharedInstance.CheckUpdateMission(MissionsManager.sharedInstance.missions["GetWeeds"]);
                 minimapWeed.enabled = false;
                 GetComponent<SpriteRenderer>().enabled = false;

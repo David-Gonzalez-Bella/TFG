@@ -23,64 +23,43 @@ public class AudioManager : MonoBehaviour
     public AudioSource miauSound;
     public AudioSource[] salutesNPC;
 
-    public event Action OnPlaySwordSound;
-    public event Action OnPlayFireballSound;
-    public event Action OnEnemyDamageSound;
-    public event Action OnEnemySpawnSound;
-    public event Action OnWeedCollectedSound;
-    public event Action OnPlayerDieSound;
-    public event Action OnTalkSoundNPC;
-
-
     private void Awake()
     {
         if (sharedInstance == null)
             sharedInstance = this;
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
+        DontDestroyOnLoad(gameObject);
     }
 
-    private void Update()
-    {
-        OnPlaySwordSound?.Invoke();
-        OnPlayFireballSound?.Invoke();
-        OnEnemyDamageSound?.Invoke();
-        OnEnemySpawnSound?.Invoke();
-        OnWeedCollectedSound?.Invoke();
-        OnPlayerDieSound?.Invoke();
-        OnTalkSoundNPC?.Invoke();
-    }
+    #region Play Sounds Functions
+    public void PlaySwordSound() => swordAttack.Play();
 
-    public void PlayWeedCollectedSound()
-    {
-        collectWeed.Play();
-        OnWeedCollectedSound -= PlayWeedCollectedSound;
-    }
+    public void PlayFireballSound() => fireballAttack.Play();
 
-    public void PlaySelectSound()
-    {
-        selectSound.Play();
-    }
+    public void PlayWeedCollectedSound() => collectWeed.Play();
 
-    public void PlayGameOverSound()
-    {
-        gameOverSound.Play();
-    }
+    public void PlaySelectSound() => selectSound.Play();
 
-    public void PlayWallCrush()
-    {
-        wallCrush.Play();
-    }
+    public void PlayGameOverSound() => gameOverSound.Play();
 
+    public void PlayWallCrush() => wallCrush.Play();
+
+    public void PlayEnemyDamageSound() => enemyDamage.Play();
+
+    public void PlayEnemyCreatureDamageSound() => enemyCreatureDamage.Play();
+
+    public void PlayEnemySpawnSound() => enemySpawn.Play();
+
+    public void PlayTalkSoundCat() => miauSound.Play();
 
     public void PlayTalkSoundNPC()
     {
         int random = UnityEngine.Random.Range(0, 3);
         salutesNPC[random].Play();
-        OnTalkSoundNPC -= PlayTalkSoundNPC;
     }
-
-    public void PlayTalkSoundCat()
-    {
-        miauSound.Play();
-        OnTalkSoundNPC -= PlayTalkSoundCat;
-    }
+    #endregion
 }

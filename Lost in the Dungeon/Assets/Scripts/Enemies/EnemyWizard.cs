@@ -34,7 +34,7 @@ public class EnemyWizard : Enemy //Enemy inherits from Monobehaviour. Therefore,
     public override void EnemyAttack() //The wizard overrides the method to attack, as he attacks in his own way
     {
         atk.ProyectileAttack(fireball, input.playerDirection, shootOrigin); //Instead of "attackDirection" we send "input.playerDirection" because we want the fireballs to track more than the knight's attacks do
-        AudioManager.sharedInstance.OnPlayFireballSound += PlayFireballSound;
+        AudioManager.sharedInstance.PlayFireballSound();
     }
 
     public override void FlipSprite() //Each enemy will flip his sprite in his own way, depending on the direction his sprite sheets look at
@@ -57,11 +57,5 @@ public class EnemyWizard : Enemy //Enemy inherits from Monobehaviour. Therefore,
         {
             spr.flipX = false;
         }
-    }
-
-    void PlayFireballSound()
-    {
-        AudioManager.sharedInstance.fireballAttack.Play();
-        AudioManager.sharedInstance.OnPlayFireballSound -= PlayFireballSound;
     }
 }

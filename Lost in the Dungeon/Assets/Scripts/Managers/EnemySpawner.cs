@@ -22,7 +22,7 @@ public class EnemySpawner : MonoBehaviour
     public void InstantiateSpawnEffect(Enemy enemy, Vector3 position)
     {
         Instantiate(spawnEffect, position + new Vector3(0f, -0.5f, 0f), Quaternion.identity);
-        AudioManager.sharedInstance.OnEnemySpawnSound += PlaySpawnSound;
+        AudioManager.sharedInstance.PlayEnemySpawnSound();
     }
 
     IEnumerator SpawnEnemyCoroutine(Enemy enemy, Vector3 position, TriggerSpawner parent)
@@ -32,9 +32,4 @@ public class EnemySpawner : MonoBehaviour
         Instantiate(enemy, position, Quaternion.identity, parent.transform);
     }
 
-    public void PlaySpawnSound()
-    {
-        AudioManager.sharedInstance.enemySpawn.Play();
-        AudioManager.sharedInstance.OnEnemySpawnSound -= PlaySpawnSound;
-    }
 }
