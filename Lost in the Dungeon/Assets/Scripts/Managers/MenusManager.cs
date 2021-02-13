@@ -54,7 +54,6 @@ public class MenusManager : MonoBehaviour
     {
         if(GameManager.sharedInstance.currentGameState == gameState.inGame) //Pause the game
         {
-            Debug.Log("PAUSE");
             pauseScreen.gameObject.SetActive(true);
             pauseScreen.GetComponent<Animator>().SetBool(pauseHashCode, true);
             GameManager.sharedInstance.FreezePlayer();
@@ -62,7 +61,6 @@ public class MenusManager : MonoBehaviour
         }
         else if(GameManager.sharedInstance.currentGameState == gameState.pauseScreen)//Resume
         {
-            Debug.Log("resume");
             GameManager.sharedInstance.LeavePauseScreen();
             GameManager.sharedInstance.currentGameState = gameState.inGame;
         }

@@ -37,7 +37,6 @@ public class Transitions : MonoBehaviour
 
     public void TransitionToGame()
     {
-        Debug.Log("LETS PLAAAY!");
         PrepareTransition();
         anim.SetTrigger(toGameTriggerHash);
     }

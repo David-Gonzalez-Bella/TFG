@@ -27,9 +27,6 @@ public class Atributes : ScriptableObject //Attributes is only a bunch of data, 
     public void ModifyDamage()
     {
         damageIncrease++;
-        Debug.Log("damageIncrease: " + damageIncrease);
-        Debug.Log("baseDamage + damageIncrease: " + baseDamage + damageIncrease);
-        Debug.Log("damage: " + damage);
         Atributes_Texts.sharedInstance.UpdateAtribsTexts(damage, speed);
     }
 }
