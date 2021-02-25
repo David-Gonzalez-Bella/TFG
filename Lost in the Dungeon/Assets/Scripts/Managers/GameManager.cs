@@ -14,135 +14,140 @@ public class GameManager : MonoBehaviour
 
     public GameObject player { get; private set; }
     public GameObject playerDieEffect;
-    public GameObject mainMenu;
-
     public Camera mainCamera;
-
     public gameState currentGameState;
 
     private void Awake()
     {
         if (sharedInstance == null)
             sharedInstance = this;
-        currentGameState = gameState.mainMenu;
     }
     private void Start()
     {
+        currentGameState = gameState.inGame;
         player = GameObject.FindGameObjectWithTag("Player");
-        ScaleCamera();
+        //ScaleCamera();
     }
 
-    private void ScaleCamera()
-    {
-        Vector2 screenResolution = new Vector2(Screen.width, Screen.height);
-        float srcWidth = Screen.width;
-        float srcHeight = Screen.height;
+    #region ResetMethods
+    //private void ScaleCamera()
+    //{
+    //    Vector2 screenResolution = new Vector2(Screen.width, Screen.height);
+    //    float srcWidth = Screen.width;
+    //    float srcHeight = Screen.height;
 
-        float DEVICE_SCREEN_ASPECT = srcWidth / srcHeight;
-        mainCamera.aspect = DEVICE_SCREEN_ASPECT;
-    }
+    //    float DEVICE_SCREEN_ASPECT = srcWidth / srcHeight;
+    //    mainCamera.aspect = DEVICE_SCREEN_ASPECT;
+    //}
 
-    private void ResetStats()
-    {
-        //Set the base stats to its original values
-        player.GetComponent<PlayerController>().atrib.damageIncrease = 0;
-        player.GetComponent<PlayerController>().atrib.speedIncrease = 0;
-        player.GetComponent<PlayerController>().health.baseHealth = 10;
-        player.GetComponent<PlayerController>().mana.baseMana = 20;
-        player.GetComponent<PlayerController>().exp.level = 1;
-        player.GetComponent<PlayerController>().exp.nextLevelExp = player.GetComponent<PlayerController>().exp.ExperienceCurve(player.GetComponent<PlayerController>().exp.level + 1);
-        player.GetComponent<PlayerController>().exp.experience = 0;
-        player.GetComponent<PlayerController>().exp.atributePoints = 0;
-        Atributes_Texts.sharedInstance.UpdateAtribsTexts(player.GetComponent<PlayerController>().exp.level, player.GetComponent<PlayerController>().exp.atributePoints);
-        player.GetComponent<PlayerController>().exp.CheckUnableButtons();
-        player.GetComponent<PlayerController>().health.CurrentHealth = player.GetComponent<PlayerController>().health.baseHealth;
-        player.GetComponent<PlayerController>().mana.CurrentMana = player.GetComponent<PlayerController>().mana.baseMana;
-        player.GetComponent<PlayerController>().ResetPlayerLookAt();
-    }
+    //private void ResetStats()
+    //{
+    //    //Set the base stats to its original values
+    //    player.GetComponent<PlayerController>().atrib.damageIncrease = 0;
+    //    player.GetComponent<PlayerController>().atrib.speedIncrease = 0;
+    //    player.GetComponent<PlayerController>().health.baseHealth = 10;
+    //    player.GetComponent<PlayerController>().mana.baseMana = 20;
+    //    player.GetComponent<PlayerController>().exp.level = 1;
+    //    player.GetComponent<PlayerController>().exp.nextLevelExp = player.GetComponent<PlayerController>().exp.ExperienceCurve(player.GetComponent<PlayerController>().exp.level + 1);
+    //    player.GetComponent<PlayerController>().exp.experience = 0;
+    //    player.GetComponent<PlayerController>().exp.atributePoints = 0;
+    //    Atributes_Texts.sharedInstance.UpdateAtribsTexts(player.GetComponent<PlayerController>().exp.level, player.GetComponent<PlayerController>().exp.atributePoints);
+    //    player.GetComponent<PlayerController>().exp.CheckUnableButtons();
+    //    player.GetComponent<PlayerController>().health.CurrentHealth = player.GetComponent<PlayerController>().health.baseHealth;
+    //    player.GetComponent<PlayerController>().mana.CurrentMana = player.GetComponent<PlayerController>().mana.baseMana;
+    //    player.GetComponent<PlayerController>().ResetPlayerLookAt();
+    //}
 
-    private void ResetMissions()
-    {
-        player.GetComponent<PlayerController>().activeMissions.Clear();
-        MissionsManager.sharedInstance.ResetMissionsProgress();
-    }
+    //private void ResetMissions()
+    //{
+    //    player.GetComponent<PlayerController>().activeMissions.Clear();
+    //    MissionsManager.sharedInstance.ResetMissionsProgress();
+    //}
 
-    private void ResetDialoguesNPCs()
-    {
-        foreach(GameObject npc in GameObject.FindGameObjectsWithTag("NPC"))
-        {
-            npc.GetComponent<NPC>().ResetDialogueNPC();
-        }
-    }
+    //private void ResetDialoguesNPCs()
+    //{
+    //    foreach(GameObject npc in GameObject.FindGameObjectsWithTag("NPC"))
+    //    {
+    //        npc.GetComponent<NPC>().ResetDialogueNPC();
+    //    }
+    //}
 
-    private void ResetTexts()
-    {
-        //Set the atributes texts to the base stats
-        Atributes_Texts.sharedInstance.UpdateAtribsTexts(player.GetComponent<PlayerController>().atrib.damage, player.GetComponent<PlayerController>().atrib.speed);
-        Atributes_Texts.sharedInstance.UpdateAtribsTexts(player.GetComponent<PlayerController>().health);
-        Atributes_Texts.sharedInstance.UpdateAtribsTexts(player.GetComponent<PlayerController>().mana);
+    //private void ResetTexts()
+    //{
+    //    //Set the atributes texts to the base stats
+    //    Atributes_Texts.sharedInstance.UpdateAtribsTexts(player.GetComponent<PlayerController>().atrib.damage, player.GetComponent<PlayerController>().atrib.speed);
+    //    Atributes_Texts.sharedInstance.UpdateAtribsTexts(player.GetComponent<PlayerController>().health);
+    //    Atributes_Texts.sharedInstance.UpdateAtribsTexts(player.GetComponent<PlayerController>().mana);
 
-        //Set the mission texts to empty
-        Missions_Texts.sharedInstance.EmptyMissions();
-        Missions_Texts.sharedInstance.missionIndex = 0;
-    }
+    //    //Set the mission texts to empty
+    //    Missions_Texts.sharedInstance.EmptyMissions();
+    //    Missions_Texts.sharedInstance.missionIndex = 0;
+    //}
 
-    private void DestroyAllEnemies()
-    {
-        foreach (GameObject enemy in GameObject.FindGameObjectsWithTag("Enemy"))
-        {
-            Destroy(enemy);
-        }
-        foreach (GameObject spawner in GameObject.FindGameObjectsWithTag("Spawner"))
-        {
-            spawner.GetComponent<TriggerSpawner>().playerInside = false;
-            spawner.GetComponent<TriggerSpawner>().enemiesAlive = 0;
-            //spawner.GetComponent<BoxCollider2D>().enabled = true;
-        }
-    }
+    //private void DestroyAllEnemies()
+    //{
+    //    foreach (GameObject enemy in GameObject.FindGameObjectsWithTag("Enemy"))
+    //    {
+    //        Destroy(enemy);
+    //    }
+    //    foreach (GameObject spawner in GameObject.FindGameObjectsWithTag("Spawner"))
+    //    {
+    //        spawner.GetComponent<TriggerSpawner>().playerInside = false;
+    //        spawner.GetComponent<TriggerSpawner>().enemiesAlive = 0;
+    //        //spawner.GetComponent<BoxCollider2D>().enabled = true;
+    //    }
+    //}
 
-    private void ResetRocks()
-    {
-        Rocks.sharedInstance.BlockPath();
-        Rocks.sharedInstance.pathCleared = false;
-    }
+    //private void ResetRocks()
+    //{
+    //    Rocks.sharedInstance.BlockPath();
+    //    Rocks.sharedInstance.pathCleared = false;
+    //}
 
-    private void ResetWeeds()
-    {
-        foreach (GameObject weed in GameObject.FindGameObjectsWithTag("Weed"))
-        {
-            weed.GetComponent<Weed>().ActivateWeed();
-        }
-    }
+    //private void ResetWeeds()
+    //{
+    //    foreach (GameObject weed in GameObject.FindGameObjectsWithTag("Weed"))
+    //    {
+    //        weed.GetComponent<Weed>().ActivateWeed();
+    //    }
+    //}
+
+    //public void StartGame()
+    //{
+    //    ResetMissions();
+    //    ResetRocks();
+    //    ResetWeeds();
+    //    ResetStats();
+    //    ResetDialoguesNPCs();
+    //    ResetTexts();
+    //    DestroyAllEnemies();
+    //    LeavePauseScreen();
+    //    LeaveWannaLeaveScreen();
+    //    LeaveDeadScreen();
+    //    foreach (SpriteRenderer spr in player.GetComponentsInChildren<SpriteRenderer>()) { spr.enabled = true; } //We now enable the minimap sprite and the main screen sprite of the player
+    //    player.transform.position = playerSpawnPoint;
+    //    player.GetComponent<CapsuleCollider2D>().enabled = true;
+    //}
+
+    //public void ShowMainMenu()
+    //{
+    //    LeaveDeadScreen();
+    //    LeaveWannaLeaveScreen();
+    //    currentGameState = gameState.mainMenu;
+    //}
+
+    //private void LeaveDeadScreen()
+    //{
+    //    MenusManager.sharedInstance.dieScreen.GetComponent<Animator>().SetBool(MenusManager.sharedInstance.dieHashCode, false);
+    //    MenusManager.sharedInstance.ResetDieScreenValues();
+    //    MenusManager.sharedInstance.dieScreen.gameObject.SetActive(false);
+    //}
+
+    #endregion
 
     public void LeaveGame()
     {
         Application.Quit();
-    }
-
-    public void StartGame()
-    {
-        ResetMissions();
-        ResetRocks();
-        ResetWeeds();
-        ResetStats();
-        ResetDialoguesNPCs();
-        ResetTexts();
-        DestroyAllEnemies();
-        LeavePauseScreen();
-        LeaveWannaLeaveScreen();
-        LeaveDeadScreen();
-        foreach (SpriteRenderer spr in player.GetComponentsInChildren<SpriteRenderer>()) { spr.enabled = true; } //We now enable the minimap sprite and the main screen sprite of the player
-        player.transform.position = playerSpawnPoint;
-        player.GetComponent<CapsuleCollider2D>().enabled = true;
-        mainMenu.SetActive(false);
-    }
-
-    public void ShowMainMenu()
-    {
-        LeaveDeadScreen();
-        LeaveWannaLeaveScreen();
-        mainMenu.SetActive(true);
-        currentGameState = gameState.mainMenu;
     }
 
     public void PlayerDie()
@@ -152,13 +157,6 @@ public class GameManager : MonoBehaviour
         StartCoroutine(PlayerDieCorroutine());
     }
 
-    private void LeaveDeadScreen()
-    {
-        MenusManager.sharedInstance.dieScreen.GetComponent<Animator>().SetBool(MenusManager.sharedInstance.dieHashCode, false);
-        MenusManager.sharedInstance.ResetDieScreenValues();
-        MenusManager.sharedInstance.dieScreen.gameObject.SetActive(false);
-    }
-
     public void LeaveWannaLeaveScreen()
     {
         MenusManager.sharedInstance.wannaLeaveScreen.GetComponent<Animator>().SetBool(MenusManager.sharedInstance.leaveHashCode, false);
@@ -166,7 +164,7 @@ public class GameManager : MonoBehaviour
         MenusManager.sharedInstance.wannaLeaveScreen.gameObject.SetActive(false);
 
         UnfreezePlayer();
-        //currentGameState = gameState.inGame;
+        currentGameState = gameState.inGame;
     }
 
     public void LeavePauseScreen()
@@ -177,11 +175,6 @@ public class GameManager : MonoBehaviour
 
         Time.timeScale = 1.0f;
         UnfreezePlayer();
-        //currentGameState = gameState.inGame;
-    }
-
-    public void GameStateToGame()
-    {
         currentGameState = gameState.inGame;
     }
 

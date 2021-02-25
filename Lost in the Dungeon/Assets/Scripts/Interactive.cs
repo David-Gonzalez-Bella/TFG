@@ -15,12 +15,19 @@ public class Interactive : MonoBehaviour
         col = GetComponent<Collider2D>();
     }
 
+    public virtual void Interact() { }
+
     public void OnMouseOver()
     {
-        if(!DialogueBox.sharedInstance.visible.interactable)
-            CursorManager.sharedInstance.SetCursor(CursorManager.sharedInstance.handCursor);
+        if (DialogueBox.sharedInstance.visible.interactable) return;
+        if (MenusManager.sharedInstance.mouseOverInteractive) return;
+        CursorManager.sharedInstance.SetCursor(CursorManager.sharedInstance.handCursor);
+        MenusManager.sharedInstance.MouseOver(true);
     }
-    public void OnMouseExit() => CursorManager.sharedInstance.SetCursor(CursorManager.sharedInstance.arrowCursor);
+    public void OnMouseExit() => StopInteracting();
+
+    private void OnDestroy() => StopInteracting();
+
     public void OnMouseDown() //The interface´s method must be implemented (ir occurs when we click it)*/
     {
         foreach (Collider2D interactObj in player.Interactuables())
@@ -32,5 +39,9 @@ public class Interactive : MonoBehaviour
         }   
     }
 
-    public virtual void Interact()  { }
+    private void StopInteracting()
+    {
+        CursorManager.sharedInstance.SetCursor(CursorManager.sharedInstance.arrowCursor);
+        MenusManager.sharedInstance.MouseOver(false);
+    }
 }
