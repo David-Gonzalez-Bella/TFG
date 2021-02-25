@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine;
-
 
 public class Transitions : MonoBehaviour
 {
@@ -35,6 +35,9 @@ public class Transitions : MonoBehaviour
         toMainMenuTriggerHash = Animator.StringToHash("TransitionToMainMenu");
     }
 
+    public void GoToMainMenu() => SceneManager.LoadScene(0);
+    public void GoToGame() => SceneManager.LoadScene(1);
+
     public void TransitionToGame()
     {
         PrepareTransition();
@@ -44,7 +47,6 @@ public class Transitions : MonoBehaviour
     public void TransitionToMainMenu()
     {
         PrepareTransition();
-        GameManager.sharedInstance.currentGameState = gameState.mainMenu;
         anim.SetTrigger(toMainMenuTriggerHash);
     }
 
@@ -54,28 +56,24 @@ public class Transitions : MonoBehaviour
         canvas.sortingOrder = 3;
     }
 
-    public void GoToGame()
-    {
-        GameManager.sharedInstance.StartGame();
-    }
-
-    public void GoToMainMenu()
-    {
-        GameManager.sharedInstance.ShowMainMenu();
-    }
-
-    public void EndFadeTransitionToGame()
+    public void EndFadeTransition()
     {
         canvas.sortingOrder = 0;
         canvas.enabled = false;
-        GameManager.sharedInstance.currentGameState = gameState.inGame;
     }
 
-    public void EndFadeTransitionToMenu()
-    {
-        canvas.sortingOrder = 0;
-        canvas.enabled = false;
-        GameManager.sharedInstance.currentGameState = gameState.mainMenu;
-    }
+    //public void EndFadeTransitionToGame()
+    //{
+    //    canvas.sortingOrder = 0;
+    //    canvas.enabled = false;
+    //    GameManager.sharedInstance.currentGameState = gameState.inGame;
+    //}
+
+    //public void EndFadeTransitionToMenu()
+    //{
+    //    canvas.sortingOrder = 0;
+    //    canvas.enabled = false;
+    //    GameManager.sharedInstance.currentGameState = gameState.mainMenu;
+    //}
 
 }

@@ -3,25 +3,35 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System;
 
 public class MenusManager : MonoBehaviour
 {
     public static MenusManager sharedInstance { get; private set; }
 
-    public GameObject mainMenu;
+    [Header("Screens")]
     public GameObject dieScreen;
     public GameObject pauseScreen;
     public GameObject wannaLeaveScreen;
 
-    private Vector3 pauseScreenScale;
-    private Vector3 wannaLeaveScreenScale;
-    public Button dieScreenPlayAgain;
-    public Button dieScreenGoToMenu;
+    //Buttons OnClick assignment
+    [Header("Buttons")]
+    public Button pauseScreen_keepPlaying_btn;
+    public Button pauseScreen_goToMenu_btn;
+    public Button wannaLeaveScreen_keepPlaying_btn;
+    public Button wannaLeaveScreen_goToMenu_btn;
+    public Button dieScreen_playAgain_btn;
+    public Button dieScreen_goToMenu_btn;
     public Button pauseButton;
+    public bool mouseOverInteractive;
+
+    [Header("Extras")]
     public Image dieScreenDarkBackgroundAlpha;
     public RectTransform dieScreenDarkBackgroundSize;
     public TMP_Text dieScreenYouDieTitle;
 
+    private Vector3 pauseScreenScale;
+    private Vector3 wannaLeaveScreenScale;
     [HideInInspector] public int pauseHashCode;
     [HideInInspector] public int leaveHashCode;
     [HideInInspector] public int dieHashCode;
@@ -40,6 +50,7 @@ public class MenusManager : MonoBehaviour
 
     private void Start()
     {
+        InitializeButtonCallbacks();
         dieScreen.gameObject.SetActive(false);
         pauseScreen.gameObject.SetActive(false);
         wannaLeaveScreen.gameObject.SetActive(false);
@@ -50,21 +61,42 @@ public class MenusManager : MonoBehaviour
         pauseButton.interactable = GameManager.sharedInstance.currentGameState == gameState.inGame;
     }
 
+    private void InitializeButtonCallbacks()
+    {
+        AudioManager AM = AudioManager.sharedInstance; //FindObjectOfType<AudioManager>().GetComponent<AudioManager>();
+        Transitions TRN = Transitions.sharedInstance;
+        Button[] buttons = { pauseScreen_keepPlaying_btn, pauseScreen_goToMenu_btn,
+                             wannaLeaveScreen_keepPlaying_btn, wannaLeaveScreen_goToMenu_btn,
+                             dieScreen_playAgain_btn, dieScreen_goToMenu_btn, pauseButton };
+
+        for (int i = 0; i < buttons.Length; i++)
+            buttons[i].onClick.AddListener(AM.PlaySelectSound);
+
+        dieScreen_playAgain_btn.onClick.AddListener(TRN.TransitionToGame);
+        dieScreen_goToMenu_btn.onClick.AddListener(TRN.TransitionToMainMenu);
+        pauseScreen_goToMenu_btn.onClick.AddListener(TRN.TransitionToMainMenu);
+        wannaLeaveScreen_goToMenu_btn.onClick.AddListener(TRN.TransitionToMainMenu);
+    }
+
     public void PauseGame()
     {
-        if(GameManager.sharedInstance.currentGameState == gameState.inGame) //Pause the game
+        if (GameManager.sharedInstance.currentGameState == gameState.inGame) //Pause the game
         {
             pauseScreen.gameObject.SetActive(true);
             pauseScreen.GetComponent<Animator>().SetBool(pauseHashCode, true);
             GameManager.sharedInstance.FreezePlayer();
             GameManager.sharedInstance.currentGameState = gameState.pauseScreen;
         }
-        else if(GameManager.sharedInstance.currentGameState == gameState.pauseScreen)//Resume
+        else if (GameManager.sharedInstance.currentGameState == gameState.pauseScreen)//Resume
         {
             GameManager.sharedInstance.LeavePauseScreen();
             GameManager.sharedInstance.currentGameState = gameState.inGame;
         }
 
+    }
+
+    public void MouseOver(bool over) { mouseOverInteractive = over;
+        Debug.Log("Mouse oveeeeer");
     }
 
     public void ResetWannaLeaveScreenScale()
@@ -79,13 +111,13 @@ public class MenusManager : MonoBehaviour
 
     public void ResetDieScreenValues()
     {
-        ColorBlock cb = dieScreenPlayAgain.colors;
+        ColorBlock cb = dieScreen_playAgain_btn.colors;
         cb.normalColor = new Color(1.0f, 1.0f, 1.0f, 0.0f);
-        dieScreenPlayAgain.colors = cb;
+        dieScreen_playAgain_btn.colors = cb;
 
-        cb = dieScreenPlayAgain.colors;
+        cb = dieScreen_playAgain_btn.colors;
         cb.normalColor = new Color(1.0f, 1.0f, 1.0f, 0.0f);
-        dieScreenGoToMenu.colors = cb;
+        dieScreen_goToMenu_btn.colors = cb;
 
         dieScreenDarkBackgroundAlpha.color = new Color(0.0f, 0.0f, 0.0f, 0.0f);
         dieScreenDarkBackgroundSize.sizeDelta = new Vector2(1920, 0);

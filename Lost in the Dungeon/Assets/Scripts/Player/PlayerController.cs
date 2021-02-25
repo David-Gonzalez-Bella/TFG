@@ -53,6 +53,9 @@ public class PlayerController : MonoBehaviour
         health = GetComponent<Health>();
         exp = GetComponent<Experience>();
         input = GetComponent<InputPlayer>();
+
+        atrib.speedIncrease = 0;
+        atrib.damageIncrease = 0;
     }
 
     void Start()
@@ -62,9 +65,6 @@ public class PlayerController : MonoBehaviour
         runningHashCode = Animator.StringToHash("Running");
         attackHashCode = Animator.StringToHash("Attack");
         ResetPlayerLookAt();
-
-        atrib.baseSpeed = 4;
-        atrib.baseDamage = 1;
     }
 
     void Update()
@@ -76,7 +76,7 @@ public class PlayerController : MonoBehaviour
             {
                 moveX = input.horizontal;
                 moveY = input.vertical;
-                attack = input.basicAtk;
+                attack = input.basicAtk && !MenusManager.sharedInstance.mouseOverInteractive;
                 dashing = input.ability1;
             }
             inventary = input.inventary; //You can always open and close your inventary once you are playing
@@ -134,23 +134,6 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
-
-    //private void FixedUpdate()
-    //{
-    //    if (!abilities.dashing && GameManager.sharedInstance.currentGameState == gameState.inGame)
-    //    {
-    //        if (!input.ability1) // If the player isnt dashing
-    //        {
-    //            movement = new Vector2(moveX, moveY) * atrib.speed; //* Time.deltaTime; -> Here i dont multiply by Time.deltaTime, as i am change the rigidbody´s velocity directly. It is not a manual update of the position, as i was doing before
-    //            rb.velocity = movement; /*transform.position = newPosition;*/
-    //        }
-    //        else if ((moveX != 0 || moveY != 0) && input.ability1 && !abilities.dashing && mana.CurrentMana >= abilities.dashManaCost)
-    //        {
-    //            dashAudioSource.Play();
-    //            abilities.Dash(input.faceDirection.normalized);
-    //        }
-    //    }
-    //}
 
     public void PlayDieAudio()
     {
