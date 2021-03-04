@@ -27,6 +27,9 @@ public class DungeonGenerator : MonoBehaviour
         AddZone(3);
         AddZone(4);
         AddZone(5);
+        AddZone(5);
+
+        //AddZone(6);
     }
 
     private void InitializeTree()
@@ -48,7 +51,7 @@ public class DungeonGenerator : MonoBehaviour
         if (COUNT_ZONES == MAX_ZONES) return;
 
         COUNT_ZONES++;
-        Zone insertLevel = GetInsertLevel();
+        Zone insertLevel = levelChildren.Peek();
         Zone newZone = Instantiate(zonePrefab, spawnPositions.Dequeue().position, Quaternion.identity, GetComponentInChildren<Grid>().transform);
         newZone.Initialize(zoneValue, 1, 3);
 
@@ -72,7 +75,7 @@ public class DungeonGenerator : MonoBehaviour
             insertLevel.setRightChild(newZone);
             AddToQueue(newZone);
         }
-        CheckLevelCompleted(insertLevel);
+        CheckLevelCompleted(insertLevel); //After each node is inserted, we check if we hace completed that level of the tree
     }
 
     private void AddToQueue(Zone z)
@@ -85,21 +88,19 @@ public class DungeonGenerator : MonoBehaviour
         }
     }
 
-    private Zone GetInsertLevel()
-    {
-        if (levelChildren.Peek() == null)
-        {
-            ConnectBrotherZones(); //We create conections between brother nodes(randomly)
-            levelChildren.Dequeue();
-            levelChildren.Enqueue(null);
-        }
-        return levelChildren.Peek();
-    }
-
     private void CheckLevelCompleted(Zone insertZone)
     {
         if (insertZone.leftChild != null && ((!insertZone.hasRightChild()) || (insertZone.hasRightChild() && insertZone.rightChild != null))) //If all possible children of the current zone are filled
+        { 
             levelChildren.Dequeue(); //Move on to the next zone to fill its children
+            if(levelChildren.Peek() == null)
+            {
+                ConnectBrotherZones(); //We create conections between brother nodes(randomly)
+                levelChildren.Dequeue();
+                levelChildren.Enqueue(null);
+                brotherZones.Clear();
+            }
+        }
     }
 
     private void ConnectBrotherZones() //Each zone can be connected to the one it is next to from left to right 
@@ -107,13 +108,35 @@ public class DungeonGenerator : MonoBehaviour
         if (brotherZones.Count >= 2)
         {
             int makeConexion;
-            Zone currentBrother;
+            Zone current;
+            Zone brother;
+            int distance;
             while (brotherZones.Count > 1)
             {
-                currentBrother = brotherZones.Dequeue();
-                makeConexion = Random.Range(0, 1);
+                current = brotherZones.Dequeue();
+                makeConexion = Random.Range(0, 2);
                 if (makeConexion == 0)
-                    currentBrother.setBrother(brotherZones.Dequeue());
+                {
+                    brother = brotherZones.Peek();
+                    distance = (int)(brother.transform.position.x - current.transform.position.x);
+
+                    if (distance == 32)
+                        current.rightRoad_near.SetActive(true);
+
+                    else if (distance == 64)
+                        current.rightRoad_mid.SetActive(true);
+
+                    else if(distance == 48)
+                        current.rightRoad_firstLevel.SetActive(true);
+
+                    else
+                        current.rightRoad_far.SetActive(true);
+
+                    current.rightOp.SetActive(false);
+                    brother.leftOp.SetActive(false);
+
+                    current.setBrother(brother);
+                }
             }
         }
         brotherZones.Clear();
@@ -145,10 +168,10 @@ public class DungeonGenerator : MonoBehaviour
         bool right = zone.hasRightChild();
         if (side == 0)
         {
-            zone.topLeftLongOp.SetActive(!right);
-            zone.topLeftLongRoad.SetActive(right);
-            zone.topRightOp.SetActive(false);
-            zone.topRightRoad.SetActive(true);
+            zone.topLeftLongOp.SetActive(false);
+            zone.topLeftLongRoad.SetActive(true);
+            zone.topRightOp.SetActive(!right);
+            zone.topRightRoad.SetActive(right);
         }
         else
         {
@@ -163,12 +186,12 @@ public class DungeonGenerator : MonoBehaviour
 
     private void EnqueueSpawnPoints(Zone zone)
     {
+        if (zone.topLeftLongRoad.activeSelf)
+            spawnPositions.Enqueue(zone.topLeftLongPoint);
         if (zone.topRightRoad.activeSelf)
             spawnPositions.Enqueue(zone.topRightPoint);
         if (zone.topLeftRoad.activeSelf)
             spawnPositions.Enqueue(zone.topLeftPoint);
-        if (zone.topLeftLongRoad.activeSelf)
-            spawnPositions.Enqueue(zone.topLeftLongPoint);
         if (zone.topRightLongRoad.activeSelf)
             spawnPositions.Enqueue(zone.topRightLongPoint);
     }

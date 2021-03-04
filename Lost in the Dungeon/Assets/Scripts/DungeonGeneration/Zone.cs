@@ -20,7 +20,10 @@ public class Zone : MonoBehaviour
     public GameObject topLeftRoad;
     public GameObject topLeftLongRoad;
     public GameObject downRoad;
-    public GameObject rightRoad;
+    public GameObject rightRoad_firstLevel;
+    public GameObject rightRoad_near;
+    public GameObject rightRoad_mid;
+    public GameObject rightRoad_far;
     public GameObject leftRoad;
 
     [Header("Points")]
