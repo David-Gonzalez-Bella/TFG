@@ -6,6 +6,7 @@ public class Zone : MonoBehaviour
 {
     //Prefab related references
     [Header("Openings")]
+    public GameObject topMidOpening;
     public GameObject topRightOp;
     public GameObject topRightLongOp;
     public GameObject topLeftOp;
@@ -15,6 +16,7 @@ public class Zone : MonoBehaviour
     public GameObject leftOp;
 
     [Header("Roads")]
+    public GameObject topMidRoad;
     public GameObject topRightRoad;
     public GameObject topRightLongRoad;
     public GameObject topLeftRoad;
@@ -46,6 +48,7 @@ public class Zone : MonoBehaviour
     public void setRightChild(Zone z) => rightChild = z;
 
     //Methods
+    public bool isLeaf() { return children == 0; }
     public bool hasRightChild() { return children == 2; }
     public void Initialize(int v, int min, int max)
     {
