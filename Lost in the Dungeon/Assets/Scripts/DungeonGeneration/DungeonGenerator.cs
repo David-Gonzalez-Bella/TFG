@@ -8,7 +8,7 @@ public class DungeonGenerator : MonoBehaviour
     public Zone zonePrefab;
 
     //Instantiation positions
-    public Queue<Transform> spawnPositions;
+    public Queue<Vector2> spawnPositions;
 
     //Tree generation related atributes
     [SerializeField]
@@ -16,20 +16,40 @@ public class DungeonGenerator : MonoBehaviour
     private int COUNT_ZONES = 1;
     private Zone root;
     private Queue<Zone> brotherZones;
+    [SerializeField]
+    public Zone[] brotherZonesCopy;
+
     private Queue<Zone> levelChildren;
+    public int maxExpand = 4;
 
     private void Start()
     {
         InitializeTree();
-        AddZone(1); //When we add a zone to the heap, it is instantiated in the world as well
-        AddZone(2);
+        //AddZone(1); //When we add a zone to the heap, it is instantiated in the world as well
+        //AddZone(2);
 
-        AddZone(3);
-        AddZone(4);
-        AddZone(5);
-        AddZone(5);
+        //AddZone(3);
+        //AddZone(4);
+        //AddZone(5);
+        //AddZone(5);
 
         //AddZone(6);
+        //AddZone(6);
+        //AddZone(6);
+        //AddZone(6);
+        //AddZone(6);
+        //AddZone(6);
+        //AddZone(6);
+        //AddZone(6);
+        //AddZone(6);
+        //AddZone(6);
+        //AddZone(6);
+        //AddZone(6);
+    }
+
+    private void Update()
+    {
+        brotherZonesCopy = brotherZones.ToArray();
     }
 
     private void InitializeTree()
@@ -37,11 +57,15 @@ public class DungeonGenerator : MonoBehaviour
         root = Instantiate(zonePrefab, Vector3.zero, Quaternion.identity, GetComponentInChildren<Grid>().transform);
         root.Initialize(0, 2, 3); //The root zone will always have 2 children
 
-        spawnPositions = new Queue<Transform>();
+        spawnPositions = new Queue<Vector2>();
         brotherZones = new Queue<Zone>();
         levelChildren = new Queue<Zone>();
+
         levelChildren.Enqueue(root);
         levelChildren.Enqueue(null);
+
+        spawnPositions.Enqueue(root.topLeftLongPoint.position);
+        spawnPositions.Enqueue(root.topRightLongPoint.position);
 
         EnableRootRoads();
     }
@@ -52,53 +76,120 @@ public class DungeonGenerator : MonoBehaviour
 
         COUNT_ZONES++;
         Zone insertLevel = levelChildren.Peek();
-        Zone newZone = Instantiate(zonePrefab, spawnPositions.Dequeue().position, Quaternion.identity, GetComponentInChildren<Grid>().transform);
-        newZone.Initialize(zoneValue, 1, 3);
+        Zone newZone = Instantiate(zonePrefab, spawnPositions.Dequeue(), Quaternion.identity, GetComponentInChildren<Grid>().transform);
+        ExpandLevel(insertLevel, newZone, zoneValue);
 
-        if (insertLevel.leftChild == null)
-        {
-            if (insertLevel == root)
-                EnableFirstLevelRoads(newZone, 0);
-            else
-                EnableRoads(newZone);
+        #region RoughCode
+        //if (insertLevel.leftChild == null)
+        //{
+        //    if (insertLevel == root)
+        //    {
+        //        EnableFirstLevelRoads(newZone, 0);
+        //        EnqueueBeginSpawnPoints(newZone);
+        //    }
+        //    else
+        //    {
+        //        EnableRoads(newZone, canBeExpanded);
+        //        EnqueueExpandSpawnPoints(newZone);
+        //    }
+        //    insertLevel.setLeftChild(newZone);
+        //    levelChildren.Enqueue(newZone);
+        //}
+        //else if (insertLevel.hasRightChild() && insertLevel.rightChild == null) //If not, check if we can insert the new zone as the right child of the current zone
+        //{
+        //    if (insertLevel == root)
+        //    {
+        //        EnableFirstLevelRoads(newZone, 1);
+        //        EnqueueBeginSpawnPoints(newZone);
+        //    }
+        //    else
+        //    {
+        //        EnableRoads(newZone, canBeExpanded);
+        //        EnqueueExpandSpawnPoints(newZone);
+        //    }
+        //    insertLevel.setRightChild(newZone);
+        //    levelChildren.Enqueue(newZone);
+        //}
+        #endregion
 
-            insertLevel.setLeftChild(newZone);
-            AddToQueue(newZone);
-        }
-        else if (insertLevel.hasRightChild() && insertLevel.rightChild == null) //If not, check if we can insert the new zone as the right child of the current zone
-        {
-            if (insertLevel == root)
-                EnableFirstLevelRoads(newZone, 1);
-            else
-                EnableRoads(newZone);
-
-            insertLevel.setRightChild(newZone);
-            AddToQueue(newZone);
-        }
+        brotherZones.Enqueue(newZone);
         CheckLevelCompleted(insertLevel); //After each node is inserted, we check if we hace completed that level of the tree
     }
 
-    private void AddToQueue(Zone z)
+    private void ExpandLevel(Zone insertLevel, Zone newZone, int zoneValue)
     {
-        if (COUNT_ZONES < MAX_ZONES)
+        if (insertLevel != root)
         {
-            levelChildren.Enqueue(z);
-            brotherZones.Enqueue(z);
-            EnqueueSpawnPoints(z);
+            if (maxExpand <= 0)
+            {
+                newZone.Initialize(zoneValue, 0, 1); //0 children
+
+                if (insertLevel.leftChild == null)
+                    insertLevel.setLeftChild(newZone);
+                else if (insertLevel.hasRightChild() && insertLevel.rightChild == null)
+                    insertLevel.setRightChild(newZone);
+
+                EnableRoads(newZone);
+                return;
+            }
+
+            else if (maxExpand > 1)
+            {
+                newZone.Initialize(zoneValue, 0, 3); //0, 1, or 2 children
+                if (!newZone.isLeaf())
+                {
+                    maxExpand--;
+                    if (newZone.hasRightChild())
+                        maxExpand--;
+                }
+            }
+
+            else if (maxExpand > 0)
+            {
+                newZone.Initialize(zoneValue, 1, 2); //0 or 1 child
+                if (!newZone.isLeaf())
+                    maxExpand--;
+            }
+            if (insertLevel.leftChild == null)
+                insertLevel.setLeftChild(newZone);
+            else if (insertLevel.hasRightChild() && insertLevel.rightChild == null)
+                insertLevel.setRightChild(newZone);
+
+            EnableRoads(newZone);
+            EnqueueExpandSpawnPoints(newZone);
         }
+        else
+        {
+            newZone.Initialize(zoneValue, 1, 3);
+
+            if (insertLevel.leftChild == null)
+            {
+                EnableFirstLevelRoads(newZone, 0);
+                insertLevel.setLeftChild(newZone);
+            }
+
+            else if (insertLevel.hasRightChild() && insertLevel.rightChild == null)
+            {
+                EnableFirstLevelRoads(newZone, 1);
+                insertLevel.setRightChild(newZone);
+            }
+            EnqueueBeginSpawnPoints(newZone);
+        }
+        if (!newZone.isLeaf())
+            levelChildren.Enqueue(newZone);
     }
 
     private void CheckLevelCompleted(Zone insertZone)
     {
         if (insertZone.leftChild != null && ((!insertZone.hasRightChild()) || (insertZone.hasRightChild() && insertZone.rightChild != null))) //If all possible children of the current zone are filled
-        { 
+        {
             levelChildren.Dequeue(); //Move on to the next zone to fill its children
-            if(levelChildren.Peek() == null)
+            if (levelChildren.Peek() == null)
             {
                 ConnectBrotherZones(); //We create conections between brother nodes(randomly)
                 levelChildren.Dequeue();
                 levelChildren.Enqueue(null);
-                brotherZones.Clear();
+                maxExpand = 4;
             }
         }
     }
@@ -126,7 +217,7 @@ public class DungeonGenerator : MonoBehaviour
                     else if (distance == 64)
                         current.rightRoad_mid.SetActive(true);
 
-                    else if(distance == 48)
+                    else if (distance == 48)
                         current.rightRoad_firstLevel.SetActive(true);
 
                     else
@@ -144,8 +235,8 @@ public class DungeonGenerator : MonoBehaviour
 
     private void EnableRoads(Zone zone)
     {
-        zone.topLeftOp.SetActive(false);
-        zone.topLeftRoad.SetActive(true);
+        zone.topMidOpening.SetActive(zone.isLeaf());
+        zone.topMidRoad.SetActive(!zone.isLeaf());
         zone.topRightOp.SetActive(!zone.hasRightChild());
         zone.topRightRoad.SetActive(zone.hasRightChild());
         zone.downOp.SetActive(false);
@@ -158,9 +249,6 @@ public class DungeonGenerator : MonoBehaviour
         root.topLeftLongRoad.SetActive(true);
         root.topRightLongOp.SetActive(false);
         root.topRightLongRoad.SetActive(true);
-
-        spawnPositions.Enqueue(root.topLeftLongPoint);
-        spawnPositions.Enqueue(root.topRightLongPoint);
     }
 
     private void EnableFirstLevelRoads(Zone zone, int side)
@@ -184,16 +272,31 @@ public class DungeonGenerator : MonoBehaviour
         zone.downRoad.SetActive(true);
     }
 
-    private void EnqueueSpawnPoints(Zone zone)
+    private void EnqueueBeginSpawnPoints(Zone zone)
     {
         if (zone.topLeftLongRoad.activeSelf)
-            spawnPositions.Enqueue(zone.topLeftLongPoint);
+            spawnPositions.Enqueue(zone.topLeftLongPoint.position);
         if (zone.topRightRoad.activeSelf)
-            spawnPositions.Enqueue(zone.topRightPoint);
+            spawnPositions.Enqueue(zone.topRightPoint.position);
         if (zone.topLeftRoad.activeSelf)
-            spawnPositions.Enqueue(zone.topLeftPoint);
+            spawnPositions.Enqueue(zone.topLeftPoint.position);
         if (zone.topRightLongRoad.activeSelf)
-            spawnPositions.Enqueue(zone.topRightLongPoint);
+            spawnPositions.Enqueue(zone.topRightLongPoint.position);
+    }
+
+    private void EnqueueExpandSpawnPoints(Zone zone)
+    {
+        if (zone.isLeaf()) return; //If the zone has no children, then its expand spawn positions are not added to the queue
+
+        Vector2 topMidPoint = new Vector2(zone.transform.position.x, zone.transform.position.y + 20);
+
+        if (spawnPositions.Contains(topMidPoint))
+            topMidPoint += new Vector2(32, 0);
+
+        spawnPositions.Enqueue(topMidPoint);
+
+        if (zone.hasRightChild())
+            spawnPositions.Enqueue(topMidPoint + new Vector2(32, 0));
     }
 
     public void PrintHeap(int index, Zone currentZone)
