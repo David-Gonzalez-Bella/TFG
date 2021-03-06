@@ -53,8 +53,7 @@ public class Zone : MonoBehaviour
     public void Initialize(int v, int min, int max)
     {
         difficulty = v;
-        System.Random r = new System.Random();
-        children = r.Next(min, max); //random in the range [min, max)
+        children = Random.Range(min, max + 1); //random in the range [min, max)
     }
 }
 
