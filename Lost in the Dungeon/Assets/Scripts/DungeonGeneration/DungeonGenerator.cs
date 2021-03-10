@@ -23,6 +23,7 @@ public class DungeonGenerator : MonoBehaviour
     public Zone[] levelChildrenCopy;
     public int maxExpand = 4;
 
+
     private void Start()
     {
         InitializeTree();
@@ -283,37 +284,32 @@ public class DungeonGenerator : MonoBehaviour
     private void EnqueueExpandSpawnPoints(Zone[] zones)
     {
         int count = 0;
-        Zone current;
+        Zone current, next, prev;
         for (int i = 0; i < zones.Length; i++)
         {
             current = zones[i];
+            next = i < zones.Length - 1 ? zones[i + 1] : current;
+            prev = i > 0 ? zones[i - 1] : current;
+
             if (!current.isLeaf())
             {
                 levelChildren.Enqueue(current);
                 switch (current.transform.position.x)
                 {
                     case -48:
-                        count = EnqueueTopPositions(current, count, 1);
+                        count = EnqueueTopPositions(current, prev, count, 1);
                         break;
                     case -16:
-                        if (count == 0)
-                            count = EnqueueTopPositions(current, count, -1);
-                        else
-                            count = EnqueueTopPositions(current, count, 1);
+                        count = EnqueueTopPositions(current, prev, count, 1);
                         break;
                     case 16:
-                        if (i == zones.Length - 1)
-                            count = EnqueueTopPositions(current, count, 1);
+                        if (i == zones.Length - 1 || zones[zones.Length - 1].isLeaf())
+                            count = EnqueueTopPositions(current, prev, count, 1);
                         else
-                        {
-                            if (zones[zones.Length - 1].hasRightChild())
-                                count = EnqueueTopPositions(current, count, -1);
-                            else
-                                count = EnqueueTopPositions(current, count, 1);
-                        }
+                            count = EnqueueTopPositions(current, next, count, -1);
                         break;
                     case 48:
-                        count = EnqueueTopPositions(current, count, -1);
+                        count = EnqueueTopPositions(current, next, count, -1);
                         break;
 
                 }
@@ -326,40 +322,42 @@ public class DungeonGenerator : MonoBehaviour
     {
         Debug.Log("EnqueueAllSpawnPoints");
         Zone current;
+        int xPosition = -48;
         for (int i = 0; i < zones.Length; i++)
         {
             current = zones[i];
             if (!current.isLeaf())
                 levelChildren.Enqueue(current);
-            spawnPositions.Enqueue(new Vector2(current.transform.position.x, current.transform.position.y + 20));
+            spawnPositions.Enqueue(new Vector2(xPosition, current.transform.position.y + 20));
+            xPosition += 32;
             EnableRoads(current);
         }
     }
 
-    private int EnqueueTopPositions(Zone current, int count, int direction)
+    private int EnqueueTopPositions(Zone current, Zone adjacent, int count, int direction)
     {
         Debug.Log("EnqueueTopPositions");
         Vector3 top = current.transform.position + new Vector3(0, 20, 0);
-        Vector3 topPoint = spawnPositions.Contains(top) ?
-            top + new Vector3(32 * direction, 0, 0) :
-            top;
+
+        if (adjacent != current && ((direction == 1 && adjacent.hasRightChild()) || (direction == -1 && adjacent.hasRightChild()))) //if the PREVIOUS or the NEXT zone has a right child
+            top += new Vector3(32 * direction, 0, 0);
 
         if (!current.hasRightChild())
         {
-            spawnPositions.Enqueue(topPoint);
+            spawnPositions.Enqueue(top);
             count++;
         }
         else
         {
             if (direction == -1)
             {
-                spawnPositions.Enqueue(topPoint + new Vector3(32 * direction, 0, 0));
-                spawnPositions.Enqueue(topPoint);
+                spawnPositions.Enqueue(top + new Vector3(32 * direction, 0, 0));
+                spawnPositions.Enqueue(top);
             }
             else
             {
-                spawnPositions.Enqueue(topPoint);
-                spawnPositions.Enqueue(topPoint + new Vector3(32 * direction, 0, 0));
+                spawnPositions.Enqueue(top);
+                spawnPositions.Enqueue(top + new Vector3(32 * direction, 0, 0));
             }
             count += 2;
         }
