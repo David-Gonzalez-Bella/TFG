@@ -14,6 +14,10 @@ public class Zone : MonoBehaviour
     public GameObject downOp;
     public GameObject rightOp;
     public GameObject leftOp;
+    public GameObject rightChildOp;
+    public GameObject rightChildRoadOp;
+    public GameObject leftChildOp;
+    public GameObject leftChildRoadOp;
 
     [Header("Roads")]
     public GameObject topMidRoad;
@@ -27,6 +31,10 @@ public class Zone : MonoBehaviour
     public GameObject rightRoad_mid;
     public GameObject rightRoad_far;
     public GameObject leftRoad;
+    public GameObject leftChildRoad_near;
+    public GameObject leftChildRoad_far;
+    public GameObject rightChildRoad_near;
+    public GameObject rightChildRoad_far;
 
     [Header("Points")]
     public Transform topRightPoint;
