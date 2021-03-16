@@ -144,6 +144,7 @@ public class DungeonGenerator : MonoBehaviour
                         Debug.Log("NOT ENOUGH CHILDREN FIXING...");
                         if (i == 0) //Clear spawn positions, since a new children assignment will take place
                         {
+                            //ClearChildren(b);
                             spawnPositions.Clear();
                             maxExpand = 4;
                         }
@@ -152,6 +153,7 @@ public class DungeonGenerator : MonoBehaviour
                     }
 
                     //We decide the spawn expansion points depending on the children each zone has
+                    //In these methods we PAINT each node's final ROADS as well
                     if (maxExpand == 0)
                         EnqueueAllSpawnPoints(b);
                     else
@@ -185,8 +187,7 @@ public class DungeonGenerator : MonoBehaviour
             if (!current.isLeaf())
                 maxExpand--;
         }
-
-        EnableRoads(current);
+        //EnableRoads(current); [HERE]
     }
 
     private void ConnectBrotherZones() //Each zone can be connected to the one it is next to from left to right 
@@ -232,12 +233,34 @@ public class DungeonGenerator : MonoBehaviour
 
     private void EnableRoads(Zone zone)
     {
-        zone.topMidOpening.SetActive(zone.isLeaf());
-        zone.topMidRoad.SetActive(!zone.isLeaf());
-        zone.topRightOp.SetActive(!zone.hasRightChild());
-        zone.topRightRoad.SetActive(zone.hasRightChild());
         zone.downOp.SetActive(false);
         zone.downRoad.SetActive(true);
+
+        if (zone.isLeaf()) return;
+
+        if (zone.leftChild.transform.position.x == zone.transform.position.x)
+        {
+            zone.topMidOpening.SetActive(true);
+            zone.rightChildRoad_near.SetActive(zone.hasRightChild());
+        }
+
+        else if (zone.leftChild.transform.position.x < zone.transform.position.x)
+        {
+            if (zone.hasRightChild())
+            {
+                if (zone.rightChild.transform.position.x == zone.transform.position.x)
+                    zone.topMidOpening.SetActive(true);
+                else
+                    zone.leftChildRoad_far.SetActive(true);
+            }
+            zone.leftChildRoad_near.SetActive(true);
+        }
+        else
+        {
+            zone.rightChildRoad_near.SetActive(true);
+            zone.rightChildRoad_far.SetActive(zone.hasRightChild());
+        }
+
     }
 
     private void EnableRootRoads()
@@ -311,7 +334,6 @@ public class DungeonGenerator : MonoBehaviour
                     case 48:
                         count = EnqueueTopPositions(current, next, count, -1);
                         break;
-
                 }
             }
             EnableRoads(current);
@@ -323,14 +345,18 @@ public class DungeonGenerator : MonoBehaviour
         Debug.Log("EnqueueAllSpawnPoints");
         Zone current;
         int xPosition = -48;
+        int yPosition = (int)zones[0].transform.position.y;
+        for (int i = 0; i < 4; i++)
+        {
+            spawnPositions.Enqueue(new Vector2(xPosition, yPosition + 20));
+            xPosition += 32;
+        }
         for (int i = 0; i < zones.Length; i++)
         {
             current = zones[i];
             if (!current.isLeaf())
                 levelChildren.Enqueue(current);
-            spawnPositions.Enqueue(new Vector2(xPosition, current.transform.position.y + 20));
-            xPosition += 32;
-            EnableRoads(current);
+            EnableRoads(current); 
         }
     }
 
@@ -339,7 +365,7 @@ public class DungeonGenerator : MonoBehaviour
         Debug.Log("EnqueueTopPositions");
         Vector3 top = current.transform.position + new Vector3(0, 20, 0);
 
-        if (adjacent != current && ((direction == 1 && adjacent.hasRightChild()) || (direction == -1 && adjacent.hasRightChild()))) //if the PREVIOUS or the NEXT zone has a right child
+        if (adjacent != current && ((direction == 1 && adjacent.hasRightChild()) || (direction == -1 && adjacent.hasRightChild()))) //if the PREVIOUS or the NEXT zone has a right child 
             top += new Vector3(32 * direction, 0, 0);
 
         if (!current.hasRightChild())
@@ -361,7 +387,23 @@ public class DungeonGenerator : MonoBehaviour
             }
             count += 2;
         }
+
         return count;
+    }
+
+    public void ClearChildren(Zone[] zones)
+    {
+        Zone current;
+        for (int i = 0; i < zones.Length; i++)
+        {
+            current = zones[i];
+            if (!current.isLeaf())
+            {
+                current.setLeftChild(null);
+                if (current.hasRightChild())
+                    current.setRightChild(null);
+            }
+        }
     }
 
     public void PrintHeap(int index, Zone currentZone)
