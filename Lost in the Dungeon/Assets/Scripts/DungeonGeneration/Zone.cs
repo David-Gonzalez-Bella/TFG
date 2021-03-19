@@ -45,8 +45,8 @@ public class Zone : MonoBehaviour
     //Atributes
     public int difficulty { get; private set; }
     public Zone brother { get; private set; }
-    public Zone leftChild { get; private set; }
-    public Zone rightChild { get; private set; }
+    public Zone leftChild { get;  set; }
+    public Zone rightChild { get;  set; }
     public int children { get; private set; }
 
     //Getters and setters

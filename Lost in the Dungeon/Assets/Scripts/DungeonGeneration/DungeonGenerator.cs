@@ -94,7 +94,7 @@ public class DungeonGenerator : MonoBehaviour
             if (maxExpand == 0)
             {
                 newZone.Initialize(zoneValue, 0, 0); //0 children
-                EnableRoads(newZone);
+                //EnableRoads(newZone);
             }
             else
                 AddChildren(newZone);
@@ -154,10 +154,13 @@ public class DungeonGenerator : MonoBehaviour
 
                     //We decide the spawn expansion points depending on the children each zone has
                     //In these methods we PAINT each node's final ROADS as well
-                    if (maxExpand == 0)
-                        EnqueueAllSpawnPoints(b);
-                    else
-                        EnqueueExpandSpawnPoints(b);
+                    //if (maxExpand == 0)
+                    //EnqueueAllSpawnPoints(b);
+                    //else
+                    EnqueueExpandSpawnPoints(b);
+
+                    //EnableRoads(b);
+
                 }
 
                 //We create conections between brother nodes and prepare everything towards the next zone adition 
@@ -233,34 +236,66 @@ public class DungeonGenerator : MonoBehaviour
 
     private void EnableRoads(Zone zone)
     {
-        zone.downOp.SetActive(false);
-        zone.downRoad.SetActive(true);
+        /*
+        Zone current;
 
-        if (zone.isLeaf()) return;
+        bool leftMostOcup = false;
+        bool leftMidOcup = false;
+        bool rightMidOcup = false;
+        bool rightMostOcup = false;
 
-        if (zone.leftChild.transform.position.x == zone.transform.position.x)
+        for (int i = 0; i < zones.Length; i++)
         {
-            zone.topMidOpening.SetActive(true);
-            zone.rightChildRoad_near.SetActive(zone.hasRightChild());
-        }
-
-        else if (zone.leftChild.transform.position.x < zone.transform.position.x)
-        {
-            if (zone.hasRightChild())
+            current = zones[i];
+            switch (current.transform.position.x)
             {
-                if (zone.rightChild.transform.position.x == zone.transform.position.x)
-                    zone.topMidOpening.SetActive(true);
-                else
-                    zone.leftChildRoad_far.SetActive(true);
-            }
-            zone.leftChildRoad_near.SetActive(true);
-        }
-        else
-        {
-            zone.rightChildRoad_near.SetActive(true);
-            zone.rightChildRoad_far.SetActive(zone.hasRightChild());
-        }
+                case -48:
+                    //Mid Road
+                    current.topMidRoad.SetActive(!current.isLeaf());
+                    current.topMidOpening.SetActive(current.isLeaf());
+                    //Right Near Road
+                    current.rightChildRoad_near.SetActive(current.hasRightChild());
+                    current.rightChildRoadOp.SetActive(current.hasRightChild());
+                    current.topRightOp.SetActive(!current.hasRightChild());
 
+                    //Positions occupation
+                    leftMostOcup = current.topMidRoad.activeSelf;
+                    leftMidOcup = current.rightChildRoad_near.activeSelf;
+                    break;
+                case -16:
+                    //Left Near Road
+                    if (!leftMostOcup)
+                    {
+                        current.leftChildRoad_near.SetActive(!current.isLeaf());
+                        current.leftChildRoadOp.SetActive(!current.isLeaf() && current.hasRightChild());
+                        current.topLeftOp.SetActive(current.isLeaf());
+                    }
+                    //Mid Road
+                    if (!leftMidOcup)
+                    {
+                        current.topMidRoad.SetActive(!current.isLeaf());
+                        current.topMidOpening.SetActive(current.isLeaf());
+                    }
+                    //Right Near Road
+                    current.rightChildRoad_near.SetActive(current.hasRightChild());
+                    current.rightChildRoadOp.SetActive(current.hasRightChild());
+                    current.topRightOp.SetActive(!current.hasRightChild());
+
+                    //Positions occupation
+
+                    break;
+                case 16:
+                    break;
+                case 48:
+
+                    break;
+            }
+        }*/
+
+        zone.topLeftRoad.SetActive(!zone.isLeaf());
+        zone.topLeftOp.SetActive(zone.isLeaf());
+        zone.topRightRoad.SetActive(zone.hasRightChild());
+        zone.topRightOp.SetActive(!zone.hasRightChild());
     }
 
     private void EnableRootRoads()
@@ -307,7 +342,19 @@ public class DungeonGenerator : MonoBehaviour
     private void EnqueueExpandSpawnPoints(Zone[] zones)
     {
         int count = 0;
+        int totalChildren = 0;
         Zone current, next, prev;
+
+        for (int i = 0; i < zones.Length; i++)
+        {
+            if (!zones[i].isLeaf())
+            {
+                totalChildren++;
+                if (zones[i].hasRightChild())
+                    totalChildren++;
+            }
+        }
+
         for (int i = 0; i < zones.Length; i++)
         {
             current = zones[i];
@@ -323,7 +370,10 @@ public class DungeonGenerator : MonoBehaviour
                         count = EnqueueTopPositions(current, prev, count, 1);
                         break;
                     case -16:
-                        count = EnqueueTopPositions(current, prev, count, 1);
+                        if (count == 0 && totalChildren == 4)
+                            count = EnqueueTopPositions(current, next, count, -1);
+                        else
+                            count = EnqueueTopPositions(current, prev, count, 1);
                         break;
                     case 16:
                         if (i == zones.Length - 1 || zones[zones.Length - 1].isLeaf())
@@ -331,6 +381,17 @@ public class DungeonGenerator : MonoBehaviour
                         else
                             count = EnqueueTopPositions(current, next, count, -1);
                         break;
+
+                    //case -16:
+                    //    count = EnqueueTopPositions(current, prev, count, 1);
+                    //    break;
+                    //case 16:
+                    //    if (i == zones.Length - 1 || zones[zones.Length - 1].isLeaf())
+                    //        count = EnqueueTopPositions(current, prev, count, 1);
+                    //    else
+                    //        count = EnqueueTopPositions(current, next, count, -1);
+                    //    break;
+
                     case 48:
                         count = EnqueueTopPositions(current, next, count, -1);
                         break;
@@ -356,7 +417,7 @@ public class DungeonGenerator : MonoBehaviour
             current = zones[i];
             if (!current.isLeaf())
                 levelChildren.Enqueue(current);
-            EnableRoads(current); 
+            //EnableRoads(current); 
         }
     }
 
@@ -365,7 +426,9 @@ public class DungeonGenerator : MonoBehaviour
         Debug.Log("EnqueueTopPositions");
         Vector3 top = current.transform.position + new Vector3(0, 20, 0);
 
-        if (adjacent != current && ((direction == 1 && adjacent.hasRightChild()) || (direction == -1 && adjacent.hasRightChild()))) //if the PREVIOUS or the NEXT zone has a right child 
+        if (adjacent != current && //The first and the last zone won't have his top position occupied
+            (direction == 1  && spawnPositions.Contains(top) || //When the top possition is occupied, then it is moved one place to the right
+            (direction == -1 && (adjacent.transform.position.x - current.transform.position.x == 32) && adjacent.hasRightChild()))) //If a node placed to the right next to the current node has two children, then the current node will have its top position moved one placed to the left
             top += new Vector3(32 * direction, 0, 0);
 
         if (!current.hasRightChild())
@@ -387,7 +450,6 @@ public class DungeonGenerator : MonoBehaviour
             }
             count += 2;
         }
-
         return count;
     }
 
