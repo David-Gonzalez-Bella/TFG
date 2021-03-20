@@ -157,7 +157,7 @@ public class DungeonGenerator : MonoBehaviour
                     //if (maxExpand == 0)
                     //EnqueueAllSpawnPoints(b);
                     //else
-                    EnqueueExpandSpawnPoints(b);
+                    EnqueueExpandSpawnPoints(b); //We wiil enqueue the necessary spawn points, and we will paint the roads that conect each brother with its children
 
                     //EnableRoads(b);
 
@@ -324,7 +324,7 @@ public class DungeonGenerator : MonoBehaviour
             zone.topLeftRoad.SetActive(true);
         }
         zone.downOp.SetActive(false);
-        zone.downRoad.SetActive(true);
+        //zone.downRoad.SetActive(true);
     }
 
     private void EnqueueBeginSpawnPoints(Zone zone)
@@ -397,7 +397,7 @@ public class DungeonGenerator : MonoBehaviour
                         break;
                 }
             }
-            EnableRoads(current);
+            //EnableRoads(current);
         }
     }
 
@@ -425,11 +425,34 @@ public class DungeonGenerator : MonoBehaviour
     {
         Debug.Log("EnqueueTopPositions");
         Vector3 top = current.transform.position + new Vector3(0, 20, 0);
+        int currPos = (int)current.transform.position.x;
 
         if (adjacent != current && //The first and the last zone won't have his top position occupied
-            (direction == 1  && spawnPositions.Contains(top) || //When the top possition is occupied, then it is moved one place to the right
-            (direction == -1 && (adjacent.transform.position.x - current.transform.position.x == 32) && adjacent.hasRightChild()))) //If a node placed to the right next to the current node has two children, then the current node will have its top position moved one placed to the left
+           (direction == 1 && spawnPositions.Contains(top) || //When the top possition is occupied, then it is moved one place to the right
+           (direction == -1 && (adjacent.transform.position.x - current.transform.position.x == 32) && ((currPos == -16 && !current.hasRightChild()) || (currPos == 16 && adjacent.hasRightChild()))))) //If a node placed to the right next to the current node has two children, then the current node will have its top position moved one placed to the left
+        {
             top += new Vector3(32 * direction, 0, 0);
+            if (direction == 1)
+            {
+                //Right Near Road
+                current.rightChildRoad_near.SetActive(true);
+                current.rightChildRoadOp.SetActive(true);
+                current.topRightOp.SetActive(false);
+            }
+            else
+            {
+                //Left Near Road
+                current.leftChildRoad_near.SetActive(true);
+                current.leftChildRoadOp.SetActive(true);
+                current.topLeftOp.SetActive(false);
+            }
+        }
+        else
+        {
+            //Mid Road
+            current.topMidRoad.SetActive(true);
+            current.topMidOpening.SetActive(false);
+        }
 
         if (!current.hasRightChild())
         {
@@ -442,11 +465,21 @@ public class DungeonGenerator : MonoBehaviour
             {
                 spawnPositions.Enqueue(top + new Vector3(32 * direction, 0, 0));
                 spawnPositions.Enqueue(top);
+                if (current.leftChildRoad_near.activeSelf)
+                    current.leftChildRoad_far.SetActive(true);
+                else
+                    current.leftChildRoad_near.SetActive(true);
+                current.leftChildRoadOp.SetActive(!current.leftChildRoad_far.activeSelf);
             }
             else
             {
                 spawnPositions.Enqueue(top);
                 spawnPositions.Enqueue(top + new Vector3(32 * direction, 0, 0));
+                if (current.rightChildRoad_near.activeSelf)
+                    current.rightChildRoad_far.SetActive(true);
+                else
+                    current.rightChildRoad_near.SetActive(true);
+                current.rightChildRoadOp.SetActive(!current.rightChildRoad_far.activeSelf);
             }
             count += 2;
         }
