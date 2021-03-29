@@ -39,7 +39,8 @@ public class DungeonGenerator : MonoBehaviour
 
     private void InitializeTree()
     {
-        root = Instantiate(zonePrefab, Vector3.zero, Quaternion.identity, GetComponentInChildren<Grid>().transform);
+        root = Instantiate(zonePrefab, Vector3.zero, Quaternion.identity,
+                                GetComponentInChildren<Grid>().transform);
         root.Initialize(0, 2, 2); //The root zone will always have 2 children
 
         spawnPositions = new Queue<Vector2>();
@@ -55,16 +56,17 @@ public class DungeonGenerator : MonoBehaviour
         EnableRootRoads();
     }
 
-    public void AddZone(int zoneValue) //We are sure children will be inserted in ascending order
+    public void AddZone(int zoneValue) //We are sure zones will be inserted in ascending order
     {
         if (COUNT_LEVELS == MAX_LEVELS) return;
 
         Zone insertLevel = levelChildren.Peek();
-        Zone newZone = Instantiate(zonePrefab, spawnPositions.Dequeue(), Quaternion.identity, GetComponentInChildren<Grid>().transform);
+        Zone newZone = Instantiate(zonePrefab, spawnPositions.Dequeue(), Quaternion.identity, 
+                                                    GetComponentInChildren<Grid>().transform);
         ExpandLevel(insertLevel, newZone, zoneValue);
 
         brotherZones.Enqueue(newZone);
-        CheckLevelCompleted(insertLevel); //After each node is inserted, we check if we hace completed that level of the tree
+        CheckLevelCompleted(insertLevel); //We check if we have completed that level of the tree
     }
 
     private void ExpandLevel(Zone insertLevel, Zone newZone, int zoneValue)
@@ -83,7 +85,8 @@ public class DungeonGenerator : MonoBehaviour
 
             if (insertLevel.leftChild == null)
                 insertLevel.setLeftChild(newZone);
-            else if (insertLevel.hasRightChild() && insertLevel.rightChild == null)
+            else if (insertLevel.hasRightChild() && 
+                     insertLevel.rightChild == null)
                 insertLevel.setRightChild(newZone);
         }
         else
@@ -96,7 +99,8 @@ public class DungeonGenerator : MonoBehaviour
                 insertLevel.setLeftChild(newZone);
             }
 
-            else if (insertLevel.hasRightChild() && insertLevel.rightChild == null)
+            else if (insertLevel.hasRightChild() && 
+                     insertLevel.rightChild == null)
             {
                 EnableFirstLevelRoads(newZone, 1);
                 insertLevel.setRightChild(newZone);
@@ -105,7 +109,8 @@ public class DungeonGenerator : MonoBehaviour
             levelChildren.Enqueue(newZone);
         }
 
-        //Enable the proper opening depending on the parent's enabled roads towards its children
+        //Enable the proper opening depending on the parent's 
+        //enabled roads towards its children
         if ((insertLevel.rightChildRoad_near.activeSelf ||
             insertLevel.rightChildRoad_far.activeSelf) &&
             newZonePosX > parentPosX)
@@ -137,7 +142,6 @@ public class DungeonGenerator : MonoBehaviour
                     {
                         if (i == 0) //Clear spawn positions, since a new children assignment will take place
                         {
-                            //ClearChildren(b);
                             spawnPositions.Clear();
                             maxExpand = 4;
                         }
@@ -176,7 +180,9 @@ public class DungeonGenerator : MonoBehaviour
         }
     }
 
-    private void ConnectBrotherZones() //Each zone can be connected to the one it is next to from left to right 
+    //Each zone can be connected to the one it 
+    //is next to, from left to right 
+    private void ConnectBrotherZones() 
     {
         if (brotherZones.Count >= 2)
         {
@@ -191,7 +197,8 @@ public class DungeonGenerator : MonoBehaviour
                 if (makeConexion == 0)
                 {
                     brother = brotherZones.Peek();
-                    distance = (int)(brother.transform.position.x - current.transform.position.x);
+                    distance = (int)(brother.transform.position.x - 
+                                current.transform.position.x);
                     switch (distance)
                     {
                         case 32:
@@ -312,8 +319,12 @@ public class DungeonGenerator : MonoBehaviour
         int currPos = (int)current.transform.position.x;
 
         if (adjacent != current && //The first and the last zone won't have his top position occupied
-           (direction == 1 && spawnPositions.Contains(top) || //When the top possition is occupied, then it is moved one place to the right
-           (direction == -1 && (adjacent.transform.position.x - current.transform.position.x == 32) && ((currPos == -16 && !current.hasRightChild()) || (currPos == 16 && adjacent.hasRightChild()))))) //If a node placed to the right next to the current node has two children, then the current node will have its top position moved one placed to the left
+           (direction == 1 && spawnPositions.Contains(top) || //When the top possition is occupied, then
+           (direction == -1 &&                                //it is moved one place to the right
+           (adjacent.transform.position.x - current.transform.position.x == 32) && 
+           ((currPos == -16 && !current.hasRightChild()) || (currPos == 16 && adjacent.hasRightChild())))))
+            //If a node placed to the right next to the current node has two children, then the current node 
+            //will have its top position moved one placed to the left
         {
             top += new Vector3(32 * direction, 0, 0);
             if (direction == 1)
