@@ -47,11 +47,10 @@ MonoBehaviour:
   enemies:
   - {fileID: 8095788914271323037, guid: 71cb4c1d518c22b438982e6864515dfd, type: 3}
   - {fileID: 119999900276063588, guid: cdb095c4cd721e54592c589b6a703c5a, type: 3}
-  enemyPossitions:
-  - {x: 17, y: 21, z: 4}
-  - {x: 4, y: 19, z: 4}
+  enemyPositions: []
   playerInside: 0
-  deadEnemies: 0
+  enemiesAlive: 0
+  completed: 0
 --- !u!61 &1457605643
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -65,7 +64,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.20477581, y: 0.6845331}
+  m_Offset: {x: -0.9774685, y: 2.217033}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -76,5 +75,5 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 3.7986336, y: 0.3395443}
+  m_Size: {x: 25.142017, y: 10.121514}
   m_EdgeRadius: 0

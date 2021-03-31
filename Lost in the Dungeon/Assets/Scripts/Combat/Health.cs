@@ -45,9 +45,9 @@ public class Health : MonoBehaviour
         CurrentHealth += baseHealth;
     }
 
-    public void ModifyHealth(int quantity) //This metod will be used to take damage or to heal
+    public void ModifyHealth(float quantity) //This metod will be used to take damage or to heal
     {
-        CurrentHealth += quantity;
+        CurrentHealth += (int)quantity;
         //UpdateHealthBar();
     }
 

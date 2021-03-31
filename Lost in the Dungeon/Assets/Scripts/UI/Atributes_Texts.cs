@@ -39,9 +39,9 @@ public class Atributes_Texts : MonoBehaviour
         lvlAtribText.text = level.ToString() + " -";
         atribPointsTxt.text = atribPoints.ToString();
     }
-    public void UpdateAtribsTexts(int atckPoints, float velocityPoints) //These will be updated from the Atributes script
+    public void UpdateAtribsTexts(float atckPoints, float velocityPoints) //These will be updated from the Atributes script
     {
-        attackAtribTxt.text = atckPoints.ToString();
+        attackAtribTxt.text = ((int)atckPoints).ToString();
         velocityAtribTxt.text = ((int)velocityPoints).ToString();
     }
     public void UpdateAtribsTexts(Health health)
