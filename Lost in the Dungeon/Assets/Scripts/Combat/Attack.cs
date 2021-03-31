@@ -33,7 +33,7 @@ public class Attack : MonoBehaviour
         B = A + scaledHitbox; //Right top dot in our hitbox
     }
 
-    private void CheckAttacked(Vector2 attackDirection, int damage, GameObject swordFlash)
+    private void CheckAttacked(Vector2 attackDirection, float damage, GameObject swordFlash)
     {
         int numAttackable = Physics2D.OverlapArea(A, B, attackableFilter, attackableElements); //attackableElements has the Collider2Ds found inside de hitbox, meaning that that array is now filled with the elements that collided with our hitbox (therefore, we dont have to store the return values inside another array)
         for (int i = 0; i < numAttackable; i++)
@@ -43,7 +43,7 @@ public class Attack : MonoBehaviour
         }
     }
 
-    public void PhysicalAttack(Vector2 attackDirection, int damage, GameObject swordFlash) 
+    public void PhysicalAttack(Vector2 attackDirection, float damage, GameObject swordFlash) 
     {
         CreateHitbox(attackDirection);
         CheckAttacked(attackDirection, damage, swordFlash);   

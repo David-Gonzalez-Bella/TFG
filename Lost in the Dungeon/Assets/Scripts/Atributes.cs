@@ -11,13 +11,13 @@ public class Atributes : ScriptableObject //Attributes is only a bunch of data, 
     [Tooltip("Character´s damage")]
     public  int baseDamage;
 
-    //[HideInInspector]
+    [HideInInspector]
     public int speedIncrease;
-    //[HideInInspector]
+    [HideInInspector]
     public int damageIncrease;
 
     public float speed { get { return baseSpeed + speedIncrease; } }
-    public int damage { get { return baseDamage + damageIncrease; } }
+    public float damage { get { return baseDamage + damageIncrease; } }
 
     public void ModifySpeed()
     {

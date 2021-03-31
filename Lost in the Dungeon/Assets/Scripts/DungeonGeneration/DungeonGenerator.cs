@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,6 +7,8 @@ public class DungeonGenerator : MonoBehaviour
 {
     //References
     public Zone zonePrefab;
+    public TriggerSpawner triggerSpawner;
+    public EnemyZoneSpawnPositions enemySpawnPositions;
 
     //Instantiation positions
     public Queue<Vector2> spawnPositions;
@@ -19,6 +22,8 @@ public class DungeonGenerator : MonoBehaviour
     private Queue<Zone> levelChildren;
     private int maxExpand = 4;
 
+    //Enemy spawn related atributes
+    private int numEnemies = 0;
     //[DEBUG]
     //public Zone[] brotherZonesCopy;
     //public Vector2[] spawnPositionsCopy;
@@ -27,6 +32,31 @@ public class DungeonGenerator : MonoBehaviour
     private void Start()
     {
         InitializeTree();
+        int min, max;
+        int difficulty;
+        while(COUNT_LEVELS < MAX_LEVELS) { 
+            //First we decide how many enemies the room will have
+            if(COUNT_LEVELS < 4)
+            {
+                min = 1;
+                max = 3;
+                difficulty = 1;
+            }
+            else if (COUNT_LEVELS >= 4 && COUNT_LEVELS < 8)
+            {
+                min = 2;
+                max = 4;
+                difficulty = 2;
+            }
+            else
+            {
+                min = 3;
+                max = 5;
+                difficulty = 3;
+            }
+            numEnemies = UnityEngine.Random.Range(min, max + 1);
+            AddZone(difficulty);
+        }
     }
 
     //[DEBUG]
@@ -52,6 +82,10 @@ public class DungeonGenerator : MonoBehaviour
 
         spawnPositions.Enqueue(root.topLeftLongPoint.position);
         spawnPositions.Enqueue(root.topRightLongPoint.position);
+
+        numEnemies = UnityEngine.Random.Range(1, 4);
+        InstantiateTriggerSpawner(root.topLeftLongPoint.position, root);
+        InstantiateTriggerSpawner(root.topRightLongPoint.position, root);
 
         EnableRootRoads();
     }
@@ -193,7 +227,7 @@ public class DungeonGenerator : MonoBehaviour
             while (brotherZones.Count > 1)
             {
                 current = brotherZones.Dequeue();
-                makeConexion = Random.Range(0, 1);
+                makeConexion = UnityEngine.Random.Range(0, 1);
                 if (makeConexion == 0)
                 {
                     brother = brotherZones.Peek();
@@ -254,13 +288,25 @@ public class DungeonGenerator : MonoBehaviour
     private void EnqueueBeginSpawnPoints(Zone zone)
     {
         if (zone.topLeftLongRoad.activeSelf)
+        {
             spawnPositions.Enqueue(zone.topLeftLongPoint.position);
+            InstantiateTriggerSpawner(zone.topLeftLongPoint.position, zone);
+        }
         if (zone.topRightRoad.activeSelf)
+        {
             spawnPositions.Enqueue(zone.topRightPoint.position);
+            InstantiateTriggerSpawner(zone.topRightPoint.position, zone);
+        }
         if (zone.topLeftRoad.activeSelf)
+        {
             spawnPositions.Enqueue(zone.topLeftPoint.position);
+            InstantiateTriggerSpawner(zone.topLeftPoint.position, zone);
+        }
         if (zone.topRightLongRoad.activeSelf)
+        {
             spawnPositions.Enqueue(zone.topRightLongPoint.position);
+            InstantiateTriggerSpawner(zone.topRightLongPoint.position, zone);
+        }
     }
 
     private void EnqueueExpandSpawnPoints(Zone[] zones)
@@ -347,7 +393,9 @@ public class DungeonGenerator : MonoBehaviour
             //Mid Road
             current.topMidRoad.SetActive(true);
             current.topMidOpening.SetActive(false);
+            
         }
+        InstantiateTriggerSpawner(top, current);
 
         if (!current.hasRightChild())
         {
@@ -356,9 +404,10 @@ public class DungeonGenerator : MonoBehaviour
         }
         else
         {
+            Vector3 top2 = top + new Vector3(32 * direction, 0, 0);
             if (direction == -1)
             {
-                spawnPositions.Enqueue(top + new Vector3(32 * direction, 0, 0));
+                spawnPositions.Enqueue(top2);
                 spawnPositions.Enqueue(top);
                 if (current.leftChildRoad_near.activeSelf)
                     current.leftChildRoad_far.SetActive(true);
@@ -370,7 +419,7 @@ public class DungeonGenerator : MonoBehaviour
             else
             {
                 spawnPositions.Enqueue(top);
-                spawnPositions.Enqueue(top + new Vector3(32 * direction, 0, 0));
+                spawnPositions.Enqueue(top2);
                 if (current.rightChildRoad_near.activeSelf)
                     current.rightChildRoad_far.SetActive(true);
                 else
@@ -378,9 +427,26 @@ public class DungeonGenerator : MonoBehaviour
                 current.topRightOp.SetActive(false);
                 current.rightChildRoadOp.SetActive(!current.rightChildRoad_far.activeSelf);
             }
+            InstantiateTriggerSpawner(top2, current);
             count += 2;
         }
         return count;
+    }
+
+    private void InstantiateTriggerSpawner(Vector3 position, Zone parent)
+    {
+        enemySpawnPositions.transform.position = position;
+        TriggerSpawner sp = Instantiate(triggerSpawner, position, Quaternion.identity, parent.transform);
+        List<Transform> finalEnemySpawnPositions = new List<Transform>(enemySpawnPositions.spawnPositions);
+        int count = 0;
+        int index;
+        while (count < numEnemies)
+        {
+            index = UnityEngine.Random.Range(0, finalEnemySpawnPositions.Count);
+            sp.enemyPositions.Add(finalEnemySpawnPositions[index].position);
+            finalEnemySpawnPositions.RemoveAt(index);
+            count++;
+        }
     }
 
     public void PrintHeap(int index, Zone currentZone)

@@ -119,6 +119,8 @@ public class Enemy : MonoBehaviour //This contains the IA and the atributes ever
     public void DeadInZone()
     {
         parent.enemiesAlive--;
+        if (parent.enemiesAlive == 0)
+            parent.completed = true;
     }
 
     private bool ContainsParameter(string parameter)

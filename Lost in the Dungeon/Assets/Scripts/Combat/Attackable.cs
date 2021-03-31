@@ -20,7 +20,7 @@ public class Attackable : MonoBehaviour
         myHealth = GetComponent<Health>(); //Each attackable object will have his own health (baseHealth and currentHealth)
     }
 
-    public void Attacked(Vector2 attackDirection, int damage)
+    public void Attacked(Vector2 attackDirection, float damage)
     {
         StartCoroutine(TakeDamage(damage));
         rb.AddForce(attackDirection * 200, ForceMode2D.Impulse); //When attacked, the object will be pushed back as well
@@ -40,7 +40,7 @@ public class Attackable : MonoBehaviour
     }
 
     //Coroutines
-    IEnumerator TakeDamage(int damage)
+    IEnumerator TakeDamage(float damage)
     {
         myHealth.ModifyHealth(-damage); //When attacked, the object will lose 1HP
         spr.color = Color.red;
