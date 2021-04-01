@@ -17,9 +17,9 @@ public class EnemySpawner : MonoBehaviour
             sharedInstance = this;
     }
 
-    public void SpawnEnemy(Enemy enemy, Vector3 position, TriggerSpawner parent)
+    public void SpawnEnemy(Enemy enemy, Vector3 position, TriggerSpawner parent, int difficulty)
     {
-        StartCoroutine(SpawnEnemyCoroutine(enemy, position, parent));
+        StartCoroutine(SpawnEnemyCoroutine(enemy, position, parent, difficulty));
     }
 
     public void InstantiateSpawnEffect(Enemy enemy, Vector3 position)
@@ -28,10 +28,10 @@ public class EnemySpawner : MonoBehaviour
         AudioManager.sharedInstance.PlayEnemySpawnSound();
     }
 
-    IEnumerator SpawnEnemyCoroutine(Enemy enemy, Vector3 position, TriggerSpawner parent)
+    IEnumerator SpawnEnemyCoroutine(Enemy enemy, Vector3 position, TriggerSpawner parent, int difficulty)
     {
         InstantiateSpawnEffect(enemy, position);
         yield return new WaitForSeconds(0.7f);
-        Instantiate(enemy, position, Quaternion.identity, parent.transform);
+        Instantiate(enemy, position, Quaternion.identity, parent.transform).SetStats(difficulty);
     }
 }

@@ -10,8 +10,11 @@ public class Enemy : MonoBehaviour //This contains the IA and the atributes ever
     public enemyType type;
     public Atributes atrib; //Evey enemy has his basic atributes (for a more specific one they'll have them in their own script)
     public int exp;
-
+    public Vector2[] stats;
     protected TriggerSpawner parent;
+
+    public int damage;
+    public float speed;
 
     protected InputEnemy input;
     protected Attack atk; //The enemy can attack our player
@@ -56,6 +59,8 @@ public class Enemy : MonoBehaviour //This contains the IA and the atributes ever
     {
         if (GameManager.sharedInstance.currentGameState == gameState.inGame)
             Behaviour(); //The knight´s behaviour will be checked every frame. This function will tell the enemy which of his actions are the the most favorable
+        speed = atrib.baseSpeed;
+        damage = atrib.baseDamage;
     }
 
     public void OnMouseOver() => CursorManager.sharedInstance.SetCursor(CursorManager.sharedInstance.swordCursor);
@@ -63,9 +68,19 @@ public class Enemy : MonoBehaviour //This contains the IA and the atributes ever
 
     protected virtual void Behaviour() { }
 
+    public void SetStats(int difficulty)
+    {
+        int next = 2;
+        if (difficulty == 10)
+            next = 0;
+        Vector2 newStats = stats[Random.Range(difficulty, difficulty + next)];
+        atrib.baseDamage = (int)newStats.x;
+        atrib.baseSpeed = newStats.y;
+    }
+
     protected void AttackPlayer()
     {
-        int attackChance = Random.Range(0, 100);
+        int attackChance = UnityEngine.Random.Range(0, 100);
         if (walkHash != 0) { anim.SetBool(walkHash, false); } //When the enemy is in attacking state he will stop walking (in case that this type of enemy walks)
         if (attackChance > 95) //The chance has to be very low, because this method is executing a lot of times per frame, so we must discriminate a lot of numbers
         {

@@ -17,7 +17,7 @@ public class Atributes : ScriptableObject //Attributes is only a bunch of data, 
     public int damageIncrease;
 
     public float speed { get { return baseSpeed + speedIncrease; } }
-    public float damage { get { return baseDamage + damageIncrease; } }
+    public int damage { get { return baseDamage + damageIncrease; } }
 
     public void ModifySpeed()
     {

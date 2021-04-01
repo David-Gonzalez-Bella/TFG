@@ -46,6 +46,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -68,7 +69,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -808244081
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 2
   m_Sprite: {fileID: 478629999437312120, guid: 835092dd0ce03d442864cff0ebe0a2d5, type: 3}
   m_Color: {r: 1, g: 0.627451, b: 0.627451, a: 1}
@@ -127,6 +128,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -149,7 +151,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -808244081
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 2
   m_Sprite: {fileID: 2445002136303198274, guid: 893e39e15eb2b0046bb937db5f3c9e01,
     type: 3}
@@ -302,8 +304,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9e848d2a3a76ac4b9641bf079a9b99b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  type: 0
   atrib: {fileID: 11400000, guid: 49e03fac7df50af4e849975f5a812fa5, type: 2}
   exp: 4
+  stats:
+  - {x: 3, y: 2}
+  - {x: 3, y: 2.2}
+  - {x: 3, y: 2.5}
+  - {x: 4, y: 3}
+  - {x: 4, y: 3.2}
+  - {x: 4, y: 3.5}
+  - {x: 5, y: 4}
+  - {x: 5, y: 4.2}
+  - {x: 5, y: 4.5}
+  - {x: 6, y: 5}
   detectionDistance: 5
   attackingDistance: 3
   fireball: {fileID: 6985673739877001683, guid: 82fe0d9b0218aaa489c5f00bfab62dbe,
@@ -339,6 +353,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 8095788914271323037}
+        m_TargetAssemblyTypeName: 
         m_MethodName: Die
         m_Mode: 1
         m_Arguments:
@@ -350,6 +365,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 8095788914271323037}
+        m_TargetAssemblyTypeName: 
         m_MethodName: DropExperience
         m_Mode: 1
         m_Arguments:
