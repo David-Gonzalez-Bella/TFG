@@ -438,9 +438,10 @@ public class DungeonGenerator : MonoBehaviour
         enemySpawnPositions.transform.position = position;
         TriggerSpawner sp = Instantiate(triggerSpawner, position, Quaternion.identity, parent.transform);
         List<Transform> finalEnemySpawnPositions = new List<Transform>(enemySpawnPositions.spawnPositions);
+        sp.difficulty = COUNT_LEVELS;
         int count = 0;
         int index;
-        while (count < numEnemies)
+        while (count < numEnemies) //Choose random positions for the enemies that will be spawned
         {
             index = UnityEngine.Random.Range(0, finalEnemySpawnPositions.Count);
             sp.enemyPositions.Add(finalEnemySpawnPositions[index].position);

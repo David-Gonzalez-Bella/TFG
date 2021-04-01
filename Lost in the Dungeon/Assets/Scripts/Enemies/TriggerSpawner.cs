@@ -12,6 +12,7 @@ public class TriggerSpawner : MonoBehaviour
     public int enemiesAlive = 0;
     public bool completed = false;
     private bool started = false;
+    public int difficulty;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -25,7 +26,7 @@ public class TriggerSpawner : MonoBehaviour
                 for (int i = 0; i < enemyPositions.Count; i++)
                 {
                     chosenEnemy = enemies[UnityEngine.Random.Range(0, enemies.Length)];
-                    EnemySpawner.sharedInstance.SpawnEnemy(chosenEnemy, enemyPositions[i], this);
+                    EnemySpawner.sharedInstance.SpawnEnemy(chosenEnemy, enemyPositions[i], this, difficulty);
                     enemiesAlive++;
                 }
             }

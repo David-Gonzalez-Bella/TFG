@@ -46,6 +46,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -68,7 +69,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -808244081
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 2
   m_Sprite: {fileID: -6273196251013692260, guid: 80054e69282e3754dac84217f3f6ecce,
     type: 3}
@@ -190,8 +191,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0261266fce0c16a4693e4a64bd6e9760, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  type: 0
   atrib: {fileID: 11400000, guid: 1e9756ce0db23ef49a646ad0b5ea37ec, type: 2}
   exp: 5
+  stats:
+  - {x: 2, y: 3}
+  - {x: 2, y: 3.2}
+  - {x: 2, y: 3.5}
+  - {x: 3, y: 4}
+  - {x: 3, y: 4.2}
+  - {x: 3, y: 4.5}
+  - {x: 4, y: 5}
+  - {x: 4, y: 5.2}
+  - {x: 4, y: 5.5}
+  - {x: 5, y: 6}
+  damage: 0
+  speed: 0
   detectionDistance: 5
   attackingDistance: 2
   swordFlash: {fileID: 953165279628237382, guid: 2f7efb28d6a377740976c2ae6c1f16bb,
@@ -226,6 +241,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 119999900276063588}
+        m_TargetAssemblyTypeName: 
         m_MethodName: Die
         m_Mode: 1
         m_Arguments:
@@ -237,6 +253,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 119999900276063588}
+        m_TargetAssemblyTypeName: 
         m_MethodName: DropExperience
         m_Mode: 1
         m_Arguments:
@@ -322,6 +339,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -344,7 +362,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -808244081
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 2
   m_Sprite: {fileID: 4204757487683469102, guid: 835092dd0ce03d442864cff0ebe0a2d5,
     type: 3}
