@@ -9,6 +9,7 @@ public class Transitions : MonoBehaviour
 
     private Animator anim;
     private Canvas canvas;
+    private int toChooseLengthTriggerHash;
     private int toGameTriggerHash;
     private int toMainMenuTriggerHash;
 
@@ -31,12 +32,20 @@ public class Transitions : MonoBehaviour
     {
         canvas.sortingOrder = 0;
         canvas.enabled = false;
+        toChooseLengthTriggerHash = Animator.StringToHash("TransitionToChooseLength");
         toGameTriggerHash = Animator.StringToHash("TransitionToGame");
         toMainMenuTriggerHash = Animator.StringToHash("TransitionToMainMenu");
     }
 
     public void GoToMainMenu() => SceneManager.LoadScene(0);
-    public void GoToGame() => SceneManager.LoadScene(1);
+    public void GoToChooseLength() => SceneManager.LoadScene(1);
+    public void GoToGame() => SceneManager.LoadScene(2);
+
+    public void TransitionToChooseLength()
+    {
+        PrepareTransition();
+        anim.SetTrigger(toChooseLengthTriggerHash);
+    }
 
     public void TransitionToGame()
     {

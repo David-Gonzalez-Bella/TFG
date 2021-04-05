@@ -13,7 +13,7 @@ public class MainMenuManager : MonoBehaviour
             buttons[i].onClick.AddListener(AudioManager.sharedInstance.PlaySelectSound);
     }
 
-    public void GoToGame() => Transitions.sharedInstance.TransitionToGame();
+    public void GoToChooseLength() => Transitions.sharedInstance.TransitionToChooseLength();
 
     public void QuitGame() => Application.Quit();
 }
