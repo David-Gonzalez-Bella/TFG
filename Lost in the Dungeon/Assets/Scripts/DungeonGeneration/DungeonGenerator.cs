@@ -29,6 +29,11 @@ public class DungeonGenerator : MonoBehaviour
     //public Vector2[] spawnPositionsCopy;
     //public Zone[] levelChildrenCopy;
 
+    private void Awake()
+    {
+        MAX_LEVELS = ChooseLengthManager.DUNGEON_DEPTH;
+    }
+
     private void Start()
     {
         InitializeTree();
