@@ -205,6 +205,8 @@ MonoBehaviour:
   - {x: 3, y: 5.2}
   - {x: 3, y: 5.5}
   - {x: 4, y: 6}
+  damage: 0
+  speed: 0
   detectionDistance: 4
   attackingDistance: 0
   rushFlash: {fileID: 953165279628237382, guid: 2f7efb28d6a377740976c2ae6c1f16bb,
@@ -308,7 +310,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &7645401410742296102
 Transform:
   m_ObjectHideFlags: 0

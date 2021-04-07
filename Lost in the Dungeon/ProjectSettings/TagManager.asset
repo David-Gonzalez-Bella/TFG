@@ -12,6 +12,7 @@ TagManager:
   - Cat
   - Walls
   - Zone
+  - Looteable
   layers:
   - Default
   - TransparentFX

@@ -8,10 +8,12 @@ using System;
 public class Interactive : MonoBehaviour
 {
     protected Collider2D col;
+    //[HideInInspector]
     public PlayerController player;
 
-    private void Start()
+    private void Awake()
     {
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
         col = GetComponent<Collider2D>();
     }
 

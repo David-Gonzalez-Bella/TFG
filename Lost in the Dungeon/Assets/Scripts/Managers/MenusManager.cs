@@ -95,8 +95,9 @@ public class MenusManager : MonoBehaviour
 
     }
 
-    public void MouseOver(bool over) { mouseOverInteractive = over;
-        Debug.Log("Mouse oveeeeer");
+    public void MouseOver(bool over)
+    {
+        mouseOverInteractive = over;
     }
 
     public void ResetWannaLeaveScreenScale()
