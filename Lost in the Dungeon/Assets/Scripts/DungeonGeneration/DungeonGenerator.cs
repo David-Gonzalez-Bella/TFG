@@ -8,7 +8,8 @@ public class DungeonGenerator : MonoBehaviour
     //References
     public Zone zonePrefab;
     public TriggerSpawner triggerSpawner;
-    public EnemyZoneSpawnPositions enemySpawnPositions;
+    public FillRoomPositions fillRoomPositions;
+    public LevelExit levelExit;
 
     //Instantiation positions
     public Queue<Vector2> spawnPositions;
@@ -39,9 +40,10 @@ public class DungeonGenerator : MonoBehaviour
         InitializeTree();
         int min, max;
         int difficulty;
-        while(COUNT_LEVELS < MAX_LEVELS) { 
+        while (COUNT_LEVELS < MAX_LEVELS)
+        {
             //First we decide how many enemies the room will have
-            if(COUNT_LEVELS < 4)
+            if (COUNT_LEVELS < 4)
             {
                 min = 1;
                 max = 3;
@@ -100,7 +102,7 @@ public class DungeonGenerator : MonoBehaviour
         if (COUNT_LEVELS == MAX_LEVELS) return;
 
         Zone insertLevel = levelChildren.Peek();
-        Zone newZone = Instantiate(zonePrefab, spawnPositions.Dequeue(), Quaternion.identity, 
+        Zone newZone = Instantiate(zonePrefab, spawnPositions.Dequeue(), Quaternion.identity,
                                                     GetComponentInChildren<Grid>().transform);
         ExpandLevel(insertLevel, newZone, zoneValue);
 
@@ -124,7 +126,7 @@ public class DungeonGenerator : MonoBehaviour
 
             if (insertLevel.leftChild == null)
                 insertLevel.setLeftChild(newZone);
-            else if (insertLevel.hasRightChild() && 
+            else if (insertLevel.hasRightChild() &&
                      insertLevel.rightChild == null)
                 insertLevel.setRightChild(newZone);
         }
@@ -138,7 +140,7 @@ public class DungeonGenerator : MonoBehaviour
                 insertLevel.setLeftChild(newZone);
             }
 
-            else if (insertLevel.hasRightChild() && 
+            else if (insertLevel.hasRightChild() &&
                      insertLevel.rightChild == null)
             {
                 EnableFirstLevelRoads(newZone, 1);
@@ -166,17 +168,20 @@ public class DungeonGenerator : MonoBehaviour
 
     private void CheckLevelCompleted(Zone insertZone)
     {
-        if (insertZone.leftChild != null && ((!insertZone.hasRightChild()) || (insertZone.hasRightChild() && insertZone.rightChild != null))) //If all possible children of the current zone are filled
+        if (insertZone.leftChild != null && ((!insertZone.hasRightChild()) || 
+            (insertZone.hasRightChild() && insertZone.rightChild != null))) 
+            //If all possible children of the current zone are filled
         {
             levelChildren.Dequeue(); //Move on to the next zone to fill its children
             if (levelChildren.Peek() == null)
             {
+                Zone[] b = brotherZones.ToArray();
+                int i = 0;
+
                 if (insertZone != root && COUNT_LEVELS != MAX_LEVELS - 1)
                 {
-                    int i = 0;
-                    Zone[] b = brotherZones.ToArray();
-
-                    //If we have expanded less thatn two zones in this level of the tree the tree (wich means it will end here) we assign children to the current brothers
+                    //If we have expanded less thatn two zones in this level of the tree 
+                    //the tree (wich means it will end here) we assign children to the current brothers
                     while (maxExpand > 2)
                     {
                         if (i == 0) //Clear spawn positions, since a new children assignment will take place
@@ -187,9 +192,24 @@ public class DungeonGenerator : MonoBehaviour
                         AddChildren(b[i]);
                         i = (i + 1) % b.Length;
                     }
-                    EnqueueExpandSpawnPoints(b); //We wiil enqueue the necessary spawn points, and we will paint the roads that conect each brother with its children
+                    EnqueueExpandSpawnPoints(b); //We wiil enqueue the necessary spawn points, and 
+                    //we will paint the roads that conect each brother with its children
                 }
-                //We create conections between brother nodes and prepare everything towards the next zone adition 
+                else if (COUNT_LEVELS == MAX_LEVELS - 1)
+                {
+                    i = 0;
+                    int r = 1;
+                    while (r == 1)
+                    {
+                        r = UnityEngine.Random.Range(0, 2);
+                        if (r == 0)
+                            Instantiate(levelExit, b[i].transform.position, Quaternion.identity, 
+                                b[i].transform).transform.localScale 
+                                = new Vector3(1.5f, 1.5f, 1.5f);
+                        i = (i + 1) % b.Length;
+                    }
+                }
+                //We create conections between brother nodes and prepare everything towards the next adition 
                 COUNT_LEVELS++; //A new level has been completed
                 ConnectBrotherZones();
                 levelChildren.Dequeue();
@@ -221,7 +241,7 @@ public class DungeonGenerator : MonoBehaviour
 
     //Each zone can be connected to the one it 
     //is next to, from left to right 
-    private void ConnectBrotherZones() 
+    private void ConnectBrotherZones()
     {
         if (brotherZones.Count >= 2)
         {
@@ -236,7 +256,7 @@ public class DungeonGenerator : MonoBehaviour
                 if (makeConexion == 0)
                 {
                     brother = brotherZones.Peek();
-                    distance = (int)(brother.transform.position.x - 
+                    distance = (int)(brother.transform.position.x -
                                 current.transform.position.x);
                     switch (distance)
                     {
@@ -372,10 +392,10 @@ public class DungeonGenerator : MonoBehaviour
         if (adjacent != current && //The first and the last zone won't have his top position occupied
            (direction == 1 && spawnPositions.Contains(top) || //When the top possition is occupied, then
            (direction == -1 &&                                //it is moved one place to the right
-           (adjacent.transform.position.x - current.transform.position.x == 32) && 
+           (adjacent.transform.position.x - current.transform.position.x == 32) &&
            ((currPos == -16 && !current.hasRightChild()) || (currPos == 16 && adjacent.hasRightChild())))))
-            //If a node placed to the right next to the current node has two children, then the current node 
-            //will have its top position moved one placed to the left
+        //If a node placed to the right next to the current node has two children, then the current node 
+        //will have its top position moved one placed to the left
         {
             top += new Vector3(32 * direction, 0, 0);
             if (direction == 1)
@@ -398,7 +418,7 @@ public class DungeonGenerator : MonoBehaviour
             //Mid Road
             current.topMidRoad.SetActive(true);
             current.topMidOpening.SetActive(false);
-            
+
         }
         InstantiateTriggerSpawner(top, current);
 
@@ -440,9 +460,9 @@ public class DungeonGenerator : MonoBehaviour
 
     private void InstantiateTriggerSpawner(Vector3 position, Zone parent)
     {
-        enemySpawnPositions.transform.position = position;
+        fillRoomPositions.transform.position = position;
         TriggerSpawner sp = Instantiate(triggerSpawner, position, Quaternion.identity, parent.transform);
-        List<Transform> finalEnemySpawnPositions = new List<Transform>(enemySpawnPositions.spawnPositions);
+        List<Transform> finalEnemySpawnPositions = new List<Transform>(fillRoomPositions.enemySpawnPositions);
         sp.difficulty = COUNT_LEVELS;
         int count = 0;
         int index;
@@ -451,6 +471,18 @@ public class DungeonGenerator : MonoBehaviour
             index = UnityEngine.Random.Range(0, finalEnemySpawnPositions.Count);
             sp.enemyPositions.Add(finalEnemySpawnPositions[index].position);
             finalEnemySpawnPositions.RemoveAt(index);
+            count++;
+        }
+        count = 0;
+        while (count < fillRoomPositions.lootSpawnPositions.Count)
+        {
+            index = UnityEngine.Random.Range(0, 2);
+            if (index == 0)
+            {
+                Looteable looteable = fillRoomPositions.lootElements[UnityEngine.Random.Range(0, fillRoomPositions.lootElements.Count)];
+                     Instantiate(looteable, fillRoomPositions.lootSpawnPositions[count].transform.position, Quaternion.identity, transform)
+                    .Initialize(1, COUNT_LEVELS + 1, sp);
+            }
             count++;
         }
     }

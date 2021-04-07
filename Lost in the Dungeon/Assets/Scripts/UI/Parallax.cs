@@ -11,7 +11,6 @@ public class Parallax : MonoBehaviour
     private void Awake()
     {
         rawImage = GetComponent<RawImage>();
-        parallaxSpeed *= Time.deltaTime;
     }
 
     private void Update()

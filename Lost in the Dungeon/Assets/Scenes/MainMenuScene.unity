@@ -335,7 +335,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1bc2e22df290894ea0c359acd40a3d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parallaxSpeed: 0.0001
+  parallaxSpeed: 0.000002
 --- !u!222 &518476898
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -496,7 +496,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1bc2e22df290894ea0c359acd40a3d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parallaxSpeed: 0.0005
+  parallaxSpeed: 0.00001
 --- !u!222 &852522084
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -582,7 +582,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1bc2e22df290894ea0c359acd40a3d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parallaxSpeed: 0.002
+  parallaxSpeed: 0.00004
 --- !u!222 &960752110
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3189,7 +3189,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1bc2e22df290894ea0c359acd40a3d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parallaxSpeed: 0.0009
+  parallaxSpeed: 0.000018
 --- !u!222 &1934520585
 CanvasRenderer:
   m_ObjectHideFlags: 0
