@@ -12,17 +12,20 @@ public class Atributes : ScriptableObject //Attributes is only a bunch of data, 
     public  int baseDamage;
 
     [HideInInspector]
-    public int speedIncrease;
+    public float speedIncrease;
     [HideInInspector]
     public int damageIncrease;
 
     public float speed { get { return baseSpeed + speedIncrease; } }
     public int damage { get { return baseDamage + damageIncrease; } }
 
+    [HideInInspector]
+    public float speedCount;
+
     public void ModifySpeed()
     {
-        speedIncrease++;
-        Atributes_Texts.sharedInstance.UpdateAtribsTexts(damage, speed);
+        speedIncrease += 0.2f;
+        Atributes_Texts.sharedInstance.UpdateAtribsTexts(damage, ++speedCount);
     }
     public void ModifyDamage()
     {

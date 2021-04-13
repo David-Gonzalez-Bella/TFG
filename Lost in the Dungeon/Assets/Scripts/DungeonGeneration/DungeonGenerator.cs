@@ -9,6 +9,7 @@ public class DungeonGenerator : MonoBehaviour
     public Zone zonePrefab;
     public TriggerSpawner triggerSpawner;
     public FillRoomPositions fillRoomPositions;
+    public GameObject itemSeller;
     public LevelExit levelExit;
 
     //Instantiation positions
@@ -17,11 +18,12 @@ public class DungeonGenerator : MonoBehaviour
     //Tree generation related atributes
     [SerializeField]
     private int MAX_LEVELS;
-    private int COUNT_LEVELS = 1;
+    public int COUNT_LEVELS = 1;
     private Zone root;
     private Queue<Zone> brotherZones;
     private Queue<Zone> levelChildren;
     private int maxExpand = 4;
+    private bool shopGenerated = false;
 
     //Enemy spawn related atributes
     private int numEnemies = 0;
@@ -91,10 +93,10 @@ public class DungeonGenerator : MonoBehaviour
         spawnPositions.Enqueue(root.topRightLongPoint.position);
 
         numEnemies = UnityEngine.Random.Range(1, 4);
-        InstantiateTriggerSpawner(root.topLeftLongPoint.position, root);
-        InstantiateTriggerSpawner(root.topRightLongPoint.position, root);
-
+        FillZone(root.topLeftLongPoint.position, root);
+        FillZone(root.topRightLongPoint.position, root);
         EnableRootRoads();
+        COUNT_LEVELS++;
     }
 
     public void AddZone(int zoneValue) //We are sure zones will be inserted in ascending order
@@ -168,9 +170,9 @@ public class DungeonGenerator : MonoBehaviour
 
     private void CheckLevelCompleted(Zone insertZone)
     {
-        if (insertZone.leftChild != null && ((!insertZone.hasRightChild()) || 
-            (insertZone.hasRightChild() && insertZone.rightChild != null))) 
-            //If all possible children of the current zone are filled
+        if (insertZone.leftChild != null && ((!insertZone.hasRightChild()) ||
+            (insertZone.hasRightChild() && insertZone.rightChild != null)))
+        //If all possible children of the current zone are filled
         {
             levelChildren.Dequeue(); //Move on to the next zone to fill its children
             if (levelChildren.Peek() == null)
@@ -203,8 +205,8 @@ public class DungeonGenerator : MonoBehaviour
                     {
                         r = UnityEngine.Random.Range(0, 2);
                         if (r == 0)
-                            Instantiate(levelExit, b[i].transform.position, Quaternion.identity, 
-                                b[i].transform).transform.localScale 
+                            Instantiate(levelExit, b[i].transform.position, Quaternion.identity,
+                                b[i].transform).transform.localScale
                                 = new Vector3(1.5f, 1.5f, 1.5f);
                         i = (i + 1) % b.Length;
                     }
@@ -214,6 +216,7 @@ public class DungeonGenerator : MonoBehaviour
                 ConnectBrotherZones();
                 levelChildren.Dequeue();
                 levelChildren.Enqueue(null);
+                shopGenerated = false;
                 maxExpand = 4;
             }
         }
@@ -315,22 +318,22 @@ public class DungeonGenerator : MonoBehaviour
         if (zone.topLeftLongRoad.activeSelf)
         {
             spawnPositions.Enqueue(zone.topLeftLongPoint.position);
-            InstantiateTriggerSpawner(zone.topLeftLongPoint.position, zone);
+            FillZone(zone.topLeftLongPoint.position, zone);
         }
         if (zone.topRightRoad.activeSelf)
         {
             spawnPositions.Enqueue(zone.topRightPoint.position);
-            InstantiateTriggerSpawner(zone.topRightPoint.position, zone);
+            FillZone(zone.topRightPoint.position, zone);
         }
         if (zone.topLeftRoad.activeSelf)
         {
             spawnPositions.Enqueue(zone.topLeftPoint.position);
-            InstantiateTriggerSpawner(zone.topLeftPoint.position, zone);
+            FillZone(zone.topLeftPoint.position, zone);
         }
         if (zone.topRightLongRoad.activeSelf)
         {
             spawnPositions.Enqueue(zone.topRightLongPoint.position);
-            InstantiateTriggerSpawner(zone.topRightLongPoint.position, zone);
+            FillZone(zone.topRightLongPoint.position, zone);
         }
     }
 
@@ -420,7 +423,7 @@ public class DungeonGenerator : MonoBehaviour
             current.topMidOpening.SetActive(false);
 
         }
-        InstantiateTriggerSpawner(top, current);
+        FillZone(top, current);
 
         if (!current.hasRightChild())
         {
@@ -452,21 +455,40 @@ public class DungeonGenerator : MonoBehaviour
                 current.topRightOp.SetActive(false);
                 current.rightChildRoadOp.SetActive(!current.rightChildRoad_far.activeSelf);
             }
-            InstantiateTriggerSpawner(top2, current);
+            FillZone(top2, current);
             count += 2;
         }
         return count;
     }
 
-    private void InstantiateTriggerSpawner(Vector3 position, Zone parent)
+    private void FillZone(Vector3 position, Zone parent)
     {
         fillRoomPositions.transform.position = position;
+
+        //Instantiate item seller
+        if (COUNT_LEVELS == 1 || COUNT_LEVELS == 4 || COUNT_LEVELS == 7)
+        {
+            if (!shopGenerated)
+            {
+                int r = UnityEngine.Random.Range(0, 2);
+                bool lastCheck = COUNT_LEVELS == 1 ?
+                    position == root.topRightLongPoint.position :
+                    parent == brotherZones.ToArray()[brotherZones.Count - 1];
+                if (r == 0 || lastCheck)
+                {
+                    Instantiate(itemSeller, fillRoomPositions.itemSellerPosition.position, Quaternion.identity, parent.transform);
+                    shopGenerated = true;
+                    return;
+                }
+            }
+        }
         TriggerSpawner sp = Instantiate(triggerSpawner, position, Quaternion.identity, parent.transform);
         List<Transform> finalEnemySpawnPositions = new List<Transform>(fillRoomPositions.enemySpawnPositions);
-        sp.difficulty = COUNT_LEVELS;
+        sp.difficulty = COUNT_LEVELS - 1;
         int count = 0;
         int index;
-        while (count < numEnemies) //Choose random positions for the enemies that will be spawned
+        //Instantiate enemies in random positions
+        while (count < numEnemies)
         {
             index = UnityEngine.Random.Range(0, finalEnemySpawnPositions.Count);
             sp.enemyPositions.Add(finalEnemySpawnPositions[index].position);
@@ -474,14 +496,15 @@ public class DungeonGenerator : MonoBehaviour
             count++;
         }
         count = 0;
+        //Instantiate loot boxes
         while (count < fillRoomPositions.lootSpawnPositions.Count)
         {
             index = UnityEngine.Random.Range(0, 2);
             if (index == 0)
             {
                 Looteable looteable = fillRoomPositions.lootElements[UnityEngine.Random.Range(0, fillRoomPositions.lootElements.Count)];
-                     Instantiate(looteable, fillRoomPositions.lootSpawnPositions[count].transform.position, Quaternion.identity, transform)
-                    .Initialize(1, COUNT_LEVELS + 1, sp);
+                Instantiate(looteable, fillRoomPositions.lootSpawnPositions[count].transform.position, Quaternion.identity, GameObject.Find("LootContainer").transform)
+               .Initialize(1, COUNT_LEVELS + 2, sp);
             }
             count++;
         }

@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using System;
 
 public class DialogueBox : MonoBehaviour
 {
     public static DialogueBox sharedInstance;
     public TMP_Text speaker;
     public TMP_Text content;
-    private Dialogue dialogue;
+    public Dialogue dialogue;
     public CanvasGroup visible;
     public int dialogueIndex = 0;
     public bool talking = false;
@@ -25,8 +26,9 @@ public class DialogueBox : MonoBehaviour
         MakeVisible(0.0f, false);
     }
 
-    public void StartDialogue(string speakerName, Dialogue npcDialogue)
+    public void StartDialogue(string speakerName, Dialogue npcDialogue, int index = 0)
     {
+        dialogueIndex = index;
         MakeVisible(0.8f, true);
         FreezePlayer(npcDialogue);
         speaker.text = "-" + speakerName + ":";
@@ -35,14 +37,29 @@ public class DialogueBox : MonoBehaviour
 
     public void NextLine()
     {
-        dialogueIndex++;
-        if (dialogueIndex >= dialogue.lines.Length)
+        bool gonnaBuy = GonnaBuy();
+        dialogueIndex = (speaker.text.CompareTo("-Item seller:") == 0 &&
+            dialogueIndex == dialogue.lines.Length - 2) ?
+            dialogueIndex + 2 : 
+            dialogueIndex + 1;
+        if (gonnaBuy || dialogueIndex >= dialogue.lines.Length)
         {
             MakeVisible(0.0f, false);
-            UnfreezePlayer();
+            if(!gonnaBuy)
+                UnfreezePlayer();
             return;
         }
-        content.text = dialogue.lines[dialogueIndex]; 
+        content.text = dialogue.lines[dialogueIndex];
+    }
+
+    private bool GonnaBuy()
+    {
+        if (speaker.text.CompareTo("-Item seller:") == 0 && dialogueIndex == 2)
+        {
+            MenusManager.sharedInstance.ShowBuyScreen(0);
+            return true;
+        }
+        return false;
     }
 
     private void FreezePlayer(Dialogue npcDialogue)
@@ -55,7 +72,7 @@ public class DialogueBox : MonoBehaviour
     private void UnfreezePlayer()
     {
         talking = false;
-        dialogueIndex = dialogue.lines.Length - 1;
+        dialogueIndex = 0;//dialogue.lines.Length - 1;
         GameManager.sharedInstance.UnfreezePlayer();
     }
 

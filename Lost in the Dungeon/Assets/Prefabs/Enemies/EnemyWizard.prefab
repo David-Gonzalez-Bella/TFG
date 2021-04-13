@@ -317,7 +317,8 @@ MonoBehaviour:
   - {x: 5, y: 4}
   - {x: 5, y: 4.2}
   - {x: 5, y: 4.5}
-  - {x: 6, y: 5}
+  damage: 0
+  speed: 0
   detectionDistance: 5
   attackingDistance: 3
   fireball: {fileID: 6985673739877001683, guid: 82fe0d9b0218aaa489c5f00bfab62dbe,

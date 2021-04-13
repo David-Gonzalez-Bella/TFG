@@ -13,6 +13,9 @@ public class MenusManager : MonoBehaviour
     public GameObject dieScreen;
     public GameObject pauseScreen;
     public GameObject wannaLeaveScreen;
+    public GameObject shopScreen;
+    public GameObject wannaBuyScreen;
+    public GameObject wannaLeaveShopScreen;
 
     //Buttons OnClick assignment
     [Header("Buttons")]
@@ -93,6 +96,46 @@ public class MenusManager : MonoBehaviour
             GameManager.sharedInstance.currentGameState = gameState.inGame;
         }
 
+    }
+
+    public void ShowBuyScreen(int index)
+    {
+        switch (index)
+        {
+            case 0:
+                wannaBuyScreen.SetActive(true);
+                break;
+            case 1:
+                wannaLeaveShopScreen.SetActive(true);
+                break;
+            case 2:
+                shopScreen.SetActive(true);
+                wannaBuyScreen.SetActive(false);
+                break;
+        }
+    }
+
+    public void ExitBuyScreen(int index)
+    {
+        switch (index)
+        {
+            case 0:
+                wannaBuyScreen.SetActive(false);
+                DialogueBox.sharedInstance.StartDialogue("Item seller", 
+                    DialogueManager.sharedInstance.dialogues["ItemSeller_S"], 
+                    DialogueBox.sharedInstance.dialogue.lines.Length - 1);
+                break;
+            case 1:
+                wannaLeaveShopScreen.SetActive(false);
+                break;
+            case 2:
+                wannaLeaveShopScreen.SetActive(false);
+                shopScreen.SetActive(false);
+                DialogueBox.sharedInstance.StartDialogue("Item seller",
+                    DialogueManager.sharedInstance.dialogues["ItemSeller_S"],
+                    DialogueBox.sharedInstance.dialogue.lines.Length - 2);
+                break;
+        }
     }
 
     public void MouseOver(bool over)

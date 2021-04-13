@@ -11,6 +11,7 @@ public class Bars_Texts : MonoBehaviour
     [SerializeField] private TMP_Text healthBarTxt;
     [SerializeField] private TMP_Text magicBarTxt;
     [SerializeField] private TMP_Text expBarTxt;
+    [SerializeField] private TMP_Text goldTxt;
 
     private void Awake()
     {
@@ -20,7 +21,10 @@ public class Bars_Texts : MonoBehaviour
         }
     }
 
-    //Overloaded method to update all bars texts
+    public void UpdateGoldTxt(int gold)
+    {
+        goldTxt.text = gold.ToString();
+    }
     public void UpdateHealthBarTxt(Health health)
     {
         healthBarTxt.text = health.CurrentHealth.ToString() + " / " + health.baseHealth.ToString();
@@ -33,4 +37,5 @@ public class Bars_Texts : MonoBehaviour
     {
         expBarTxt.text = exp.experience.ToString() + " / " + exp.nextLevelExp.ToString();
     }
+
 }

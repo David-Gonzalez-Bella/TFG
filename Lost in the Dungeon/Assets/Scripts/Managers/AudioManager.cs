@@ -11,7 +11,6 @@ public class AudioManager : MonoBehaviour
     public AudioSource fireballAttack;
     public AudioSource rushAttack;
     public AudioSource stepsSound;
-    public AudioSource flySound;
     public AudioSource backgroundMusic;
     public AudioSource enemyDamage;
     public AudioSource wallCrush;

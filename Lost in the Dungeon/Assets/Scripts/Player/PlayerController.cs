@@ -38,8 +38,21 @@ public class PlayerController : MonoBehaviour
     public Mana mana;
     public Health health;
     public Experience exp;
-    public List<Mission> activeMissions = new List<Mission>();
+    private int gold = 0;
+    public int CurrentGold
+    {
+        get
+        {
+            return gold;
+        }
+        set
+        {
+            gold = value;
+            Bars_Texts.sharedInstance.UpdateGoldTxt(gold);
+        }
+    }
 
+    public List<Mission> activeMissions = new List<Mission>();
     public GameObject swordFlash;
 
     private void Awake()
@@ -56,6 +69,7 @@ public class PlayerController : MonoBehaviour
 
         atrib.speedIncrease = 0;
         atrib.damageIncrease = 0;
+        atrib.speedCount = atrib.baseSpeed;
     }
 
     void Start()

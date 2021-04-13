@@ -70,9 +70,7 @@ public class Enemy : MonoBehaviour //This contains the IA and the atributes ever
 
     public void SetStats(int difficulty)
     {
-        int next = 2;
-        if (difficulty == 10)
-            next = 0;
+        int next = difficulty != 8 ? 2 : 0;
         Vector2 newStats = stats[Random.Range(difficulty, difficulty + next)];
         atrib.baseDamage = (int)newStats.x;
         atrib.baseSpeed = newStats.y;

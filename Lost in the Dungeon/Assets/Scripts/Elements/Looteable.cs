@@ -34,6 +34,10 @@ public class Looteable : Interactive
         if (zone.enemiesAlive != 0)
             anim.SetTrigger(hitHashCode);
         else
+        {
             anim.SetTrigger(destroyHashCode);
+            player.CurrentGold += gold;
+            col.enabled = false;
+        }
     }
 }
