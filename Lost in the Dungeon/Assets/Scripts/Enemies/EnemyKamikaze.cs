@@ -8,6 +8,8 @@ using UnityEngine;
 
 public class EnemyKamikaze : Enemy //Enemy inherits from Monobehaviour. Therefore, so does EnemyKnight
 {
+    public AudioSource wingFlapSnd;
+
     public GameObject rushFlash;
     private bool dealDamageCoroutine = false;
     public bool canDealDamage = false;
@@ -16,11 +18,11 @@ public class EnemyKamikaze : Enemy //Enemy inherits from Monobehaviour. Therefor
     {
         if (!dead)
         {
-            if (canAttack && !attacking && input.distanceMagnitude < detectionDistance) //If the enemy is not attacking and the distance to the player is less than the attacking distance it means that he shall attack the player
+            if (canAttack && !attacking && input.distanceMagnitude < detectionDistance && parent.playerInside) //If the enemy is not attacking and the distance to the player is less than the attacking distance it means that he shall attack the player
             {
                 AttackPlayer(); //Enable 'attacking' variable to trigger te attack animation
             }
-            else if (attacking)
+            else if (attacking && parent.playerInside)
             {
                 RushTowardsPlayer();
             }
@@ -53,7 +55,7 @@ public class EnemyKamikaze : Enemy //Enemy inherits from Monobehaviour. Therefor
 
     public void PlayFlySound()
     {
-        AudioManager.sharedInstance.flySound.Play(); //This sound play is more simple because its called in the exact frame of the animation where the wing flaps
+        wingFlapSnd.Play(); //This sound play is more simple because its called in the exact frame of the animation where the wing flaps
     }
 
     public void OnCollisionEnter2D(Collision2D collision)

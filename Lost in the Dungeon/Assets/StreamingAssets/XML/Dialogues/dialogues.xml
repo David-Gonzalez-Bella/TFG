@@ -2,72 +2,25 @@
 <ArrayOfDialogue xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Dialogue>
     <lines>
-      <string>Greetings noble warrior, welcome to this little piece of hell on Earth! Looking at the decoration I'm sure you can tell what type of place this is, but just in case let me explain you how everything works.</string>
-      <string>To make long story short, there's a bunch of... "not very friendly creatures" around here, so when you see a purple explosion get ready to fight!</string>
-      <string>One important thing you must know is that those creatures are quite persistent, so don't think once you defeat them they won't reapear whenever you enter their romm again. Believe me, they will.</string>
-      <string>You can use your sword pressing -LEFT CLICK- or -SPACE-, and if you press -SHIFT- you will dash, and your mana bar will decrease.</string>
-      <string>The mana bar will regenerate over time, but if you kill an enemy you will gain a bigger amount all at once.</string>
-      <string>Every time you take damage your health will decrease, so keep your eyes open when any of those creeps I mentioned appears.</string>
-      <string>Whenever you kill one of them your XP bar will fill, and so you will level up eventually. Everytime that happens you can spend your XP points to improve a skill in the Abilities and Missions menu, pressing -TAB-</string>
-      <string>There are also be some friendly parners in here, so don't be afraid and talk to them. Some may even give you missions to complete. It's nice to help others you know, so give them a hand!</string>
-      <string>I think that's pretty much all you need to know, good luck in your adventure!</string>
+      <string>dungeonInfo1</string>
+      <string>dungeonInfo2</string>
+      <string>dungeonInfo3</string>
+      <string>dungeonInfo4</string>
+      <string>dungeonInfo5</string>
+      <string>dungeonInfo6</string>
+      <string>dungeonInfo7</string>
+      <string>dungeonInfo8</string>
     </lines>
     <id>EntranceGuard_S</id>
   </Dialogue>
   <Dialogue>
     <lines>
-      <string>Thank godness, another adventurer, what a relief! You look pretty strong, would you mind doing me a litle favor?</string>
-      <string>There's a bunch of creeps around here, and they won't let me escape this darn dungeon... Could you kill five of them?</string>
-      <string>With five of those creeps down I might be able to take on the rest of them and go back home at last. Good luck in your quest my saviour, I'll be waiting here four your return.</string>
+      <string>Greetings traveller, welcome to my little mobile shop! Here yo can put that gold of yours to good use, buying both, weapons and spells.</string>
+      <string>I don't like people to stare at my inventory for too long, so I will only display my products one time. I will leave right after that, so don't buy willy nilly.</string>
+      <string>So, would you like to see what I have to offer? I have some good new stuff...</string>
+      <string>Thank you for your purchase! I should get going now, these place really gives me the heebie-jeebies. Good luck in your adventure, until we meet again!</string>
+      <string>Too bad... well, think about it and come back anytime, I will be waiting for you!</string>
     </lines>
-    <id>LostWarrior_S</id>
-  </Dialogue>
-  <Dialogue>
-    <lines>
-      <string>You actually did it! I mean, not that I didn't have faith in you of course...hehe.</string>
-      <string>H-hey, d-did you hear that? It sounded like rocks breaking to pieces. Maybe a blocked path just opened, it happens pretty often in this place.</string>
-      <string>Anyway, I can finally return home, thank you so much noble warrior!</string>
-    </lines>
-    <id>LostWarrior_E</id>
-  </Dialogue>
-  <Dialogue>
-    <lines>
-      <string>Behold the great power of a true elite archmage!!</string>
-      <string>Now, mortal, if you have come this far I guess you are worthy of my trust. Rejoice! You will have the honor of serving me, so listen up carefully. Mine are not exactly easy quests...</string>
-      <string>So...*jumm*, c-could you go check if Mr.Chopy is alright? He is my best friend, the best pet that exists in the cosmos.</string>
-      <string>I like him to run freely like a shooting star, but it has been quite some time since I just saw him...</string>
-      <string>*J-JUMM!* W-well, enough sentimentality. Listen up mortal, your duty is to go chech if Mr.Chopy is fine, he should be somewhere near here.</string>
-      <string>Farewell then, I shall be praying for your swift and illustrious victory from here my minion, MUAHAHA!</string>
-    </lines>
-    <id>GreatArchmage_S</id>
-  </Dialogue>
-  <Dialogue>
-    <lines>
-      <string>So, did you see him? Is he alright?!</string>
-      <string>Oh, so he is in a room near here safe and sound, what a relief!!</string>
-      <string>You have my grattitude, your performance was truly sublime. I wish you luck in your incomming adventures, MUAHAHA!</string>
-    </lines>
-    <id>GreatArchmage_E</id>
-  </Dialogue>
-  <Dialogue>
-    <lines>
-      <string>Prrr prrr*</string>
-    </lines>
-    <id>Mr.Chopy_S</id>
-  </Dialogue>
-  <Dialogue>
-    <lines>
-      <string>Greetings, young man! It's so nice to see some young blood around here, it gives me hope and makes me think that maybe, in the future, this dungeon may become a lively and habitable place. Anyway, would you please make this old legs a favour?</string>
-      <string>I need some concrete weeds that grow in the dungeon, I'm sure you have seen some of them on your way here. Could you go collect some for me? Four weeds should sufice, so it won't be too much of a pain for you, will it? HO HO HO!</string>
-      <string>I will be here waiting for you return young warrior, thank you once again.</string>
-    </lines>
-    <id>WiseMage_S</id>
-  </Dialogue>
-  <Dialogue>
-    <lines>
-      <string>Oh, you are back already! And you found all of the weeds, youngsters these days are truly amazing, HO HO!</string>
-      <string>Now I can keep working on my potions, thank you noble warrior, my research could not have continued without your help!</string>
-    </lines>
-    <id>WiseMage_E</id>
+    <id>ItemSeller_S</id>
   </Dialogue>
 </ArrayOfDialogue>

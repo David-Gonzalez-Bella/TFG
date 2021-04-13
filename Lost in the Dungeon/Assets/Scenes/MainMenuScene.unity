@@ -2610,7 +2610,6 @@ MonoBehaviour:
   fireballAttack: {fileID: 1383601768}
   rushAttack: {fileID: 1383601755}
   stepsSound: {fileID: 1383601766}
-  flySound: {fileID: 1383601756}
   backgroundMusic: {fileID: 1383601767}
   enemyDamage: {fileID: 1383601765}
   wallCrush: {fileID: 1383601753}

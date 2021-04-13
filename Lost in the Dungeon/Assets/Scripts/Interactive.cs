@@ -8,7 +8,7 @@ using System;
 public class Interactive : MonoBehaviour
 {
     protected Collider2D col;
-    //[HideInInspector]
+    [HideInInspector]
     public PlayerController player;
 
     private void Awake()

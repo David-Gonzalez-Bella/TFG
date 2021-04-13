@@ -204,7 +204,6 @@ MonoBehaviour:
   - {x: 4, y: 5}
   - {x: 4, y: 5.2}
   - {x: 4, y: 5.5}
-  - {x: 5, y: 6}
   damage: 0
   speed: 0
   detectionDistance: 5

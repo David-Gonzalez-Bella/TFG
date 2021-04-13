@@ -10,4 +10,5 @@ public class FillRoomPositions : MonoBehaviour
     [Header("Positions lists")]
     public List<Transform> enemySpawnPositions;
     public List<Transform> lootSpawnPositions;
+    public Transform itemSellerPosition;
 }
