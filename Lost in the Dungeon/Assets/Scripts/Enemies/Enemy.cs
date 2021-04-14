@@ -112,7 +112,7 @@ public class Enemy : MonoBehaviour //This contains the IA and the atributes ever
 
     public void DissappearEffect()
     {
-        EnemySpawner.sharedInstance.InstantiateSpawnEffect(this, this.transform.position);
+        Spawner.sharedInstance.InstantiateSpawnEffect(this, this.transform.position);
         AudioManager.sharedInstance.PlayEnemySpawnSound();
     }
 

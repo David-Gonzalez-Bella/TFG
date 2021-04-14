@@ -26,7 +26,7 @@ public class TriggerSpawner : MonoBehaviour
                 for (int i = 0; i < enemyPositions.Count; i++)
                 {
                     chosenEnemy = enemies[UnityEngine.Random.Range(0, enemies.Length)];
-                    EnemySpawner.sharedInstance.SpawnEnemy(chosenEnemy, enemyPositions[i], this, difficulty);
+                    Spawner.sharedInstance.SpawnEnemy(chosenEnemy, enemyPositions[i], this, difficulty);
                     enemiesAlive++;
                 }
             }

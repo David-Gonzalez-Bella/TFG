@@ -111,6 +111,7 @@ public class MenusManager : MonoBehaviour
             case 2:
                 shopScreen.SetActive(true);
                 wannaBuyScreen.SetActive(false);
+                DialogueBox.sharedInstance.hasBought = true;
                 break;
         }
     }

@@ -10,6 +10,7 @@ public class Interactive : MonoBehaviour
     protected Collider2D col;
     [HideInInspector]
     public PlayerController player;
+    public bool canInteract = true;
 
     private void Awake()
     {
@@ -17,12 +18,15 @@ public class Interactive : MonoBehaviour
         col = GetComponent<Collider2D>();
     }
 
-    public virtual void Interact() { }
+    public virtual void Interact() {}
 
     public void OnMouseOver()
     {
         if (DialogueBox.sharedInstance.visible.interactable) return;
         if (MenusManager.sharedInstance.mouseOverInteractive) return;
+        if (MenusManager.sharedInstance.wannaBuyScreen.activeSelf) return;
+        if (MenusManager.sharedInstance.shopScreen.activeSelf) return;
+
         CursorManager.sharedInstance.SetCursor(CursorManager.sharedInstance.handCursor);
         MenusManager.sharedInstance.MouseOver(true);
     }
