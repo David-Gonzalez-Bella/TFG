@@ -39,6 +39,9 @@ public class PlayerController : MonoBehaviour
     public Health health;
     public Experience exp;
     private int gold = 0;
+
+    public ItemSeller interactingItemSeller;
+
     public int CurrentGold
     {
         get

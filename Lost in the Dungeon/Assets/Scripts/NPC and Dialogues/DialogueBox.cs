@@ -13,6 +13,7 @@ public class DialogueBox : MonoBehaviour
     public CanvasGroup visible;
     public int dialogueIndex = 0;
     public bool talking = false;
+    public bool hasBought = false;
 
     private void Awake()
     {
@@ -40,13 +41,18 @@ public class DialogueBox : MonoBehaviour
         bool gonnaBuy = GonnaBuy();
         dialogueIndex = (speaker.text.CompareTo("-Item seller:") == 0 &&
             dialogueIndex == dialogue.lines.Length - 2) ?
-            dialogueIndex + 2 : 
+            dialogueIndex + 2 :
             dialogueIndex + 1;
         if (gonnaBuy || dialogueIndex >= dialogue.lines.Length)
         {
             MakeVisible(0.0f, false);
-            if(!gonnaBuy)
+            if (!gonnaBuy)
                 UnfreezePlayer();
+            if (hasBought)
+            {
+                Spawner.sharedInstance.ItemSellerDissapear();
+                hasBought = false;
+            }
             return;
         }
         content.text = dialogue.lines[dialogueIndex];
