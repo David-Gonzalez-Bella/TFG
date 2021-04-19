@@ -14,6 +14,8 @@ public class PlayerController : MonoBehaviour
     private bool doDash;
     private bool inventary;
     private bool pause;
+
+    [Header("Audio sources")]
     public AudioSource attackAudioSource;
     public AudioSource damgeAudioSource;
     public AudioSource stepsAudioSource;
@@ -31,16 +33,27 @@ public class PlayerController : MonoBehaviour
     private Animator anim;
     private CapsuleCollider2D col;
 
+    [Header("Animations")]
+    public AnimatorOverrideController fireAnimations;
+    public AnimatorOverrideController waterAnimations;
+    public AnimatorOverrideController windAnimations;
+
+    [Header("Atributes")]
+    public Mana mana;
+    public Health health;
+    public Experience exp;
     public Atributes atrib;
     public LayerMask interactLayer;
     private Attack atck;
     private Abilities abilities;
-    public Mana mana;
-    public Health health;
-    public Experience exp;
     private int gold = 0;
+    [HideInInspector]
+    public int itemsLevel = 0;
 
     public ItemSeller interactingItemSeller;
+
+    public enum AttackTypes { Base, Fire, Water, Wind };
+    public AttackTypes attackType;
 
     public int CurrentGold
     {
@@ -86,10 +99,17 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        if(attackType == AttackTypes.Fire)
+            anim.runtimeAnimatorController = fireAnimations as RuntimeAnimatorController;
+        if (attackType == AttackTypes.Water)
+            anim.runtimeAnimatorController = waterAnimations as RuntimeAnimatorController;
+        if (attackType == AttackTypes.Wind)
+            anim.runtimeAnimatorController = windAnimations as RuntimeAnimatorController;
+
         if (DialogueBox.sharedInstance.talking) return;
         if (GameManager.sharedInstance.currentGameState == gameState.inGame)
         {
-            if (!PanelsMenu.sharedInstance.panelsOpen) //You can onlu move or attack if your inventary is not open
+            if (!PanelsMenu.sharedInstance.panelsOpen) //You can only move or attack if your inventary is not open
             {
                 moveX = input.horizontal;
                 moveY = input.vertical;

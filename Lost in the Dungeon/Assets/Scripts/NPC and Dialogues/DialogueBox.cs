@@ -51,6 +51,7 @@ public class DialogueBox : MonoBehaviour
             if (hasBought)
             {
                 Spawner.sharedInstance.ItemSellerDissapear();
+                GameManager.sharedInstance.player.GetComponent<PlayerController>().itemsLevel++;
                 hasBought = false;
             }
             return;

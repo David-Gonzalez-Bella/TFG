@@ -23,4 +23,10 @@
     </lines>
     <id>ItemSeller_S</id>
   </Dialogue>
+  <Dialogue>
+    <lines>
+      <string>I'm sorry... but I don't think any of the stuff I have with me can help you, it's a bit too advanced for your current equipment. Get a weapon and a spell and then come back.</string>
+    </lines>
+    <id>ItemSeller_N</id>
+  </Dialogue>
 </ArrayOfDialogue>
