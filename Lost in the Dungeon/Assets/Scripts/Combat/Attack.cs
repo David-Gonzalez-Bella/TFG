@@ -20,8 +20,8 @@ public class Attack : MonoBehaviour
 
     private void Update()
     {
-        Debug.DrawLine(transform.position, (Vector2)transform.position + attackVector, Color.red);
-        Debug.DrawLine(A, B, Color.yellow);
+        //Debug.DrawLine(transform.position, (Vector2)transform.position + attackVector, Color.red);
+        //Debug.DrawLine(A, B, Color.yellow);
     }
 
     private void CreateHitbox(Vector2 attackDirection)

@@ -9,7 +9,7 @@ public class DungeonGenerator : MonoBehaviour
     public Zone zonePrefab;
     public TriggerSpawner triggerSpawner;
     public FillRoomPositions fillRoomPositions;
-    public GameObject itemSeller;
+    public ItemSeller itemSeller;
     public LevelExit levelExit;
 
     //Instantiation positions
@@ -476,7 +476,8 @@ public class DungeonGenerator : MonoBehaviour
                     parent == brotherZones.ToArray()[brotherZones.Count - 1];
                 if (r == 0 || lastCheck)
                 {
-                    Instantiate(itemSeller, fillRoomPositions.itemSellerPosition.position, Quaternion.identity, parent.transform);
+                    Instantiate(itemSeller, fillRoomPositions.itemSellerPosition.position, 
+                        Quaternion.identity, parent.transform).ChooseModel(COUNT_LEVELS);
                     shopGenerated = true;
                     return;
                 }
@@ -502,8 +503,10 @@ public class DungeonGenerator : MonoBehaviour
             index = UnityEngine.Random.Range(0, 2);
             if (index == 0)
             {
-                Looteable looteable = fillRoomPositions.lootElements[UnityEngine.Random.Range(0, fillRoomPositions.lootElements.Count)];
-                Instantiate(looteable, fillRoomPositions.lootSpawnPositions[count].transform.position, Quaternion.identity, GameObject.Find("LootContainer").transform)
+                Looteable looteable = fillRoomPositions.lootElements[UnityEngine.Random.Range(0, 
+                                                        fillRoomPositions.lootElements.Count)];
+                Instantiate(looteable, fillRoomPositions.lootSpawnPositions[count].transform.position, 
+                                    Quaternion.identity, GameObject.Find("LootContainer").transform)
                .Initialize(1, COUNT_LEVELS + 2, sp);
             }
             count++;
