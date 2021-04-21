@@ -25,7 +25,6 @@ public class Spawner : MonoBehaviour
         StartCoroutine(SpawnEnemyCoroutine(enemy, position, parent, difficulty));
     }
 
-
     public void InstantiateSpawnEffect(Enemy enemy, Vector3 position)
     {
         Instantiate(enemySpawnEffect, position + new Vector3(0f, -0.5f, 0f), Quaternion.identity);

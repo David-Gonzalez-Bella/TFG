@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
     private bool attack;
     private bool dashing;
     private bool doDash;
+    private bool throwFireball;
     private bool inventary;
     private bool pause;
 
@@ -28,7 +29,11 @@ public class PlayerController : MonoBehaviour
     private int runningHashCode;
     private int attackHashCode;
 
-    private InputPlayer input;
+    private bool dashUnlocked;
+    private bool fireballUnlocked;
+
+    [HideInInspector]
+    public InputPlayer input;
     private Rigidbody2D rb;
     private Animator anim;
     private CapsuleCollider2D col;
@@ -45,15 +50,12 @@ public class PlayerController : MonoBehaviour
     public Atributes atrib;
     public LayerMask interactLayer;
     private Attack atck;
-    private Abilities abilities;
+    public Abilities abilities;
     private int gold = 0;
     [HideInInspector]
     public int itemsLevel = 0;
 
     public ItemSeller interactingItemSeller;
-
-    public enum AttackTypes { Base, Fire, Water, Wind };
-    public AttackTypes attackType;
 
     public int CurrentGold
     {
@@ -99,13 +101,6 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if(attackType == AttackTypes.Fire)
-            anim.runtimeAnimatorController = fireAnimations as RuntimeAnimatorController;
-        if (attackType == AttackTypes.Water)
-            anim.runtimeAnimatorController = waterAnimations as RuntimeAnimatorController;
-        if (attackType == AttackTypes.Wind)
-            anim.runtimeAnimatorController = windAnimations as RuntimeAnimatorController;
-
         if (DialogueBox.sharedInstance.talking) return;
         if (GameManager.sharedInstance.currentGameState == gameState.inGame)
         {
@@ -114,7 +109,8 @@ public class PlayerController : MonoBehaviour
                 moveX = input.horizontal;
                 moveY = input.vertical;
                 attack = input.basicAtk && !MenusManager.sharedInstance.mouseOverInteractive;
-                dashing = input.ability1;
+                dashing = input.ability1 && dashUnlocked;
+                throwFireball = input.ability1 && fireballUnlocked;
             }
             inventary = input.inventary; //You can always open and close your inventary once you are playing
 
@@ -132,6 +128,9 @@ public class PlayerController : MonoBehaviour
             if (dashing && !abilities.dashing && mana.CurrentMana >= abilities.dashManaCost)
                 doDash = true;
 
+            if (throwFireball && !abilities.throwingFireball && mana.CurrentMana >= abilities.fireballManaCost)
+                abilities.ThrowFireball(atck, input.faceDirection, transform.position + (Vector3)input.faceDirection);
+            
             if (inventary)
             {
                 PlayInventaryAudio();
@@ -143,6 +142,87 @@ public class PlayerController : MonoBehaviour
             pause = input.pause;
             if (pause)
                 MenusManager.sharedInstance.PauseGame();
+        }
+    }
+
+    public void EvolveFireSword()
+    {
+        switch (itemsLevel)
+        {
+            case 0:
+                anim.runtimeAnimatorController = fireAnimations as RuntimeAnimatorController;
+                atrib.ModifyDamage();
+                break;
+            case 1:
+
+                break;
+            case 2:
+
+                break;
+        }
+    }
+    public void EvolveIceSword()
+    {
+        switch (itemsLevel)
+        {
+            case 0:
+                anim.runtimeAnimatorController = waterAnimations as RuntimeAnimatorController;
+                mana.ModifyBaseMana(5);
+                break;
+            case 1:
+
+                break;
+            case 2:
+
+                break;
+        }
+    }
+    public void EvolveWindSword()
+    {
+        switch (itemsLevel)
+        {
+            case 0:
+                anim.runtimeAnimatorController = windAnimations as RuntimeAnimatorController;
+                atrib.ModifySpeed();
+                break;
+            case 1:
+
+                break;
+            case 2:
+
+                break;
+        }
+    }
+
+    public void EvolveDash()
+    {
+        switch (itemsLevel)
+        {
+            case 0:
+                dashUnlocked = true;
+                break;
+            case 1:
+
+                break;
+            case 2:
+
+                break;
+        }
+    }
+
+    public void EvolveFireBall()
+    {
+        switch (itemsLevel)
+        {
+            case 0:
+                fireballUnlocked = true;
+                break;
+            case 1:
+
+                break;
+            case 2:
+
+                break;
         }
     }
 

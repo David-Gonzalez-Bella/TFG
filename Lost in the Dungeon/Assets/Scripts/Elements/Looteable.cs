@@ -11,20 +11,12 @@ public class Looteable : Interactive
     private int hitHashCode;
     private int destroyHashCode;
 
-    private void Start()
+    public void Initialize(int minG, int maxG, TriggerSpawner zone)
     {
         anim = GetComponent<Animator>();
         hitHashCode = Animator.StringToHash("Hit");
         destroyHashCode = Animator.StringToHash("Destroy");
-    }
 
-    public void SetZone(TriggerSpawner zone)
-    {
-        this.zone = zone;
-    }
-
-    public void Initialize(int minG, int maxG, TriggerSpawner zone)
-    {
         gold = Random.Range(minG, maxG);
         this.zone = zone;
     }

@@ -8,7 +8,6 @@ public class InputPlayer : MonoBehaviour
     public float vertical { get; private set; }
     public bool basicAtk { get; private set; }
     public bool ability1 { get; private set; }
-    public bool ability2 { get; private set; }
     public bool interact { get; private set; }
     public bool inventary { get; private set; }
     public bool pause { get; private set; }
@@ -25,7 +24,6 @@ public class InputPlayer : MonoBehaviour
         //Actions
         basicAtk = Input.GetButtonDown("Basic Attack") ;
         ability1 = Input.GetButtonDown("Ability 1");
-        ability2 = Input.GetButtonDown("Ability 2");
         interact = Input.GetButtonDown("Interact");
         inventary = Input.GetButtonDown("Inventary");
         pause = Input.GetButtonDown("Pause");

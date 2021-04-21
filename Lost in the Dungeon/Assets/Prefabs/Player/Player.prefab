@@ -295,13 +295,23 @@ MonoBehaviour:
   dashAudioSource: {fileID: 4104684265888432967}
   dieAudioSource: {fileID: 0}
   inventaryAudioSource: {fileID: 0}
-  atrib: {fileID: 11400000, guid: 6684ad60225dadd4fb14530d580ceb03, type: 2}
-  interactLayer:
-    serializedVersion: 2
-    m_Bits: 2048
+  input: {fileID: 0}
+  fireAnimations: {fileID: 0}
+  waterAnimations: {fileID: 0}
+  windAnimations: {fileID: 0}
   mana: {fileID: 0}
   health: {fileID: 0}
   exp: {fileID: 0}
+  atrib: {fileID: 11400000, guid: 6684ad60225dadd4fb14530d580ceb03, type: 2}
+  fireball: {fileID: 6985673739877001683, guid: 012032f0786168e4b9f8eb9340a4c1fd,
+    type: 3}
+  interactLayer:
+    serializedVersion: 2
+    m_Bits: 2048
+  itemsLevel: 0
+  fireballDamage: 1
+  fireballLifeTime: 3
+  interactingItemSeller: {fileID: 0}
   swordFlash: {fileID: 7317127439547913718, guid: cf0817265cdbf48419b3e58c44da8f94,
     type: 3}
 --- !u!114 &6259099323098235027

@@ -15,6 +15,7 @@ public class MenusManager : MonoBehaviour
     public GameObject wannaLeaveScreen;
     public GameObject shopScreen;
     public GameObject wannaBuyScreen;
+    public GameObject sureToBuyItemScreen;
     public GameObject wannaLeaveShopScreen;
 
     //Buttons OnClick assignment
@@ -113,6 +114,9 @@ public class MenusManager : MonoBehaviour
                 wannaBuyScreen.SetActive(false);
                 DialogueBox.sharedInstance.hasBought = true;
                 break;
+            case 3:
+                sureToBuyItemScreen.SetActive(true);
+                break;
         }
     }
 
@@ -135,6 +139,9 @@ public class MenusManager : MonoBehaviour
                 DialogueBox.sharedInstance.StartDialogue("Item seller",
                     DialogueManager.sharedInstance.dialogues["ItemSeller_S"],
                     DialogueBox.sharedInstance.dialogue.lines.Length - 2);
+                break;
+            case 3:
+                sureToBuyItemScreen.SetActive(false);
                 break;
         }
     }
