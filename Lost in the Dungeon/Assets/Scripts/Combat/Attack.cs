@@ -49,12 +49,12 @@ public class Attack : MonoBehaviour
         CheckAttacked(attackDirection, damage, swordFlash);   
     }
 
-    public void ProyectileAttack(Proyectile proyectile, Vector2 attackDirection, Transform shootPoint)
+    public void ProyectileAttack(Proyectile proyectile, Vector2 attackDirection, Vector2 shootPoint)
     {
+        AudioManager.sharedInstance.PlayFireballSound();
         proyectile.direction = attackDirection; //The direction of the fireball is the direction towards the player. When the proyectile is instanciated its direction is set, not before
-        GameObject p = Instantiate(proyectile.gameObject, shootPoint.position, Quaternion.identity, GameManager.sharedInstance.proyectilesContiner);
+        GameObject p = Instantiate(proyectile.gameObject, shootPoint, Quaternion.identity, GameManager.sharedInstance.proyectilesContiner);
         float rotateAngle = Mathf.Atan2(attackDirection.y, attackDirection.x) * Mathf.Rad2Deg;
         p.transform.Rotate(0, 0, rotateAngle);
-
     }
 }

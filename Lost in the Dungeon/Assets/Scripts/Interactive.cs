@@ -10,7 +10,6 @@ public class Interactive : MonoBehaviour
     protected Collider2D col;
     [HideInInspector]
     public PlayerController player;
-    public bool canInteract = true;
 
     private void Awake()
     {
@@ -20,7 +19,7 @@ public class Interactive : MonoBehaviour
 
     public virtual void Interact() {}
 
-    public void OnMouseOver()
+    private void OnMouseOver()
     {
         if (DialogueBox.sharedInstance.visible.interactable) return;
         if (MenusManager.sharedInstance.mouseOverInteractive) return;
@@ -30,11 +29,11 @@ public class Interactive : MonoBehaviour
         CursorManager.sharedInstance.SetCursor(CursorManager.sharedInstance.handCursor);
         MenusManager.sharedInstance.MouseOver(true);
     }
-    public void OnMouseExit() => StopInteracting();
+    private void OnMouseExit() => StopInteracting();
 
     private void OnDestroy() => StopInteracting();
 
-    public void OnMouseDown() //The interface´s method must be implemented (ir occurs when we click it)*/
+    private void OnMouseDown() //The interface´s method must be implemented (ir occurs when we click it)*/
     {
         foreach (Collider2D interactObj in player.Interactuables())
         {

@@ -24,6 +24,7 @@ public class DungeonGenerator : MonoBehaviour
     private Queue<Zone> levelChildren;
     private int maxExpand = 4;
     private bool shopGenerated = false;
+    private int shopLevelCounter;
 
     //Enemy spawn related atributes
     private int numEnemies = 0;
@@ -217,6 +218,7 @@ public class DungeonGenerator : MonoBehaviour
                 levelChildren.Dequeue();
                 levelChildren.Enqueue(null);
                 shopGenerated = false;
+                shopLevelCounter = 0;
                 maxExpand = 4;
             }
         }
@@ -472,15 +474,16 @@ public class DungeonGenerator : MonoBehaviour
             {
                 int r = UnityEngine.Random.Range(0, 2);
                 bool lastCheck = COUNT_LEVELS == 1 ?
-                    position == root.topRightLongPoint.position :
-                    parent == brotherZones.ToArray()[brotherZones.Count - 1];
+                     position == root.topRightLongPoint.position :
+                     shopLevelCounter == GetNextLevelChildren(brotherZones.ToArray());
                 if (r == 0 || lastCheck)
                 {
-                    Instantiate(itemSeller, fillRoomPositions.itemSellerPosition.position, 
+                    Instantiate(itemSeller, fillRoomPositions.itemSellerPosition.position,
                         Quaternion.identity, parent.transform).ChooseModel(COUNT_LEVELS);
                     shopGenerated = true;
                     return;
                 }
+                shopLevelCounter++;
             }
         }
         TriggerSpawner sp = Instantiate(triggerSpawner, position, Quaternion.identity, parent.transform);
@@ -503,14 +506,24 @@ public class DungeonGenerator : MonoBehaviour
             index = UnityEngine.Random.Range(0, 2);
             if (index == 0)
             {
-                Looteable looteable = fillRoomPositions.lootElements[UnityEngine.Random.Range(0, 
+                Looteable looteable = fillRoomPositions.lootElements[UnityEngine.Random.Range(0,
                                                         fillRoomPositions.lootElements.Count)];
-                Instantiate(looteable, fillRoomPositions.lootSpawnPositions[count].transform.position, 
+                Instantiate(looteable, fillRoomPositions.lootSpawnPositions[count].transform.position,
                                     Quaternion.identity, GameObject.Find("LootContainer").transform)
                .Initialize(1, COUNT_LEVELS + 2, sp);
             }
             count++;
         }
+    }
+
+    private int GetNextLevelChildren(Zone[] b)
+    {
+        int c = 0;
+        for (int i = 0; i < b.Length; i++)
+        {
+            c += b[i].children;
+        }
+        return c - 1;
     }
 
     public void PrintHeap(int index, Zone currentZone)

@@ -15,6 +15,6 @@ public class Parallax : MonoBehaviour
 
     private void Update()
     {
-        rawImage.uvRect = new Rect(rawImage.uvRect.x + parallaxSpeed, 0.0f, 1.0f, 1.0f);
+        rawImage.uvRect = new Rect(rawImage.uvRect.x + parallaxSpeed * Time.deltaTime, 0.0f, 1.0f, 1.0f);
     }
 }

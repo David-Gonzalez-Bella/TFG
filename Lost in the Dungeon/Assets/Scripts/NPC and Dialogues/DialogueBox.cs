@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using System;
+using UnityEngine.EventSystems;
 
 public class DialogueBox : MonoBehaviour
 {
@@ -87,5 +88,7 @@ public class DialogueBox : MonoBehaviour
     {
         visible.alpha = alpha;
         visible.interactable = interactable;
+        if(!interactable)
+            EventSystem.current.SetSelectedGameObject(null);
     }
 }

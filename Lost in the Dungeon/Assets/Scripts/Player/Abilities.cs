@@ -4,12 +4,33 @@ using UnityEngine;
 
 public class Abilities : MonoBehaviour
 {
-    public float dashSpeed;
-    private float dashTime = 0.0f;
-    public float startDashTime;
+    //Dash ability
     private Vector2 dashDirection;
-    [HideInInspector] public int dashManaCost = 5;
-    [HideInInspector] public bool dashing = false;
+    private float dashTime;
+    [HideInInspector]
+    public float startDashTime = 0.1f;
+    [HideInInspector]
+    public float dashSpeed = 10;
+    [HideInInspector]
+    public int dashManaCost = 3;
+    [HideInInspector]
+    public bool dashing = false;
+
+    //Fireball ability
+    public Proyectile fireball;
+    private float fireballTime;
+    [HideInInspector]
+    public float startFireballTime = 1.5f;
+    [HideInInspector]
+    public int fireballDamage = 1;
+    [HideInInspector]
+    public float fireballLifeTime = 3.0f;
+    [HideInInspector]
+    public float fireballSpeed = 5.0f;
+    [HideInInspector]
+    public int fireballManaCost = 5;
+    [HideInInspector]
+    public bool throwingFireball = false;
 
     private Rigidbody2D rb;
     private TrailRenderer trail;
@@ -27,6 +48,7 @@ public class Abilities : MonoBehaviour
     private void Start()
     {
         dashTime = startDashTime;
+        fireballTime = startFireballTime;
         trail.startColor = new Color(0.64f, 0.11f, 0.0f, 0.5f);
         trail.endColor = new Color(1.0f, 0.77f, 0.48f, 0.5f);
     }
@@ -59,6 +81,19 @@ public class Abilities : MonoBehaviour
                 }
             }
         }
+
+        if (throwingFireball)
+        {
+            if (fireballTime > 0) //If we have not ended throwing the fireball
+            {
+                fireballTime -= Time.fixedDeltaTime;
+            }
+            else
+            {
+                fireballTime = startFireballTime;
+                throwingFireball = false;
+            }
+        }
     }
 
     public void Dash(Vector2 playerDashDirection)
@@ -67,6 +102,13 @@ public class Abilities : MonoBehaviour
         dashing = true;
         trail.enabled = true;
         mana.ModifyMana(-dashManaCost);
+    }
+
+    public void ThrowFireball(Attack atck, Vector2 direction, Vector3 position)
+    {
+        throwingFireball = true;
+        atck.ProyectileAttack(fireball, direction, position);
+        mana.ModifyMana(-fireballManaCost);
     }
 }
 
