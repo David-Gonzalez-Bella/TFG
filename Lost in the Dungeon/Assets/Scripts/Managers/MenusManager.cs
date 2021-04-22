@@ -96,7 +96,6 @@ public class MenusManager : MonoBehaviour
             GameManager.sharedInstance.LeavePauseScreen();
             GameManager.sharedInstance.currentGameState = gameState.inGame;
         }
-
     }
 
     public void ShowBuyScreen(int index)

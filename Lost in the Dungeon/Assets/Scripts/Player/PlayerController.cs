@@ -14,7 +14,6 @@ public class PlayerController : MonoBehaviour
     private bool doDash;
     private bool throwFireball;
     private bool inventary;
-    private bool pause;
 
     [Header("Audio sources")]
     public AudioSource attackAudioSource;
@@ -52,10 +51,15 @@ public class PlayerController : MonoBehaviour
     private Attack atck;
     public Abilities abilities;
     private int gold = 0;
+
     [HideInInspector]
     public int itemsLevel = 0;
-
+    [HideInInspector]
     public ItemSeller interactingItemSeller;
+    [HideInInspector]
+    public string weapon;
+    [HideInInspector]
+    public string spell;
 
     public int CurrentGold
     {
@@ -139,8 +143,7 @@ public class PlayerController : MonoBehaviour
         }
         if (GameManager.sharedInstance.currentGameState == gameState.inGame || GameManager.sharedInstance.currentGameState == gameState.pauseScreen)
         {
-            pause = input.pause;
-            if (pause)
+            if (input.pause)
                 MenusManager.sharedInstance.PauseGame();
         }
     }
