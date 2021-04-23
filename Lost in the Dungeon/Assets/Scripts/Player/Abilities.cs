@@ -12,7 +12,7 @@ public class Abilities : MonoBehaviour
     [HideInInspector]
     public float dashSpeed = 10;
     [HideInInspector]
-    public int dashManaCost = 3;
+    public int dashManaCost = 4;
     [HideInInspector]
     public bool dashing = false;
 

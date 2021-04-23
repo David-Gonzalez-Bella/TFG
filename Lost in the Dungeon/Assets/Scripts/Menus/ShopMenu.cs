@@ -8,7 +8,6 @@ public class ShopMenu : MonoBehaviour
 {
     public static ShopMenu sharedInstance { get; private set; }
 
-    public Button[] itemsBuyButtons;
     public Button doneButton;
     public TMP_Text goldText;
     public GameObject warning;
@@ -28,14 +27,19 @@ public class ShopMenu : MonoBehaviour
 
     private int itemPrice;
     private int chosenItem;
+    private int chosenImprovement = 0;
     [HideInInspector]
     public Button itemButton;
+
+    private GameObject activeSwordsSet;
+    private GameObject activeSpellsSet;
 
     private PlayerController player;
     private bool weaponBought = false;
     private bool spellBought = false;
 
     private Dictionary<string, GameObject> itemSets;
+    private Dictionary<string, System.Action> itemImprovements;
 
     private void Awake()
     {
@@ -58,6 +62,43 @@ public class ShopMenu : MonoBehaviour
         itemSets.Add("Fireball_2", fireballSet_2);
         itemSets.Add("Dash_1", dashSet_1);
         itemSets.Add("Dash_2", dashSet_2);
+
+        itemImprovements = new Dictionary<string, System.Action>();
+        itemImprovements.Add("FireSword_0_0", UnlockFireSword);
+        itemImprovements.Add("FireSword_1_0", ImproveFireSword_1_0);
+        itemImprovements.Add("FireSword_1_1", ImproveFireSword_1_1);
+        itemImprovements.Add("FireSword_1_2", ImproveFireSword_1_2);
+        itemImprovements.Add("FireSword_2_0", ImproveFireSword_1_0);
+        itemImprovements.Add("FireSword_2_1", ImproveFireSword_1_1);
+        itemImprovements.Add("FireSword_2_2", ImproveFireSword_1_2);
+
+        itemImprovements.Add("IceSword_0_0", UnlockIceSword);
+        itemImprovements.Add("IceSword_1_0", ImproveIceSword_1_0);
+        itemImprovements.Add("IceSword_1_1", ImproveIceSword_1_1);
+        itemImprovements.Add("IceSword_1_2", ImproveIceSword_1_2);
+        itemImprovements.Add("IceSword_2_0", ImproveIceSword_1_0);
+        itemImprovements.Add("IceSword_2_1", ImproveIceSword_1_1);
+        itemImprovements.Add("IceSword_2_2", ImproveIceSword_1_2);
+
+        itemImprovements.Add("WindSword_0_0", UnlockWindSword);
+        itemImprovements.Add("WindSword_1_0", ImproveWindSword_1_0);
+        itemImprovements.Add("WindSword_1_1", ImproveWindSword_1_1);
+        itemImprovements.Add("WindSword_1_2", ImproveWindSword_1_2);
+        itemImprovements.Add("WindSword_2_0", ImproveWindSword_1_0);
+        itemImprovements.Add("WindSword_2_1", ImproveWindSword_1_1);
+        itemImprovements.Add("WindSword_2_2", ImproveWindSword_1_2);
+
+        itemImprovements.Add("Fireball_0_0", UnlockFireBall);
+        itemImprovements.Add("Fireball_1_0", ImproveFireBall_1_0);
+        itemImprovements.Add("Fireball_1_1", ImproveFireBall_1_1);
+        itemImprovements.Add("Fireball_2_0", ImproveFireBall_1_0);
+        itemImprovements.Add("Fireball_2_1", ImproveFireBall_1_1);
+
+        itemImprovements.Add("Dash_0_0", UnlockDash);
+        itemImprovements.Add("Dash_0_1", ImproveDash_1_0);
+        itemImprovements.Add("Dash_1_0", ImproveDash_1_1);
+        itemImprovements.Add("Dash_1_1", ImproveDash_1_0);
+        itemImprovements.Add("Dash_1_2", ImproveDash_1_1);
     }
 
     private void Update()
@@ -71,89 +112,145 @@ public class ShopMenu : MonoBehaviour
         InitialiceMenu();
     }
 
-    public void SetPrice(int price) => itemPrice = price;
+    private void OnDisable()
+    {
+        activeSwordsSet.SetActive(false);
+        activeSpellsSet.SetActive(false);
+    }
 
+    public void SetPrice(int price) => itemPrice = price;
     public void SetItem(int index) => chosenItem = index;
+    public void SetImprovement(int improvement) => chosenImprovement = improvement;
+    public void SetWeapon(string weapon) => player.weapon = weapon;
+    public void SetSpell(string spell) => player.spell = spell;
 
     public void SetButton(Button button) => itemButton = button;
 
     private void InitialiceMenu()
     {
-        for (int i = 0; i < itemsBuyButtons.Length; i++)
-        {
-            if (int.Parse(itemsBuyButtons[i].GetComponentInChildren<TMP_Text>().text) > player.CurrentGold)
-                itemsBuyButtons[i].interactable = false;
-        }
         warning.SetActive(player.itemsLevel == 0);
         if (player.itemsLevel == 0)
         {
-            baseSwordsSet.SetActive(true);
-            baseSpellsSet.SetActive(true);
+            activeSwordsSet = baseSwordsSet;
+            activeSpellsSet = baseSpellsSet;
         }
         else
         {
-            itemSets[player.weapon + "_" + player.itemsLevel].SetActive(true);
-            itemSets[player.spell + "_" + player.itemsLevel].SetActive(true);
+            activeSwordsSet = itemSets[player.weapon + "_" + player.itemsLevel];
+            activeSpellsSet = itemSets[player.spell + "_" + player.itemsLevel];
+        }
+        activeSwordsSet.SetActive(true);
+        activeSpellsSet.SetActive(true);
+        EnableAvailableItems();
+    }
+
+    private void EnableAvailableItems()
+    {
+        foreach (Button b in activeSwordsSet.GetComponentsInChildren<Button>())
+        {
+            if (int.Parse(b.GetComponentInChildren<TMP_Text>().text) > player.CurrentGold)
+                b.interactable = false;
+        }
+        foreach (Button b in activeSpellsSet.GetComponentsInChildren<Button>())
+        {
+            if (int.Parse(b.GetComponentInChildren<TMP_Text>().text) > player.CurrentGold)
+                b.interactable = false;
         }
     }
 
-    public void UnlockItem()
+    public void DisableAllSwords()
     {
-        PlayerController player = GameManager.sharedInstance.player.GetComponent<PlayerController>();
+        weaponBought = true;
+        foreach (Button b in activeSwordsSet.GetComponentsInChildren<Button>())
+            b.interactable = false;
+    }
+    public void DisableAllSpells()
+    {
+        spellBought = true;
+        foreach (Button b in activeSpellsSet.GetComponentsInChildren<Button>())
+            b.interactable = false;
+    }
+
+    public void UnlockItem(int weaponType)
+    {
         player.CurrentGold -= itemPrice;
         itemButton.interactable = false;
-        switch (chosenItem)
-        {
-            case 0: //Fire sword
-                player.EvolveFireSword();
-                if (player.itemsLevel == 0)
-                {
-                    DisableAllItems(0, 3);
-                    player.weapon = "FireSword";
-                }
-                break;
-            case 1: //Ice sword
-                player.EvolveIceSword();
-                if (player.itemsLevel == 0)
-                {
-                    DisableAllItems(0, 3);
-                    player.weapon = "IceSword";
-                }
-                break;
-            case 2: //Wind sword
-                player.EvolveWindSword();
-                if (player.itemsLevel == 0)
-                {
-                    DisableAllItems(0, 3);
-                    player.weapon = "WindSword";
-                }
-                break;
-            case 3: //Fireball
-                player.EvolveFireBall();
-                if (player.itemsLevel == 0)
-                {
-                    DisableAllItems(3, 5);
-                    player.spell = "Fireball";
-                }
-                break;
-            case 4: //Dash
-                player.EvolveDash();
-                if (player.itemsLevel == 0)
-                {
-                    DisableAllItems(3, 5);
-                    player.spell = "Dash";
-                }
-                break;
-        }
+        if (chosenItem == 0)
+            itemImprovements[player.weapon + "_" + player.itemsLevel + "_" + chosenImprovement].Invoke();
+        else
+            itemImprovements[player.spell + "_" + player.itemsLevel + "_" + chosenImprovement].Invoke();
+        EnableAvailableItems();
     }
 
-    public void DisableAllItems(int start, int limit)
+    #region Unlock items and improvements
+
+    //Level 0
+    public void UnlockFireSword()
     {
-        if (start == 0)
-            weaponBought = true;
-        else
-            spellBought = true;
-        for (int i = start; i < limit; i++)
-            itemsBuyButtons[i].interactable = false;
+        player.anim.runtimeAnimatorController = player.fireAnimations as RuntimeAnimatorController;
+        player.atrib.ModifyDamage();
+        DisableAllSwords();
     }
+    public void UnlockIceSword()
+    {
+        player.anim.runtimeAnimatorController = player.waterAnimations as RuntimeAnimatorController;
+        player.mana.ModifyBaseMana(5);
+        DisableAllSwords();
+    }
+    public void UnlockWindSword()
+    {
+        player.anim.runtimeAnimatorController = player.windAnimations as RuntimeAnimatorController;
+        player.atrib.ModifySpeed();
+        DisableAllSwords();
+    }
+    public void UnlockDash()
+    {
+        player.dashUnlocked = true;
+        DisableAllSpells();
+    }
+    public void UnlockFireBall()
+    {
+        player.fireballUnlocked = true;
+        DisableAllSpells();
+    }
+
+    //Level 1
+    public void ImproveFireSword_1_0() => player.atrib.ModifyDamage();
+    public void ImproveFireSword_1_1() => player.health.ModifyBaseHealth(5);
+    public void ImproveFireSword_1_2() => player.lifeSteal = 1;
+
+    public void ImproveIceSword_1_0() => player.mana.ModifyBaseMana(5);
+    public void ImproveIceSword_1_1() => player.mana.manaRegenTime = 1.5f;
+    public void ImproveIceSword_1_2() => player.manaVamp = 1;
+
+    public void ImproveWindSword_1_0() => player.atrib.ModifySpeed(0.2f);
+    public void ImproveWindSword_1_1() => player.extraGold = 1;
+    public void ImproveWindSword_1_2() => player.galeForce = 1;
+
+    public void ImproveFireBall_1_0() => player.abilities.fireballDamage++;
+    public void ImproveFireBall_1_1() => player.abilities.fireballSpeed += 0.75f;
+
+    public void ImproveDash_1_0() => player.abilities.dashSpeed += 2.5f;
+    public void ImproveDash_1_1() => player.abilities.dashManaCost--;
+
+    //Level 2
+    public void ImproveFireSword_2_0() => player.atrib.ModifyDamage(2);
+    public void ImproveFireSword_2_1() => player.health.ModifyBaseHealth(10);
+    public void ImproveFireSword_2_2() => player.lifeSteal = 2;
+
+    public void ImproveIceSword_2_0() => player.mana.ModifyBaseMana(10);
+    public void ImproveIceSword_2_1() => player.mana.manaRegenTime = 1.0f;
+    public void ImproveIceSword_2_2() => player.manaVamp = 2;
+
+    public void ImproveWindSword_2_0() => player.atrib.ModifySpeed(0.4f);
+    public void ImproveWindSword_2_1() => player.extraGold = 2;
+    public void ImproveWindSword_2_2() => player.galeForce = 2;
+
+    public void ImproveFireBall_2_0() => player.abilities.fireballDamage += 2;
+    public void ImproveFireBall_2_1() => player.abilities.fireballSpeed += 0.75f;
+
+    public void ImproveDash_2_0() => player.abilities.dashSpeed += 2.5f;
+    public void ImproveDash_2_1() => player.abilities.dashManaCost--;
+
+    #endregion
 }

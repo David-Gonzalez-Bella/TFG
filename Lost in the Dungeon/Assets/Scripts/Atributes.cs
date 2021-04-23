@@ -22,14 +22,14 @@ public class Atributes : ScriptableObject //Attributes is only a bunch of data, 
     [HideInInspector]
     public float speedCount;
 
-    public void ModifySpeed()
+    public void ModifySpeed(float quantity = 0.2f)
     {
-        speedIncrease += 0.2f;
+        speedIncrease += quantity;
         Atributes_Texts.sharedInstance.UpdateAtribsTexts(damage, ++speedCount);
     }
-    public void ModifyDamage()
+    public void ModifyDamage(int quantity = 1)
     {
-        damageIncrease++;
+        damageIncrease += quantity;
         Atributes_Texts.sharedInstance.UpdateAtribsTexts(damage, speed);
     }
 }

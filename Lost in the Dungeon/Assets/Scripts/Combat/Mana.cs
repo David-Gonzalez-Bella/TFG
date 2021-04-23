@@ -7,7 +7,8 @@ public class Mana : MonoBehaviour
 {
     public int baseMana;
     private int currentMana = 0;
-    private float manaRegenTime = 2.0f;
+    [HideInInspector]
+    public float manaRegenTime = 2.0f;
     private float currManaRegenTime = 0.0f;
     public Image manaBar;
 

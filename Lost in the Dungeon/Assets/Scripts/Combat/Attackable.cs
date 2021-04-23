@@ -8,6 +8,7 @@ public class Attackable : MonoBehaviour
     private Health myHealth;
     private Rigidbody2D rb;
     private SpriteRenderer spr;
+    private int extraForce = 0;
 
     private void Awake()
     {
@@ -22,8 +23,14 @@ public class Attackable : MonoBehaviour
 
     public void Attacked(Vector2 attackDirection, float damage)
     {
+        if (gameObject.GetComponent<PlayerController>() != null)
+        {
+            PlayerController player = gameObject.GetComponent<PlayerController>();
+            if (player.galeForce > 0)
+                extraForce = player.galeForce * 20;
+        }
         StartCoroutine(TakeDamage(damage));
-        rb.AddForce(attackDirection * 20, ForceMode2D.Impulse); //When attacked, the object will be pushed back as well
+        rb.AddForce(attackDirection * (20 + extraForce), ForceMode2D.Impulse); //When attacked, the object will be pushed back as well
         if (this.tag == "Player") { PlayPlayerDamageSound(); } //If the player is attacked
         else //If an enemy is attacked
         {
