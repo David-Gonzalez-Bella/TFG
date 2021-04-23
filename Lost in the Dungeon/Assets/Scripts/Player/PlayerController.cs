@@ -28,13 +28,16 @@ public class PlayerController : MonoBehaviour
     private int runningHashCode;
     private int attackHashCode;
 
-    private bool dashUnlocked;
-    private bool fireballUnlocked;
+    [HideInInspector]
+    public bool dashUnlocked;
+    [HideInInspector]
+    public bool fireballUnlocked;
 
     [HideInInspector]
     public InputPlayer input;
     private Rigidbody2D rb;
-    private Animator anim;
+    [HideInInspector]
+    public Animator anim;
     private CapsuleCollider2D col;
 
     [Header("Animations")]
@@ -60,6 +63,15 @@ public class PlayerController : MonoBehaviour
     public string weapon;
     [HideInInspector]
     public string spell;
+
+    [HideInInspector]
+    public int lifeSteal = 0;
+    [HideInInspector]
+    public int manaVamp = 0;
+    [HideInInspector]
+    public int extraGold = 0;
+    [HideInInspector]
+    public int galeForce = 0;
 
     public int CurrentGold
     {
@@ -134,7 +146,7 @@ public class PlayerController : MonoBehaviour
 
             if (throwFireball && !abilities.throwingFireball && mana.CurrentMana >= abilities.fireballManaCost)
                 abilities.ThrowFireball(atck, input.faceDirection, transform.position + (Vector3)input.faceDirection);
-            
+
             if (inventary)
             {
                 PlayInventaryAudio();
@@ -145,87 +157,6 @@ public class PlayerController : MonoBehaviour
         {
             if (input.pause)
                 MenusManager.sharedInstance.PauseGame();
-        }
-    }
-
-    public void EvolveFireSword()
-    {
-        switch (itemsLevel)
-        {
-            case 0:
-                anim.runtimeAnimatorController = fireAnimations as RuntimeAnimatorController;
-                atrib.ModifyDamage();
-                break;
-            case 1:
-
-                break;
-            case 2:
-
-                break;
-        }
-    }
-    public void EvolveIceSword()
-    {
-        switch (itemsLevel)
-        {
-            case 0:
-                anim.runtimeAnimatorController = waterAnimations as RuntimeAnimatorController;
-                mana.ModifyBaseMana(5);
-                break;
-            case 1:
-
-                break;
-            case 2:
-
-                break;
-        }
-    }
-    public void EvolveWindSword()
-    {
-        switch (itemsLevel)
-        {
-            case 0:
-                anim.runtimeAnimatorController = windAnimations as RuntimeAnimatorController;
-                atrib.ModifySpeed();
-                break;
-            case 1:
-
-                break;
-            case 2:
-
-                break;
-        }
-    }
-
-    public void EvolveDash()
-    {
-        switch (itemsLevel)
-        {
-            case 0:
-                dashUnlocked = true;
-                break;
-            case 1:
-
-                break;
-            case 2:
-
-                break;
-        }
-    }
-
-    public void EvolveFireBall()
-    {
-        switch (itemsLevel)
-        {
-            case 0:
-                fireballUnlocked = true;
-                break;
-            case 1:
-
-                break;
-            case 2:
-
-                break;
         }
     }
 

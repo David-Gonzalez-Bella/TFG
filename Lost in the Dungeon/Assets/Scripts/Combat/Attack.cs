@@ -47,6 +47,14 @@ public class Attack : MonoBehaviour
     {
         CreateHitbox(attackDirection);
         CheckAttacked(attackDirection, damage, swordFlash);   
+        if(gameObject.GetComponent<PlayerController>() != null)
+        {
+            PlayerController player = gameObject.GetComponent<PlayerController>();
+            if (player.lifeSteal > 0)
+                player.health.ModifyHealth(player.lifeSteal);
+            if(player.manaVamp > 0)
+                player.mana.ModifyMana(player.manaVamp);
+        }
     }
 
     public void ProyectileAttack(Proyectile proyectile, Vector2 attackDirection, Vector2 shootPoint)

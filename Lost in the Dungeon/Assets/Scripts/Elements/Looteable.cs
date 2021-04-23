@@ -5,6 +5,7 @@ using UnityEngine;
 public class Looteable : Interactive
 {
     public int gold;
+    private int extra = 0;
     private TriggerSpawner zone;
 
     private Animator anim;
@@ -27,8 +28,10 @@ public class Looteable : Interactive
             anim.SetTrigger(hitHashCode);
         else
         {
+            if (player.extraGold != 0)
+                extra = Random.Range(player.extraGold, player.extraGold + 1);
             anim.SetTrigger(destroyHashCode);
-            player.CurrentGold += gold;
+            player.CurrentGold += (gold + extra);
             col.enabled = false;
         }
     }
