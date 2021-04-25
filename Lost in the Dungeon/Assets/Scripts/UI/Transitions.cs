@@ -11,6 +11,7 @@ public class Transitions : MonoBehaviour
     private Canvas canvas;
     private int toChooseLengthTriggerHash;
     private int toGameTriggerHash;
+    private int toControlsTriggerHash;
     private int toMainMenuTriggerHash;
 
     private void Awake()
@@ -35,16 +36,24 @@ public class Transitions : MonoBehaviour
         toChooseLengthTriggerHash = Animator.StringToHash("TransitionToChooseLength");
         toGameTriggerHash = Animator.StringToHash("TransitionToGame");
         toMainMenuTriggerHash = Animator.StringToHash("TransitionToMainMenu");
+        toControlsTriggerHash = Animator.StringToHash("TransitionToControls");
     }
 
     public void GoToMainMenu() => SceneManager.LoadScene(0);
     public void GoToChooseLength() => SceneManager.LoadScene(1);
-    public void GoToGame() => SceneManager.LoadScene(2);
+    public void GoToControls() => SceneManager.LoadScene(2);
+    public void GoToGame() => SceneManager.LoadScene(3);
 
     public void TransitionToChooseLength()
     {
         PrepareTransition();
         anim.SetTrigger(toChooseLengthTriggerHash);
+    }
+
+    public void TransitionToControls()
+    {
+        PrepareTransition();
+        anim.SetTrigger(toControlsTriggerHash);
     }
 
     public void TransitionToGame()

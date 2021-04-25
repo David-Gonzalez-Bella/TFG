@@ -9,6 +9,7 @@ public class ShopMenu : MonoBehaviour
     public static ShopMenu sharedInstance { get; private set; }
 
     public Button doneButton;
+    public Button buyItemButton;
     public TMP_Text goldText;
     public GameObject warning;
 
@@ -51,6 +52,8 @@ public class ShopMenu : MonoBehaviour
 
     private void Start()
     {
+        buyItemButton.onClick.AddListener(AudioManager.sharedInstance.PlaySpendGoldSound);
+
         itemSets = new Dictionary<string, GameObject>();
         itemSets.Add("FireSword_1", fireSwordSet_1);
         itemSets.Add("FireSword_2", fireSwordSet_2);

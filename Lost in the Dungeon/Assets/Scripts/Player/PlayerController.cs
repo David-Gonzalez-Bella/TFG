@@ -85,8 +85,6 @@ public class PlayerController : MonoBehaviour
             Bars_Texts.sharedInstance.UpdateGoldTxt(gold);
         }
     }
-
-    public List<Mission> activeMissions = new List<Mission>();
     public GameObject swordFlash;
 
     private void Awake()
