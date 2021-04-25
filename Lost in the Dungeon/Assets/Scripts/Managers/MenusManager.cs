@@ -28,6 +28,7 @@ public class MenusManager : MonoBehaviour
     public Button dieScreen_goToMenu_btn;
     public Button pauseButton;
     public bool mouseOverInteractive;
+    public Button[] shopButtons;
 
     [Header("Extras")]
     public Image dieScreenDarkBackgroundAlpha;
@@ -67,7 +68,7 @@ public class MenusManager : MonoBehaviour
 
     private void InitializeButtonCallbacks()
     {
-        AudioManager AM = AudioManager.sharedInstance; //FindObjectOfType<AudioManager>().GetComponent<AudioManager>();
+        AudioManager AM = AudioManager.sharedInstance;
         Transitions TRN = Transitions.sharedInstance;
         Button[] buttons = { pauseScreen_keepPlaying_btn, pauseScreen_goToMenu_btn,
                              wannaLeaveScreen_keepPlaying_btn, wannaLeaveScreen_goToMenu_btn,
@@ -75,6 +76,8 @@ public class MenusManager : MonoBehaviour
 
         for (int i = 0; i < buttons.Length; i++)
             buttons[i].onClick.AddListener(AM.PlaySelectSound);
+        for (int i = 0; i < shopButtons.Length; i++)
+            shopButtons[i].onClick.AddListener(AM.PlaySelectSound);
 
         dieScreen_playAgain_btn.onClick.AddListener(TRN.TransitionToGame);
         dieScreen_goToMenu_btn.onClick.AddListener(TRN.TransitionToMainMenu);

@@ -34,7 +34,8 @@ public class ItemSeller : Interactive
         if (MenusManager.sharedInstance.wannaBuyScreen.activeSelf) return;
         if (MenusManager.sharedInstance.shopScreen.activeSelf) return;
 
-        if(player.itemsLevel < requiredLevel)
+        AudioManager.sharedInstance.PlayTalkSoundNPC();
+        if (player.itemsLevel < requiredLevel)
             DialogueBox.sharedInstance.StartDialogue("Item seller", DialogueManager.sharedInstance.dialogues["ItemSeller_N"]);
         else
             DialogueBox.sharedInstance.StartDialogue("Item seller", DialogueManager.sharedInstance.dialogues["ItemSeller_S"]);

@@ -20,6 +20,10 @@ public class AudioManager : MonoBehaviour
     public AudioSource selectSound;
     public AudioSource gameOverSound;
     public AudioSource miauSound;
+    public AudioSource explosion;
+    public AudioSource breakBox;
+    public AudioSource interactBox;
+    public AudioSource spendGold;
     public AudioSource[] salutesNPC;
 
     private void Awake()
@@ -52,6 +56,14 @@ public class AudioManager : MonoBehaviour
     public void PlayEnemyCreatureDamageSound() => enemyCreatureDamage.Play();
 
     public void PlayEnemySpawnSound() => enemySpawn.Play();
+
+    public void PlayExplosionSound() => explosion.Play();
+
+    public void PlaySpendGoldSound() => spendGold.Play();
+
+    public void PlayBreakBoxSound() => breakBox.Play();
+
+    public void PlayInteractBoxSound() => interactBox.Play();
 
     public void PlayTalkSoundCat() => miauSound.Play();
 

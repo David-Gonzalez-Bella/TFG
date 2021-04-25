@@ -15,5 +15,7 @@ public class MainMenuManager : MonoBehaviour
 
     public void GoToChooseLength() => Transitions.sharedInstance.TransitionToChooseLength();
 
+    public void GoToControls() => Transitions.sharedInstance.TransitionToControls();
+
     public void QuitGame() => Application.Quit();
 }

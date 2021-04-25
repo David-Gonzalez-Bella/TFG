@@ -339,10 +339,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
-  canInteract: 1
   baseSeller: {fileID: 575730267747063056}
   midSeller: {fileID: 187069855671217533}
   advancedSeller: {fileID: 2664883635593047105}
+  requiredLevel: 0
 --- !u!70 &5309595075306106477
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

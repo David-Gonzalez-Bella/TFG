@@ -25,7 +25,10 @@ public class Looteable : Interactive
     public override void Interact()
     {
         if (zone.enemiesAlive != 0)
+        {
             anim.SetTrigger(hitHashCode);
+            AudioManager.sharedInstance.PlayInteractBoxSound();
+        }
         else
         {
             if (player.extraGold != 0)
@@ -33,6 +36,7 @@ public class Looteable : Interactive
             anim.SetTrigger(destroyHashCode);
             player.CurrentGold += (gold + extra);
             col.enabled = false;
+            AudioManager.sharedInstance.PlayBreakBoxSound();
         }
     }
 }

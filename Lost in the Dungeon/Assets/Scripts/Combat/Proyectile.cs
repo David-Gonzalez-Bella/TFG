@@ -57,5 +57,6 @@ public class Proyectile : MonoBehaviour
     private void OnDestroy()
     {
         Instantiate(explosionEffect, transform.position, Quaternion.identity);
+        AudioManager.sharedInstance.PlayExplosionSound();
     }
 }
