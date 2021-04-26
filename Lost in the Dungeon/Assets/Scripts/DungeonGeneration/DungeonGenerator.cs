@@ -28,10 +28,6 @@ public class DungeonGenerator : MonoBehaviour
 
     //Enemy spawn related atributes
     private int numEnemies = 0;
-    //[DEBUG]
-    //public Zone[] brotherZonesCopy;
-    //public Vector2[] spawnPositionsCopy;
-    //public Zone[] levelChildrenCopy;
 
     private void Awake()
     {
@@ -68,14 +64,6 @@ public class DungeonGenerator : MonoBehaviour
             AddZone(difficulty);
         }
     }
-
-    //[DEBUG]
-    //private void Update()
-    //{
-    //    brotherZonesCopy = brotherZones.ToArray();
-    //    spawnPositionsCopy = spawnPositions.ToArray();
-    //    levelChildrenCopy = levelChildren.ToArray();
-    //}
 
     private void InitializeTree()
     {

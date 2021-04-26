@@ -22,6 +22,7 @@ public class AudioManager : MonoBehaviour
     public AudioSource breakBox;
     public AudioSource interactBox;
     public AudioSource spendGold;
+    public AudioSource denySound;
     public AudioSource[] salutesNPC;
 
     private void Awake()
@@ -60,6 +61,8 @@ public class AudioManager : MonoBehaviour
     public void PlayBreakBoxSound() => breakBox.Play();
 
     public void PlayInteractBoxSound() => interactBox.Play();
+
+    public void PlayDenySound() => denySound.Play();
 
     public void PlayTalkSoundNPC()
     {

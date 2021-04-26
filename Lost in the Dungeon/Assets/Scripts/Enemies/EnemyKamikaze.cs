@@ -60,7 +60,7 @@ public class EnemyKamikaze : Enemy //Enemy inherits from Monobehaviour. Therefor
 
     public void OnCollisionEnter2D(Collision2D collision)
     {
-        if (attacking && collision.gameObject.tag.CompareTo("Player") == 0)
+        if (attacking && collision.gameObject.tag.CompareTo("Player") == 0 && canDealDamage)
         {
             canDealDamage = false;
             DealDamage();
