@@ -25,12 +25,14 @@ public class PanelsMenu : MonoBehaviour
         }
         else
         {
-            OpenPanels(); 
+            OpenPanels();
         }
     }
 
     private void OpenPanels()
     {
+        GameManager.sharedInstance.FreezePlayer();
+        GameManager.sharedInstance.currentGameState = gameState.inventaryScreen;
         panelsOpen = true;
         canvasGroup.alpha = 1;
         canvasGroup.blocksRaycasts = true;
@@ -39,6 +41,8 @@ public class PanelsMenu : MonoBehaviour
     }
     private void ClosePanels()
     {
+        GameManager.sharedInstance.UnfreezePlayer();
+        GameManager.sharedInstance.currentGameState = gameState.inGame;
         panelsOpen = false;
         canvasGroup.alpha = 0;
         canvasGroup.blocksRaycasts = false;

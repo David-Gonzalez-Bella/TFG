@@ -28,10 +28,6 @@ public class DungeonGenerator : MonoBehaviour
 
     //Enemy spawn related atributes
     private int numEnemies = 0;
-    //[DEBUG]
-    //public Zone[] brotherZonesCopy;
-    //public Vector2[] spawnPositionsCopy;
-    //public Zone[] levelChildrenCopy;
 
     private void Awake()
     {
@@ -68,14 +64,6 @@ public class DungeonGenerator : MonoBehaviour
             AddZone(difficulty);
         }
     }
-
-    //[DEBUG]
-    //private void Update()
-    //{
-    //    brotherZonesCopy = brotherZones.ToArray();
-    //    spawnPositionsCopy = spawnPositions.ToArray();
-    //    levelChildrenCopy = levelChildren.ToArray();
-    //}
 
     private void InitializeTree()
     {
@@ -207,8 +195,7 @@ public class DungeonGenerator : MonoBehaviour
                         r = UnityEngine.Random.Range(0, 2);
                         if (r == 0)
                             Instantiate(levelExit, b[i].transform.position, Quaternion.identity,
-                                b[i].transform).transform.localScale
-                                = new Vector3(1.5f, 1.5f, 1.5f);
+                                b[i].transform).transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
                         i = (i + 1) % b.Length;
                     }
                 }
@@ -504,13 +491,12 @@ public class DungeonGenerator : MonoBehaviour
         while (count < fillRoomPositions.lootSpawnPositions.Count)
         {
             index = UnityEngine.Random.Range(0, 2);
+            GameObject container = GameObject.Find("LootContainer");
             if (index == 0)
             {
-                Looteable looteable = fillRoomPositions.lootElements[UnityEngine.Random.Range(0,
-                                                        fillRoomPositions.lootElements.Count)];
-                Instantiate(looteable, fillRoomPositions.lootSpawnPositions[count].transform.position,
-                                    Quaternion.identity, GameObject.Find("LootContainer").transform)
-               .Initialize(1, COUNT_LEVELS + 2, sp);
+                Looteable looteable = fillRoomPositions.lootElements[UnityEngine.Random.Range(0, fillRoomPositions.lootElements.Count)];
+                Instantiate(looteable, fillRoomPositions.lootSpawnPositions[count].transform.position, Quaternion.identity, container.transform)   
+                .Initialize(1, COUNT_LEVELS + 2, sp);
             }
             count++;
         }

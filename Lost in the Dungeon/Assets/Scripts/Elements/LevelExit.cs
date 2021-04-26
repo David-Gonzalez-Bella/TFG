@@ -8,10 +8,17 @@ public class LevelExit : Interactive
     {
         if (!PanelsMenu.sharedInstance.panelsOpen)
         {
-            MenusManager.sharedInstance.wannaLeaveScreen.gameObject.SetActive(true);
-            MenusManager.sharedInstance.wannaLeaveScreen.GetComponent<Animator>().SetBool(MenusManager.sharedInstance.leaveHashCode, true);
-            GameManager.sharedInstance.FreezePlayer();
-            GameManager.sharedInstance.currentGameState = gameState.leavingScreen;
+            if (GameManager.sharedInstance.player.GetComponent<PlayerController>().currentRoom.enemiesAlive == 0)
+            {
+                MenusManager.sharedInstance.wannaLeaveScreen.gameObject.SetActive(true);
+                MenusManager.sharedInstance.wannaLeaveScreen.GetComponent<Animator>().SetBool(MenusManager.sharedInstance.leaveHashCode, true);
+                GameManager.sharedInstance.FreezePlayer();
+                GameManager.sharedInstance.currentGameState = gameState.leavingScreen;
+            }
+            else
+            {
+                AudioManager.sharedInstance.PlayDenySound();
+            }
         }
     }
 }

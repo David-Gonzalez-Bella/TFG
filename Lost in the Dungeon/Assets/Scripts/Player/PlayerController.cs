@@ -13,7 +13,6 @@ public class PlayerController : MonoBehaviour
     private bool dashing;
     private bool doDash;
     private bool throwFireball;
-    private bool inventary;
 
     [Header("Audio sources")]
     public AudioSource attackAudioSource;
@@ -73,6 +72,8 @@ public class PlayerController : MonoBehaviour
     [HideInInspector]
     public int galeForce = 0;
 
+    public TriggerSpawner currentRoom;
+
     public int CurrentGold
     {
         get
@@ -126,7 +127,6 @@ public class PlayerController : MonoBehaviour
                 dashing = input.ability1 && dashUnlocked;
                 throwFireball = input.ability1 && fireballUnlocked;
             }
-            inventary = input.inventary; //You can always open and close your inventary once you are playing
 
             if (moveX != 0 || moveY != 0) //It will update the state only if the character moves. Otherwise, it will stay in the last state it entered (the knight will look at the direction he was lastly told to move to)
             {
@@ -144,17 +144,21 @@ public class PlayerController : MonoBehaviour
 
             if (throwFireball && !abilities.throwingFireball && mana.CurrentMana >= abilities.fireballManaCost)
                 abilities.ThrowFireball(atck, input.faceDirection, transform.position + (Vector3)input.faceDirection);
+        }
+        if ((GameManager.sharedInstance.currentGameState == gameState.inGame || GameManager.sharedInstance.currentGameState == gameState.pauseScreen)
+            && !PanelsMenu.sharedInstance.panelsOpen)
+        {
+            if (input.pause)
+                MenusManager.sharedInstance.PauseGame();
+        }
 
-            if (inventary)
+        if (GameManager.sharedInstance.currentGameState == gameState.inGame || GameManager.sharedInstance.currentGameState == gameState.inventaryScreen)
+        {
+            if (input.inventary)
             {
                 PlayInventaryAudio();
                 PanelsMenu.sharedInstance.OpenClosePanels();
             }
-        }
-        if (GameManager.sharedInstance.currentGameState == gameState.inGame || GameManager.sharedInstance.currentGameState == gameState.pauseScreen)
-        {
-            if (input.pause)
-                MenusManager.sharedInstance.PauseGame();
         }
     }
 

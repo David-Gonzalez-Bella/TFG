@@ -16,14 +16,13 @@ public class AudioManager : MonoBehaviour
     public AudioSource wallCrush;
     public AudioSource enemyCreatureDamage;
     public AudioSource enemySpawn;
-    public AudioSource collectWeed;
     public AudioSource selectSound;
     public AudioSource gameOverSound;
-    public AudioSource miauSound;
     public AudioSource explosion;
     public AudioSource breakBox;
     public AudioSource interactBox;
     public AudioSource spendGold;
+    public AudioSource denySound;
     public AudioSource[] salutesNPC;
 
     private void Awake()
@@ -42,8 +41,6 @@ public class AudioManager : MonoBehaviour
     public void PlaySwordSound() => swordAttack.Play();
 
     public void PlayFireballSound() => fireballAttack.Play();
-
-    public void PlayWeedCollectedSound() => collectWeed.Play();
 
     public void PlaySelectSound() => selectSound.Play();
 
@@ -65,7 +62,7 @@ public class AudioManager : MonoBehaviour
 
     public void PlayInteractBoxSound() => interactBox.Play();
 
-    public void PlayTalkSoundCat() => miauSound.Play();
+    public void PlayDenySound() => denySound.Play();
 
     public void PlayTalkSoundNPC()
     {

@@ -18,6 +18,7 @@ public class TriggerSpawner : MonoBehaviour
     {
         if (collision.tag.CompareTo("Player") == 0)
         {
+            GameManager.sharedInstance.player.GetComponent<PlayerController>().currentRoom = this;
             playerInside = true;
             if (!started)
             {

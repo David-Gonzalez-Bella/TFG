@@ -22,8 +22,13 @@ public class ControlsBox : MonoBehaviour
 
     public void NextLine()
     {
-        index = (index + 1 >= dialogue.lines.Length ? index : index + 1);
-        content.text = dialogue.lines[index];
+        if ((index + 1) == (dialogue.lines.Length))
+            Transitions.sharedInstance.TransitionToMainMenu();
+        else
+        {
+            index = (index + 1 >= dialogue.lines.Length ? index : index + 1);
+            content.text = dialogue.lines[index];
+        }
     }
 
     public void PreviousLine()
