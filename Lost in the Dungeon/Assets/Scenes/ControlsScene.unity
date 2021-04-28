@@ -973,6 +973,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef589d3d5294ede47889e34a70b8afc1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  nextButton: {fileID: 1440887736}
+  prevButton: {fileID: 267490011}
   content: {fileID: 817929840}
 --- !u!225 &879194598
 CanvasGroup:
