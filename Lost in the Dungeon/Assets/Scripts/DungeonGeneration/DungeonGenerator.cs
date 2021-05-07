@@ -244,7 +244,7 @@ public class DungeonGenerator : MonoBehaviour
             while (brotherZones.Count > 1)
             {
                 current = brotherZones.Dequeue();
-                makeConexion = UnityEngine.Random.Range(0, 1);
+                makeConexion = UnityEngine.Random.Range(0, 2);
                 if (makeConexion == 0)
                 {
                     brother = brotherZones.Peek();
