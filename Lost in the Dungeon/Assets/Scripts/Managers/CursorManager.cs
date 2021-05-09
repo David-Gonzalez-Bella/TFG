@@ -15,8 +15,13 @@ public class CursorManager : MonoBehaviour
     {
         if (sharedInstance == null)
             sharedInstance = this;
-
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
         SetCursor(arrowCursor);
+        DontDestroyOnLoad(gameObject);
     }
 
     public void SetCursor(Texture2D cursor)
