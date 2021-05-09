@@ -5,6 +5,7 @@ using UnityEngine;
 public class Looteable : Interactive
 {
     public int gold;
+    public SpriteRenderer minimapSpr;
     private int extra = 0;
     private TriggerSpawner zone;
 
@@ -36,6 +37,7 @@ public class Looteable : Interactive
             anim.SetTrigger(destroyHashCode);
             player.CurrentGold += (gold + extra);
             col.enabled = false;
+            minimapSpr.enabled = false;
             AudioManager.sharedInstance.PlayBreakBoxSound();
         }
     }

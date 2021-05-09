@@ -147,7 +147,7 @@ SpriteRenderer:
   m_SortingOrder: 3
   m_Sprite: {fileID: -7685701572923878998, guid: 835092dd0ce03d442864cff0ebe0a2d5,
     type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 1, b: 0.9066076, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -295,7 +295,10 @@ MonoBehaviour:
   dashAudioSource: {fileID: 4104684265888432967}
   dieAudioSource: {fileID: 0}
   inventaryAudioSource: {fileID: 0}
+  dashUnlocked: 0
+  fireballUnlocked: 0
   input: {fileID: 0}
+  anim: {fileID: 0}
   fireAnimations: {fileID: 0}
   waterAnimations: {fileID: 0}
   windAnimations: {fileID: 0}
@@ -303,15 +306,19 @@ MonoBehaviour:
   health: {fileID: 0}
   exp: {fileID: 0}
   atrib: {fileID: 11400000, guid: 6684ad60225dadd4fb14530d580ceb03, type: 2}
-  fireball: {fileID: 6985673739877001683, guid: 012032f0786168e4b9f8eb9340a4c1fd,
-    type: 3}
   interactLayer:
     serializedVersion: 2
     m_Bits: 2048
+  abilities: {fileID: 0}
   itemsLevel: 0
-  fireballDamage: 1
-  fireballLifeTime: 3
   interactingItemSeller: {fileID: 0}
+  weapon: 
+  spell: 
+  lifeSteal: 0
+  manaVamp: 0
+  extraGold: 0
+  galeForce: 0
+  currentRoom: {fileID: 0}
   swordFlash: {fileID: 7317127439547913718, guid: cf0817265cdbf48419b3e58c44da8f94,
     type: 3}
 --- !u!114 &6259099323098235027
@@ -395,6 +402,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseMana: 20
+  manaRegenTime: 2
   manaBar: {fileID: 0}
 --- !u!114 &8557380841596067992
 MonoBehaviour:
@@ -408,10 +416,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 844f98f67d2463349aeced5c0319da6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dashSpeed: 10
   startDashTime: 0.1
+  dashSpeed: 10
   dashManaCost: 5
   dashing: 0
+  fireball: {fileID: 0}
+  startFireballTime: 1.5
+  fireballDamage: 1
+  fireballLifeTime: 3
+  fireballSpeed: 5
+  fireballManaCost: 5
+  throwingFireball: 0
 --- !u!82 &474895342
 AudioSource:
   m_ObjectHideFlags: 0
