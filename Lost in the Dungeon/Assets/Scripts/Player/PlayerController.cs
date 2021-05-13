@@ -67,8 +67,8 @@ public class PlayerController : MonoBehaviour
     public int lifeSteal = 0;
     [HideInInspector]
     public int manaVamp = 0;
-    [HideInInspector]
-    public int extraGold = 0;
+    //[HideInInspector]
+    public float dodgeChance = 0;
     [HideInInspector]
     public int galeForce = 0;
 

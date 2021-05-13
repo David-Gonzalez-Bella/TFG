@@ -48,7 +48,7 @@ public class Proyectile : MonoBehaviour
             collision.gameObject.GetComponent<Attackable>().Attacked(direction, damage);
         }
 
-        if (collision.CompareTag("Walls"))
+        if (collision.CompareTag("Walls") || collision.CompareTag("Proyectile"))
         {
             Destroy(this.gameObject);
         }

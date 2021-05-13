@@ -13,6 +13,7 @@ TagManager:
   - Walls
   - Zone
   - Looteable
+  - Proyectile
   layers:
   - Default
   - TransparentFX

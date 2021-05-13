@@ -4830,7 +4830,7 @@ GameObject:
   - component: {fileID: 4316954863798855894}
   m_Layer: 0
   m_Name: Fireball_Enemy
-  m_TagString: Untagged
+  m_TagString: Proyectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9586,7 +9586,6 @@ ParticleSystemRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: b72862cad75f03b4fb8cd6d62e7b32fd, type: 2}
-  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

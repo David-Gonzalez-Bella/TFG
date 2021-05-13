@@ -133,7 +133,12 @@ public class Enemy : MonoBehaviour //This contains the IA and the atributes ever
     {
         parent.enemiesAlive--;
         if (parent.enemiesAlive == 0)
+        {
             parent.completed = true;
+            Health player = GameManager.sharedInstance.player.GetComponent<Health>();
+            player.ModifyHealth(player.baseHealth * 0.3f);
+            StartCoroutine(player.HealEffect());
+        }
     }
 
     private bool ContainsParameter(string parameter)

@@ -320,7 +320,7 @@ MonoBehaviour:
   damage: 0
   speed: 0
   detectionDistance: 5
-  attackingDistance: 3
+  attackingDistance: 5
   fireball: {fileID: 6985673739877001683, guid: 82fe0d9b0218aaa489c5f00bfab62dbe,
     type: 3}
   shootOrigin: {fileID: 2078150974883369921}

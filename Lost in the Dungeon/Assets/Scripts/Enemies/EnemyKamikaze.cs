@@ -12,7 +12,7 @@ public class EnemyKamikaze : Enemy //Enemy inherits from Monobehaviour. Therefor
 
     public GameObject rushFlash;
     private bool dealDamageCoroutine = false;
-    public bool canDealDamage = false;
+    public bool canDealDamage = true;
 
     protected override void Behaviour()
     {
@@ -20,7 +20,7 @@ public class EnemyKamikaze : Enemy //Enemy inherits from Monobehaviour. Therefor
         {
             if (canAttack && !attacking && input.distanceMagnitude < detectionDistance && parent.playerInside) //If the enemy is not attacking and the distance to the player is less than the attacking distance it means that he shall attack the player
             {
-                AttackPlayer(); //Enable 'attacking' variable to trigger te attack animation
+                AttackPlayer(); //Enable 'attacking' variable to trigger the attack animation
             }
             else if (attacking && parent.playerInside)
             {
@@ -81,11 +81,16 @@ public class EnemyKamikaze : Enemy //Enemy inherits from Monobehaviour. Therefor
 
     public void OnCollisionStay2D(Collision2D collision)
     {
-        if (collision.gameObject.tag.CompareTo("Player") == 0)
+        if (attacking && collision.gameObject.tag.CompareTo("Player") == 0 && canDealDamage)
         {
-            if (!dealDamageCoroutine)
-                StartCoroutine(DealDamageCoroutine());
+            canDealDamage = false;
+            DealDamage();
         }
+        //if (collision.gameObject.tag.CompareTo("Player") == 0)
+        //{
+        //    if (!dealDamageCoroutine)
+        //        StartCoroutine(DealDamageCoroutine());
+        //}
     }
 
     public void CanDealDamage()
@@ -99,13 +104,13 @@ public class EnemyKamikaze : Enemy //Enemy inherits from Monobehaviour. Therefor
         yield return new WaitWhile(() => AudioManager.sharedInstance.rushAttack.isPlaying);
     }
 
-    IEnumerator DealDamageCoroutine()
-    {
-        dealDamageCoroutine = true;
-        yield return new WaitUntil(() => canDealDamage);
-        canDealDamage = false;
-        DealDamage();
-        dealDamageCoroutine = false;
-    }
+    //IEnumerator DealDamageCoroutine()
+    //{
+    //    dealDamageCoroutine = true;
+    //    yield return new WaitUntil(() => canDealDamage);
+    //    DealDamage();
+    //    canDealDamage = false;
+    //    dealDamageCoroutine = false;
+    //}
 }
 

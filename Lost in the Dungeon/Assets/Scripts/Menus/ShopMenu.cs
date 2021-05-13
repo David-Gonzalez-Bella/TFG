@@ -203,7 +203,7 @@ public class ShopMenu : MonoBehaviour
     public void UnlockWindSword()
     {
         player.anim.runtimeAnimatorController = player.windAnimations as RuntimeAnimatorController;
-        player.atrib.ModifySpeed();
+        player.atrib.ModifySpeed(0.4f);
         DisableAllSwords();
     }
     public void UnlockDash()
@@ -227,7 +227,7 @@ public class ShopMenu : MonoBehaviour
     public void ImproveIceSword_1_2() => player.manaVamp = 1;
 
     public void ImproveWindSword_1_0() => player.atrib.ModifySpeed(0.2f);
-    public void ImproveWindSword_1_1() => player.extraGold = 1;
+    public void ImproveWindSword_1_1() => player.dodgeChance = 0.15f;
     public void ImproveWindSword_1_2() => player.galeForce = 1;
 
     public void ImproveFireBall_1_0() => player.abilities.fireballDamage++;
@@ -246,7 +246,7 @@ public class ShopMenu : MonoBehaviour
     public void ImproveIceSword_2_2() => player.manaVamp = 2;
 
     public void ImproveWindSword_2_0() => player.atrib.ModifySpeed(0.4f);
-    public void ImproveWindSword_2_1() => player.extraGold = 2;
+    public void ImproveWindSword_2_1() => player.dodgeChance = 0.25f;
     public void ImproveWindSword_2_2() => player.galeForce = 2;
 
     public void ImproveFireBall_2_0() => player.abilities.fireballDamage += 2;

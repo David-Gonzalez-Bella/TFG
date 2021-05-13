@@ -94,6 +94,7 @@ GameObject:
   - component: {fileID: 9173589248064897408}
   - component: {fileID: 5051634175438444849}
   - component: {fileID: 9209762218374807613}
+  - component: {fileID: 4095064160938299865}
   - component: {fileID: 2307765781350450361}
   m_Layer: 11
   m_Name: LootJar
@@ -156,7 +157,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -808244081
   m_SortingLayer: 3
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: -6758789238592231902, guid: 6b5d0bbf99a5aef4782570bc3da84178,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -201,9 +202,35 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.08473743, y: -0.12382843}
-  m_Size: {x: 1.0179046, y: 0.97122014}
+  m_Offset: {x: 0.094514236, y: 0.27699396}
+  m_Size: {x: 0.5486519, y: 0.09136916}
   m_Direction: 1
+--- !u!61 &4095064160938299865
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9173589248064897411}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.09776139, y: -0.08309686}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 4, y: 4}
+    newSize: {x: 3.2, y: 3.2}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.9302902, y: 0.9400668}
+  m_EdgeRadius: 0
 --- !u!114 &2307765781350450361
 MonoBehaviour:
   m_ObjectHideFlags: 0
