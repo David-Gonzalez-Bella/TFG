@@ -46,7 +46,6 @@ public class Health : MonoBehaviour
     public void ModifyHealth(float quantity) //This metod will be used to take damage or to heal
     {
         CurrentHealth += (int)quantity;
-        //UpdateHealthBar();
     }
 
     public void DestroyCharacter() //Called during the character´s death animation
@@ -69,5 +68,12 @@ public class Health : MonoBehaviour
         baseHealth += quantity;
         CurrentHealth = (int)(CurrentHealth * baseHealth / oldBaseHealth);
         Atributes_Texts.sharedInstance.UpdateAtribsTexts(this);
+    }
+
+    public IEnumerator HealEffect()
+    {
+        GetComponentInChildren<SpriteRenderer>().color = Color.green;
+        yield return new WaitForSeconds(0.25f);
+        GetComponentInChildren<SpriteRenderer>().color = Color.white;
     }
 }

@@ -67,7 +67,10 @@ public class Experience : MonoBehaviour
         nextLevelExp = ExperienceCurve(level);
         porcentageExp = currentExp / nextLevelExp; ;
         UpdateAtributePoins(1);
-        TextHitGenerator.sharedInstance.CreateTextHit(Color.green, this.transform, "LVL UP!");
+        Health player = GameManager.sharedInstance.player.GetComponent<Health>();
+        player.ModifyHealth(player.baseHealth * 0.5f);
+        StartCoroutine(player.HealEffect());
+        TextHitGenerator.sharedInstance.CreateTextHit(Color.green, player.transform, "LEVEL UP!");
     }
 
     public void UpdateAtributePoins(int quantity)

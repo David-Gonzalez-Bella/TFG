@@ -30,6 +30,6 @@ public class Atributes : ScriptableObject //Attributes is only a bunch of data, 
     public void ModifyDamage(int quantity = 1)
     {
         damageIncrease += quantity;
-        Atributes_Texts.sharedInstance.UpdateAtribsTexts(damage, speed);
+        Atributes_Texts.sharedInstance.UpdateAtribsTexts(damage, speedCount);
     }
 }

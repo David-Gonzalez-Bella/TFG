@@ -23,17 +23,31 @@ public class Attackable : MonoBehaviour
 
     public void Attacked(Vector2 attackDirection, float damage)
     {
+
         if (gameObject.GetComponent<PlayerController>() != null)
         {
             PlayerController player = gameObject.GetComponent<PlayerController>();
-            if (player.galeForce > 0)
-                extraForce = player.galeForce * 20;
+            if (player.dodgeChance > 0)
+            {
+                float c = Random.Range(0.0f, 1.0f);
+                if (c < player.dodgeChance)
+                {
+                    StartCoroutine(Dodge());
+                    return;
+                }
+                else
+                    PlayPlayerDamageSound();
+            }
         }
-        StartCoroutine(TakeDamage(damage));
-        rb.AddForce(attackDirection * (20 + extraForce), ForceMode2D.Impulse); //When attacked, the object will be pushed back as well
-        if (this.tag == "Player") { PlayPlayerDamageSound(); } //If the player is attacked
-        else //If an enemy is attacked
+        else if (gameObject.GetComponent<Enemy>() != null)
         {
+            PlayerController player = GameManager.sharedInstance.player.GetComponent<PlayerController>();
+            if (player.lifeSteal > 0)
+                player.health.ModifyHealth(player.lifeSteal);
+            if (player.manaVamp > 0)
+                player.mana.ModifyMana(player.manaVamp);
+            if (player.galeForce > 0)
+                extraForce = player.galeForce * 60;
             switch (this.GetComponent<Enemy>().type)
             {
                 case enemyType.standard:
@@ -44,9 +58,19 @@ public class Attackable : MonoBehaviour
                     break;
             }
         }
+        StartCoroutine(TakeDamage(damage));
+        rb.AddForce(attackDirection * (20 + extraForce), ForceMode2D.Impulse); //When attacked, the object will be pushed back as well
     }
 
     //Coroutines
+    IEnumerator Dodge()
+    {
+        spr.color = new Color(0.98f, 0.93f, 0.65f);
+        TextHitGenerator.sharedInstance.CreateTextHit(Color.yellow, this.transform, "DODGE!");
+        yield return new WaitForSeconds(0.15f);
+        spr.color = Color.white;
+    }
+
     IEnumerator TakeDamage(float damage)
     {
         myHealth.ModifyHealth(-damage); //When attacked, the object will lose 1HP
@@ -58,6 +82,6 @@ public class Attackable : MonoBehaviour
 
     public void PlayPlayerDamageSound()
     {
-       GetComponent<PlayerController>().damgeAudioSource.Play();
+        GetComponent<PlayerController>().damgeAudioSource.Play();
     }
 }

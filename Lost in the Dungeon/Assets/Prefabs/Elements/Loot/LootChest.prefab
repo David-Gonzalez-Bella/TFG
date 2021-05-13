@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1288842599596862212}
   - component: {fileID: 1288842599596862211}
   - component: {fileID: 3461071525934668775}
+  - component: {fileID: 9128397902674976729}
   - component: {fileID: 7188370271125304792}
   - component: {fileID: 1155198646783530650}
   m_Layer: 11
@@ -74,7 +75,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -808244081
   m_SortingLayer: 3
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 5533500101061275615, guid: 6b5d0bbf99a5aef4782570bc3da84178,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -106,6 +107,22 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!70 &9128397902674976729
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1288842599596862210}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.024445334, y: 0.3079525}
+  m_Size: {x: 1.0378456, y: 0.09932794}
+  m_Direction: 1
 --- !u!61 &7188370271125304792
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -116,7 +133,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0.028244972, y: -0.03343296}
