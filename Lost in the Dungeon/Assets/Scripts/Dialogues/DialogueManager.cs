@@ -8,7 +8,6 @@ public class DialogueManager : MonoBehaviour
     public static DialogueManager sharedInstance;
 
     public Dictionary<string, Dialogue> dialogues = new Dictionary<string, Dialogue>();
-    public Dialogue guide_Dialogue;
     public Dialogue itemSeller_Dialogue;
 
     private void Awake()
@@ -36,12 +35,11 @@ public class DialogueManager : MonoBehaviour
         if (!System.IO.File.Exists(Application.streamingAssetsPath + "/XML/Dialogues/dialogues.xml"))
         {
             //Inicialize dialogues (with ordinary content, dialogues can be overwritten in the "dialogues.xml" file once it is created and, therefore, shown in the inspector)
-            guide_Dialogue = new Dialogue { lines = new string[] { "dungeonInfo1", "dungeonInfo2", "dungeonInfo3", "dungeonInfo4" , "dungeonInfo5" , "dungeonInfo6" , "dungeonInfo7" , "dungeonInfo8" }, id = "EntranceGuard_S" };
             itemSeller_Dialogue = new Dialogue { lines = new string[] { "itemsInfo1", "itemsInfo2", "itemsInfo3", "byeMessageBought", "byeMessageLeave" }, id = "ItemSeller_S" };
             itemSeller_Dialogue = new Dialogue { lines = new string[] { "deny1" }, id = "ItemSeller_N" };
 
             //Serialize them, which means, create a xml document with its information if it does not exist already
-            Dialogue[] xmlFile = new Dialogue[] { guide_Dialogue, itemSeller_Dialogue };
+            Dialogue[] xmlFile = new Dialogue[] { itemSeller_Dialogue };
             SerializerXML.Serialize(Application.streamingAssetsPath + "/XML/Dialogues/dialogues.xml", xmlFile);
         }    
     }
