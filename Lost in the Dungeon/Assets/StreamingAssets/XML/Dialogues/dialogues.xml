@@ -2,19 +2,6 @@
 <ArrayOfDialogue xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Dialogue>
     <lines>
-      <string>dungeonInfo1</string>
-      <string>dungeonInfo2</string>
-      <string>dungeonInfo3</string>
-      <string>dungeonInfo4</string>
-      <string>dungeonInfo5</string>
-      <string>dungeonInfo6</string>
-      <string>dungeonInfo7</string>
-      <string>dungeonInfo8</string>
-    </lines>
-    <id>EntranceGuard_S</id>
-  </Dialogue>
-  <Dialogue>
-    <lines>
       <string>Greetings traveller, welcome to my little mobile shop! Here yo can put that gold of yours to good use, buying both, weapons and spells.</string>
       <string>I don't like people to stare at my inventory for too long, so I will only display my products one time. I will leave right after that, so don't buy willy nilly.</string>
       <string>So, would you like to see what I have to offer? I have some good new stuff...</string>
