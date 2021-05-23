@@ -19,6 +19,7 @@ public class PanelsMenu : MonoBehaviour
 
     public void OpenClosePanels()
     {
+        GameManager.sharedInstance.player.GetComponent<PlayerController>().PlayInventaryAudio();
         if (panelsOpen)
         {
             ClosePanels();
@@ -32,7 +33,7 @@ public class PanelsMenu : MonoBehaviour
     private void OpenPanels()
     {
         GameManager.sharedInstance.FreezePlayer();
-        GameManager.sharedInstance.currentGameState = gameState.inventaryScreen;
+        GameManager.sharedInstance.currentGameState = gameState.skillsScreen;
         panelsOpen = true;
         canvasGroup.alpha = 1;
         canvasGroup.blocksRaycasts = true;

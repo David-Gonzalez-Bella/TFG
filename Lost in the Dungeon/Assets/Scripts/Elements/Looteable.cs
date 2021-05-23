@@ -31,9 +31,10 @@ public class Looteable : Interactive
         }
         else
         {
+            foreach (Collider2D c in GetComponents<Collider2D>())
+                c.enabled = false;
             anim.SetTrigger(destroyHashCode);
             player.CurrentGold += gold;
-            col.enabled = false;
             minimapSpr.enabled = false;
             AudioManager.sharedInstance.PlayBreakBoxSound();
         }

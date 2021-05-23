@@ -145,9 +145,8 @@ SpriteRenderer:
   m_SortingLayerID: -808244081
   m_SortingLayer: 3
   m_SortingOrder: 3
-  m_Sprite: {fileID: -7685701572923878998, guid: 835092dd0ce03d442864cff0ebe0a2d5,
-    type: 3}
-  m_Color: {r: 0, g: 1, b: 0.9066076, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 91996165573718d45a64611288234969, type: 3}
+  m_Color: {r: 0.15294117, g: 0.41570225, b: 0.5647059, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -316,7 +315,7 @@ MonoBehaviour:
   spell: 
   lifeSteal: 0
   manaVamp: 0
-  extraGold: 0
+  dodgeChance: 0
   galeForce: 0
   currentRoom: {fileID: 0}
   swordFlash: {fileID: 7317127439547913718, guid: cf0817265cdbf48419b3e58c44da8f94,
