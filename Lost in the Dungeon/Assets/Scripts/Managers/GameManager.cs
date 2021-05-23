@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Scripting.APIUpdating;
 
-public enum gameState { mainMenu, inGame, deadScreen, leavingScreen, pauseScreen, inventaryScreen }
+public enum gameState { mainMenu, inGame, deadScreen, leavingScreen, pauseScreen, skillsScreen }
 
 public class GameManager : MonoBehaviour
 {

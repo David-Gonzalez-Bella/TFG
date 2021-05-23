@@ -27,6 +27,7 @@ public class MenusManager : MonoBehaviour
     public Button dieScreen_playAgain_btn;
     public Button dieScreen_goToMenu_btn;
     public Button pauseButton;
+    public Button skillsButton;
     public bool mouseOverInteractive;
     public Button[] shopButtons;
 
@@ -64,6 +65,7 @@ public class MenusManager : MonoBehaviour
     private void Update()
     {
         pauseButton.interactable = GameManager.sharedInstance.currentGameState == gameState.inGame;
+        skillsButton.interactable = GameManager.sharedInstance.currentGameState == gameState.inGame || GameManager.sharedInstance.currentGameState == gameState.skillsScreen;
     }
 
     private void InitializeButtonCallbacks()
@@ -72,7 +74,7 @@ public class MenusManager : MonoBehaviour
         Transitions TRN = Transitions.sharedInstance;
         Button[] buttons = { pauseScreen_keepPlaying_btn, pauseScreen_goToMenu_btn,
                              wannaLeaveScreen_keepPlaying_btn, wannaLeaveScreen_goToMenu_btn,
-                             dieScreen_playAgain_btn, dieScreen_goToMenu_btn, pauseButton };
+                             dieScreen_playAgain_btn, dieScreen_goToMenu_btn, pauseButton, skillsButton };
 
         for (int i = 0; i < buttons.Length; i++)
             buttons[i].onClick.AddListener(AM.PlaySelectSound);

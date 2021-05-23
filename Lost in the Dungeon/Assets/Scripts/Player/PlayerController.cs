@@ -67,7 +67,7 @@ public class PlayerController : MonoBehaviour
     public int lifeSteal = 0;
     [HideInInspector]
     public int manaVamp = 0;
-    //[HideInInspector]
+    [HideInInspector]
     public float dodgeChance = 0;
     [HideInInspector]
     public int galeForce = 0;
@@ -152,11 +152,10 @@ public class PlayerController : MonoBehaviour
                 MenusManager.sharedInstance.PauseGame();
         }
 
-        if (GameManager.sharedInstance.currentGameState == gameState.inGame || GameManager.sharedInstance.currentGameState == gameState.inventaryScreen)
+        if (GameManager.sharedInstance.currentGameState == gameState.inGame || GameManager.sharedInstance.currentGameState == gameState.skillsScreen)
         {
             if (input.inventary)
             {
-                PlayInventaryAudio();
                 PanelsMenu.sharedInstance.OpenClosePanels();
             }
         }
