@@ -465,9 +465,11 @@ public class DungeonGenerator : MonoBehaviour
                      shopLevelCounter == GetNextLevelChildren(brotherZones.ToArray());
                 if (r == 0 || lastCheck)
                 {
-                    Instantiate(itemSeller, fillRoomPositions.itemSellerPosition.position,
-                        Quaternion.identity, parent.transform).ChooseModel(COUNT_LEVELS);
+                    ItemSeller t = Instantiate(itemSeller, fillRoomPositions.itemSellerPosition.position,
+                        Quaternion.identity, parent.transform);
+                    t.ChooseModel(COUNT_LEVELS);
                     shopGenerated = true;
+                    MenusManager.sharedInstance.sellerPositions.Add(t.transform);
                     return;
                 }
                 shopLevelCounter++;
