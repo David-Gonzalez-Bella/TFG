@@ -31,6 +31,17 @@ public class MenusManager : MonoBehaviour
     public bool mouseOverInteractive;
     public Button[] shopButtons;
 
+    //Minimap variables 
+    [Header("Minimap")]
+    public Transform minimapPlayer;
+    public Transform minimapArrow;
+    [HideInInspector]
+    public List<Transform> sellerPositions;
+
+    private int targetIndex;
+    private Vector3 dir;
+    private float angle;
+
     [Header("Extras")]
     public Image dieScreenDarkBackgroundAlpha;
     public RectTransform dieScreenDarkBackgroundSize;
@@ -60,12 +71,34 @@ public class MenusManager : MonoBehaviour
         dieScreen.gameObject.SetActive(false);
         pauseScreen.gameObject.SetActive(false);
         wannaLeaveScreen.gameObject.SetActive(false);
+        sellerPositions = new List<Transform>();
     }
 
     private void Update()
     {
         pauseButton.interactable = GameManager.sharedInstance.currentGameState == gameState.inGame;
         skillsButton.interactable = GameManager.sharedInstance.currentGameState == gameState.inGame || GameManager.sharedInstance.currentGameState == gameState.skillsScreen;
+
+        targetIndex = GameManager.sharedInstance.player.GetComponent<PlayerController>().itemsLevel;
+
+        //Minimap control
+        if (sellerPositions.Count > 0 && targetIndex < sellerPositions.Count)
+        {
+            Vector3 distance = minimapPlayer.position - sellerPositions[targetIndex].position;
+
+            if (Mathf.Abs(distance.magnitude) > 7.5f)
+            {
+                minimapArrow.gameObject.SetActive(true);
+                minimapArrow.position = Vector3.MoveTowards(minimapPlayer.position, sellerPositions[targetIndex].position, 4.0f);
+                dir = Vector3.zero - minimapArrow.localPosition;
+                angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+                minimapArrow.rotation = Quaternion.AngleAxis(angle + 90, Vector3.forward);
+            }
+            else
+            {
+                minimapArrow.gameObject.SetActive(false);
+            }
+        }
     }
 
     private void InitializeButtonCallbacks()
@@ -130,8 +163,8 @@ public class MenusManager : MonoBehaviour
         {
             case 0:
                 wannaBuyScreen.SetActive(false);
-                DialogueBox.sharedInstance.StartDialogue("Item seller", 
-                    DialogueManager.sharedInstance.dialogues["ItemSeller_S"], 
+                DialogueBox.sharedInstance.StartDialogue("Item seller",
+                    DialogueManager.sharedInstance.dialogues["ItemSeller_S"],
                     DialogueBox.sharedInstance.dialogue.lines.Length - 1);
                 break;
             case 1:

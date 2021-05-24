@@ -116,6 +116,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+
         if (DialogueBox.sharedInstance.talking) return;
         if (GameManager.sharedInstance.currentGameState == gameState.inGame)
         {
