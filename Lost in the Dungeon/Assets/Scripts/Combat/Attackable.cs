@@ -35,9 +35,10 @@ public class Attackable : MonoBehaviour
                     StartCoroutine(Dodge());
                     return;
                 }
-                else
-                    PlayPlayerDamageSound();
             }
+            else
+                PlayPlayerDamageSound();
+
         }
         else if (gameObject.GetComponent<Enemy>() != null)
         {
