@@ -133,7 +133,7 @@ public class PlayerController : MonoBehaviour
             {
                 anim.SetFloat(xHashCode, moveX);
                 anim.SetFloat(yHashCode, moveY);
-                anim.SetFloat(runningHashCode, Mathf.Abs(moveX) + Mathf.Abs(moveY));
+                anim.SetFloat(runningHashCode, Mathf.Max(Mathf.Abs(moveX), Mathf.Abs(moveY)));
                 if (!stepsAudioSource.isPlaying)
                     StartCoroutine(PlayStepsSound());
             }
