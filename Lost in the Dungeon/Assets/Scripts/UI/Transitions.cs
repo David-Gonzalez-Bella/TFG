@@ -39,10 +39,10 @@ public class Transitions : MonoBehaviour
         toControlsTriggerHash = Animator.StringToHash("TransitionToControls");
     }
 
-    public void GoToMainMenu() => SceneManager.LoadScene(0);
-    public void GoToChooseLength() => SceneManager.LoadScene(1);
-    public void GoToControls() => SceneManager.LoadScene(2);
-    public void GoToGame() => SceneManager.LoadScene(3);
+    public void GoToMainMenu() => SceneManager.LoadScene("MainMenuScene");
+    public void GoToChooseLength() => SceneManager.LoadScene("ChooseLengthScene");
+    public void GoToControls() => SceneManager.LoadScene("ControlsScene");
+    public void GoToGame() => SceneManager.LoadScene("GameRandomScene");
 
     public void TransitionToChooseLength()
     {
