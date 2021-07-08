@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
     private bool dashing;
     private bool doDash;
     private bool throwFireball;
+    private bool attacking;
 
     [Header("Audio sources")]
     public AudioSource attackAudioSource;
@@ -164,8 +165,15 @@ public class PlayerController : MonoBehaviour
 
     public void AttackAnimEvent() //Called during the attack animation
     {
+        if (attacking) return;
+        attacking = true;
         atck.PhysicalAttack(input.faceDirection, atrib.damage, swordFlash); //This will send the direction we are facing ((1, 0), (0, 1), (-1, 0) or (0, -1))
         attackAudioSource.Play();
+    }
+
+    public void EndAttackAnimEvent()
+    {
+        attacking = false;
     }
 
     private void FixedUpdate()
